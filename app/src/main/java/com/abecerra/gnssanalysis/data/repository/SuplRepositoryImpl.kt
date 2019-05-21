@@ -1,10 +1,10 @@
 package com.abecerra.gnssanalysis.data.repository
 
 import android.os.StrictMode
-import com.abecerra.gnssanalysis.MainActivity
-import com.abecerra.gnssanalysis.core.suplclient.ephemeris.EphemerisResponse
-import com.abecerra.gnssanalysis.core.suplclient.supl.SuplConnectionRequest
-import com.abecerra.gnssanalysis.core.suplclient.supl.SuplController
+import com.abecerra.gnssanalysis.presentation.MainActivity
+import com.abecerra.pvt.suplclient.ephemeris.EphemerisResponse
+import com.abecerra.pvt.suplclient.supl.SuplConnectionRequest
+import com.abecerra.pvt.suplclient.supl.SuplController
 import com.abecerra.gnssanalysis.domain.repository.SuplRepository
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.GlobalScope

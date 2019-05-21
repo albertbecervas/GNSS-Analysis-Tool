@@ -1,0 +1,24 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //SUPL
+    implementation 'com.google.guava:guava:19+'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+    implementation 'javax.annotation:jsr250-api:1.0'
+    implementation group: 'joda-time', name: 'joda-time', version: '2.3'
+    implementation'com.google.protobuf:protobuf-java:3.4.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+
+
