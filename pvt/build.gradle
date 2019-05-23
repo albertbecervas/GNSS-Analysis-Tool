@@ -12,6 +12,10 @@ dependencies {
     implementation 'javax.annotation:jsr250-api:1.0'
     implementation group: 'joda-time', name: 'joda-time', version: '2.3'
     implementation'com.google.protobuf:protobuf-java:3.4.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+
 }
 
 repositories {

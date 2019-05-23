@@ -2,8 +2,10 @@ package com.abecerra.gnssanalysis.core.utils.extensions
 
 import android.Manifest
 import android.app.Activity
+import android.app.Service
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ServiceCompat
 import android.support.v4.content.ContextCompat
 
 
@@ -32,3 +34,6 @@ fun Activity.requestPermissionss(permissions: Array<String>, code: Int) {
     ActivityCompat.requestPermissions(this, permissions, code)
 }
 
+
+fun Service.requestPermissions(permissions: Array<String>, code: Int){
+}

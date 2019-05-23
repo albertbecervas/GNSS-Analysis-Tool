@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.abecerra.gnssanalysis">
+    package="com.abecerra.gnssanalysis">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
-            android:name=".core.App"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="GNSS Test"
-            android:roundIcon="@mipmap/ic_launcher"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".presentation.MainActivity">
+        android:name=".core.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="GNSS Test"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".presentation.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".presentation.PVTService"
+            android:label="PVTService" />
     </application>
 
 </manifest>
