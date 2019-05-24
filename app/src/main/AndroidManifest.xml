@@ -3,6 +3,8 @@
     package="com.abecerra.gnssanalysis">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".core.App"
         android:allowBackup="true"
@@ -22,7 +24,7 @@
         </activity>
 
         <service
-            android:name=".presentation.PVTService"
+            android:name=".core.services.PVTService"
             android:label="PVTService" />
     </application>
 
