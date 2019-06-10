@@ -17,7 +17,7 @@ package com.abecerra.pvt.suplclient.ephemeris;
 /** A container for fields in GPS ephemeris */
 public class GpsEphemeris extends KeplerianEphemeris {
 
-  /** Satellite user range accuracy (meters) */
+  /** SatelliteMeasurements user range accuracy (meters) */
   public final double accuracyM;
 
   /** The group delay term (seconds) */

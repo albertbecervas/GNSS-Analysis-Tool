@@ -4,6 +4,7 @@ import com.abecerra.pvt.computation.data.LlaLocation
 import com.abecerra.pvt.suplclient.ephemeris.EphemerisResponse
 import com.abecerra.pvt.suplclient.supl.SuplConnectionRequest
 import com.abecerra.pvt.suplclient.supl.SuplController
+import io.reactivex.Single
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToLong
@@ -27,24 +28,26 @@ class EphemerisClient {
     }
 
     fun getEphemerisData(
-        refPos: LlaLocation,
-        onSuccess: (ephemerisResponse: EphemerisResponse) -> Unit,
-        onFailure: (errorMsg: String) -> Unit
-    ) {
-        GlobalScope.launch {
-            var ephResponse: EphemerisResponse? = null
-            val latE7 = (refPos.latitude * 1e7).roundToLong()
-            val lngE7 = (refPos.longitude * 1e7).roundToLong()
+        refPos: LlaLocation
+    ): Single<EphemerisResponse> {
 
-//            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
-            suplController?.sendSuplRequest(latE7, lngE7)
-            ephResponse = suplController?.generateEphResponse(latE7, lngE7)
-            ephResponse?.let {
-                onSuccess.invoke(it)
-            } ?: kotlin.run {
-                onFailure.invoke("error")
+        return Single.create { emitter ->
+            GlobalScope.launch {
+                val ephResponse: EphemerisResponse?
+                val latE7 = (refPos.latitude * 1e7).roundToLong()
+                val lngE7 = (refPos.longitude * 1e7).roundToLong()
+
+                suplController?.sendSuplRequest(latE7, lngE7)
+                ephResponse = suplController?.generateEphResponse(latE7, lngE7)
+                ephResponse?.let {
+                    emitter.onSuccess(it)
+                } ?: run {
+                    emitter.onError(Throwable("error obtaining ephemeris"))
+                }
             }
         }
+
+
     }
 
     companion object {

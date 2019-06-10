@@ -13,6 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDpYNKp79m8RtIbFstsplj5MpklWO1knm8" />
+
         <activity
             android:name=".presentation.MainActivity"
             android:screenOrientation="portrait">
@@ -24,7 +29,7 @@
         </activity>
 
         <service
-            android:name=".core.services.PVTService"
+            android:name=".core.computation.PvtService"
             android:label="PVTService" />
     </application>
 

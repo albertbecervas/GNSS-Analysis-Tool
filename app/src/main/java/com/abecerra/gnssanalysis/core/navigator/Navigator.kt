@@ -1,5 +1,7 @@
 package com.abecerra.gnssanalysis.core.navigator
 
-import android.content.Context
+interface Navigator {
 
-abstract class Navigator(private var context: Context)
+    fun sendEmail(to: String)
+
+}

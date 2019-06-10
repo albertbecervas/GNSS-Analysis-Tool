@@ -27,43 +27,43 @@ public class GloEphemeris extends GnssEphemeris {
    */
   public final DateTime utcTime;
 
-  /** Satellite position X (meters) */
+  /** SatelliteMeasurements position X (meters) */
   public final double xSatPosM;
 
-  /** Satellite position Y (meters) */
+  /** SatelliteMeasurements position Y (meters) */
   public final double ySatPosM;
 
-  /** Satellite position Z (meters) */
+  /** SatelliteMeasurements position Z (meters) */
   public final double zSatPosM;
 
-  /** Satellite velocity X dot (meters per sec) */
+  /** SatelliteMeasurements velocity X dot (meters per sec) */
   public final double xSatVelMps;
 
-  /** Satellite velocity Y dot (meters per sec) */
+  /** SatelliteMeasurements velocity Y dot (meters per sec) */
   public final double ySatVelMps;
 
-  /** Satellite velocity Z dot (meters per sec) */
+  /** SatelliteMeasurements velocity Z dot (meters per sec) */
   public final double zSatVelMps;
 
   /**
-   * Satellite acceleration X (meters per sec square) caused by the effect of the sun and the moon
+   * SatelliteMeasurements acceleration X (meters per sec square) caused by the effect of the sun and the moon
    */
   public final double xMoonSunAccMps2;
 
   /**
-   * Satellite acceleration Y (meters per sec square) caused by the effect of the sun and the moon
+   * SatelliteMeasurements acceleration Y (meters per sec square) caused by the effect of the sun and the moon
    */
   public final double yMoonSunAccMps2;
 
   /**
-   * Satellite acceleration Z (meters per sec square) caused by the effect of the sun and the moon
+   * SatelliteMeasurements acceleration Z (meters per sec square) caused by the effect of the sun and the moon
    */
   public final double zMoonSunAccMps2;
 
-  /** Satellite clock bias (sec) (TauN) */
+  /** SatelliteMeasurements clock bias (sec) (TauN) */
   public final double biasS;
 
-  /** Satellite relative frequency bias (GammaN) */
+  /** SatelliteMeasurements relative frequency bias (GammaN) */
   public final double relFreqBias;
 
   /** Message frame time (seconds of day) (tk) */

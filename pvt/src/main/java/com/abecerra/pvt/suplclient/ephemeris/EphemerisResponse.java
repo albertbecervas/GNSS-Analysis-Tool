@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class EphemerisResponse {
 
-    /* A list of ephemeris for GNSS satellites */
+    /* A list of ephemeris for GNSS satellitesMeasurements */
     public final List<GnssEphemeris> ephList;
 
     /* The parameters of the ionospheric model */

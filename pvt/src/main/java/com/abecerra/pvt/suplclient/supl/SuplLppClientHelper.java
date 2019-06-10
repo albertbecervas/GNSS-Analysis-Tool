@@ -101,7 +101,7 @@ class SuplLppClientHelper {
   }
 
   /**
-   * Builds a list of {@link GnssEphemeris} instances for GLONASS satellites with information from
+   * Builds a list of {@link GnssEphemeris} instances for GLONASS satellitesMeasurements with information from
    * {@link GNSS_NavigationModel}.
    */
   static List<GnssEphemeris> generateGloEphList(
@@ -119,7 +119,7 @@ class SuplLppClientHelper {
   }
 
   /**
-   * Builds a list of {@link GnssEphemeris} instances for GPS satellites with information from
+   * Builds a list of {@link GnssEphemeris} instances for GPS satellitesMeasurements with information from
    * {@link GNSS_NavigationModel}.
    */
   static List<GnssEphemeris> generateGpsEphList(GNSS_NavigationModel navModel, int gpsWeek) {
@@ -135,7 +135,7 @@ class SuplLppClientHelper {
   }
 
   /**
-   * Builds a list of {@link GnssEphemeris} instances for Galileo satellites with information from
+   * Builds a list of {@link GnssEphemeris} instances for Galileo satellitesMeasurements with information from
    * {@link GNSS_NavigationModel}.
    */
   static List<GnssEphemeris> generateGalEphList(GNSS_NavigationModel navModel, int galWeek) {
@@ -189,7 +189,7 @@ class SuplLppClientHelper {
   }
 
   /**
-   * Creates a map with svid of GLONASS satellites as keys and carrier frequency numbers ([-7, 13])
+   * Creates a map with svid of GLONASS satellitesMeasurements as keys and carrier frequency numbers ([-7, 13])
    * as values from information in {@link GNSS_ID_GLONASS}.
    */
   static Map<Integer, Integer> getGloSvidToFreqNumMap(GNSS_ID_GLONASS gloId) {
