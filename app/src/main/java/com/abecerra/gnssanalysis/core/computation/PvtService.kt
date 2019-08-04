@@ -16,6 +16,7 @@ import android.support.v4.content.LocalBroadcastManager
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.computation.presenter.PvtPresenter
 import com.abecerra.gnssanalysis.core.computation.presenter.PvtPresenterImpl
+import com.abecerra.gnssanalysis.core.logger.GnssMeasLogger
 import com.abecerra.gnssanalysis.core.utils.NotificationBuilder.buildNotification
 import com.abecerra.gnssanalysis.core.utils.extensions.checkPermission
 import com.abecerra.gnssanalysis.core.utils.extensions.context
@@ -36,6 +37,8 @@ class PvtService : Service(), LocationListener, OnNmeaMessageListener, SensorEve
 
     private val mBinder = PvtServiceBinder()
 
+    private var gnssMeasLogger: GnssMeasLogger? = null
+
     inner class PvtServiceBinder : Binder() {
         val service: PvtService
             get() = this@PvtService
@@ -52,6 +55,8 @@ class PvtService : Service(), LocationListener, OnNmeaMessageListener, SensorEve
         mPresenter = PvtPresenterImpl(this)
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        gnssMeasLogger = GnssMeasLogger()
+
 
         if (broadcaster == null) {
             broadcaster = LocalBroadcastManager.getInstance(this@PvtService)
@@ -91,6 +96,7 @@ class PvtService : Service(), LocationListener, OnNmeaMessageListener, SensorEve
             gnssMeasurementsEventListener = object : GnssMeasurementsEvent.Callback() {
                 override fun onGnssMeasurementsReceived(measurementsEvent: GnssMeasurementsEvent) {
                     mPresenter?.setMeasurement(measurementsEvent)
+                    gnssMeasLogger?.onGnssMeasurementsReceived(measurementsEvent)
                 }
             }
 
@@ -123,9 +129,11 @@ class PvtService : Service(), LocationListener, OnNmeaMessageListener, SensorEve
             // obtaining Ephemeris
         }, {
             setNotification()
+            startGnss()
         }, {
             //todo check loop
-            startComputing(computationSettings)
+//            startComputing(computationSettings)
+            startGnss()
         }, CompositeDisposable())
     }
 
