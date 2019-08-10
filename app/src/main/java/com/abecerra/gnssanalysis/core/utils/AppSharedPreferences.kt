@@ -16,6 +16,8 @@ class AppSharedPreferences {
         const val MY_PREFS: String = "MY_PREFS"
         const val SELECTED_MAP_TYPE = "selected_map_type"
         const val MODES: String = "modes"
+        const val MASK: String = "mask"
+
 
         private var INSTANCE: AppSharedPreferences? = null
 
@@ -84,5 +86,12 @@ class AppSharedPreferences {
             .apply()
 
         return modesList
+    }
+
+    fun getSelectedMask(): Int = mPrefs.getInt(MASK, 15)
+    fun setSelectedMask(mask: Int) {
+        mPrefs.edit()
+            .putInt(MASK, mask)
+            .apply()
     }
 }

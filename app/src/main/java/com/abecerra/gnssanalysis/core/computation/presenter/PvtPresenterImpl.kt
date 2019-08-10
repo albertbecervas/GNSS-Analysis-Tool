@@ -15,15 +15,15 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
-class PvtPresenterImpl(pvtListener: PvtPresenter.PvtListener) : PvtPresenter {
+class PvtPresenterImpl(output: PvtServiceContract.PvtPresenterOutput) : PvtServiceContract.PvtPresenter {
 
-    private var mListener: PvtPresenter.PvtListener = pvtListener
+    private var mListener: PvtServiceContract.PvtPresenterOutput = output
 
     private val ephemerisClient: EphemerisClient = EphemerisClient()
 
     private var gnssComputationData = GnssComputationData()
 
-    override fun startComputing(computationSettings: List<ComputationSettings>): Single<Any> {
+    override fun startComputing(computationSettings: List<ComputationSettings>): Single<String> {
         return Single.create { emitter ->
             ephemerisClient.getEphemerisData(LlaLocation())
                 .subscribe({

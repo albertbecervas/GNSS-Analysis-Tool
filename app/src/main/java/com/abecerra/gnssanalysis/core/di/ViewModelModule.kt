@@ -1,10 +1,13 @@
 package com.abecerra.gnssanalysis.core.di
 
+import com.abecerra.gnssanalysis.presentation.ui.skyplot.SkyPlotViewModel
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 object ViewModelModule {
 
     fun get() = module {
+        viewModel { SkyPlotViewModel() }
     }
 
 }

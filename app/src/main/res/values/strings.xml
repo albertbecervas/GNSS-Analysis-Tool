@@ -9,4 +9,104 @@
     <string name="alert_stop_computing_title">Stop Computing</string>
     <string name="yes">YES</string>
     <string name="cancel">Cancel</string>
+
+
+    <string name="stats_card_1">C/No vs Elevation</string>
+    <string name="stats_card_2">AGC vs C/No</string>
+    <string name="stats_card_3">Map</string>
+    <string name="stats_card_4">Number of\nsatellites</string>
+    <string name="stats_card_5">Code minus\nCarrier</string>
+    <string name="stats_card_6">GDOP</string>
+    <string name="save_log">Do you want to save the logs?</string>
+    <string name="filename">Enter file name</string>
+    <string name="file_format">File format:</string>
+    <string name="rinex">RINEX</string>
+    <string name="nma">NMA</string>
+    <string name="save">save</string>
+    <string name="new_mode">New mode</string>
+    <string name="mode_name">Mode name</string>
+    <string name="stop_button">Stop</string>
+    <string name="save_button">save</string>
+    <string name="see_modes_button">see modes</string>
+    <string name="constellations_subtitle">Constellations:</string>
+    <string name="bands_subtitle">Bands:</string>
+    <string name="corrections_subtitle">Corrections:</string>
+    <string name="algorithm_subtitle">Algorithm:</string>
+    <string name="averaging_subtitle">Averaging\n\t time:</string>
+    <string name="CN0_strip_title">Average C/No (dB-Hz)</string>
+    <string name="num_sats_title">Number of satellites:</string>
+    <string name="pdop_title">PDOP:</string>
+    <string name="cn0_title">C/N0:</string>
+    <string name="hvdop_title">H/V DOP:</string>
+    <string name="save_results">Save results</string>
+    <string name="see_results">See results</string>
+    <string name="position_bottom">Position</string>
+    <string name="gnss_state_bottom">GNSS state</string>
+    <string name="statistics_bottom">Statistics</string>
+    <string name="gps_lat_lon_dms_value">%1$d\u00B0 %2$d\' %3$d\"</string>
+    <string name="legend">LEGEND</string>
+    <string name="reset">RESET</string>
+    <string name="gnss_settings_title">GNSS Settings</string>
+    <string name="apply">Apply</string>
+    <string name="constellations_title">CONSTELLATIONS</string>
+    <string name="bands_title">BANDS</string>
+    <string name="sample_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at sapien nec nibh dictum
+        posuere quis eu lectus. Integer volutpat felis a enim vestibulum eleifend. Mauris scelerisque, nibh sed laoreet
+        tempus, nunc est vehicula enim, eget lacinia enim velit a odio. Proin lectus felis, tincidunt a porttitor sed,
+        posuere sed justo. Aenean vitae quam sit amet nulla tempor tristique. Proin bibendum eros eu velit vestibulum
+        ultrices. Aliquam tristique accumsan metus quis rutrum. Vivamus ut eros malesuada, euismod mi ac, molestie
+        tortor. Pellentesque dapibus ex at quam elementum, non porttitor elit elementum. Suspendisse tempus, mauris in
+        ullamcorper auctor, diam massa porttitor nibh, eget laoreet lectus dui in nulla. Ut vitae blandit erat.\n\n
+
+        Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus scelerisque
+        facilisis elit eu gravida. Etiam venenatis libero sit amet ipsum efficitur, vitae tempus nulla luctus. Duis ut
+        semper ex. Aenean sagittis mollis massa, sed aliquam ex porta non. Donec eleifend lorem vitae velit malesuada
+        vehicula vel cursus nunc. Curabitur vehicula fermentum arcu, sed pulvinar tortor malesuada quis.
+    </string>
+    <string name="modes">Modes</string>
+    <string name="sky_legend_cno_low">10</string>
+    <string name="sky_legend_cno_low_middle">18</string>
+    <string name="sky_legend_cno_middle">27</string>
+    <string name="sky_legend_cno_middle_high">36</string>
+    <string name="sky_legend_cno_high">45</string>
+    <string name="sky_legend_shape_navstar">GPS (USA)</string>
+    <string name="sky_legend_shape_galileo">Galileo (EU)</string>
+    <string name="band_l1">L1</string>
+    <string name="band_l5">L5</string>
+    <string name="band_e1">E1</string>
+    <string name="band_e5a">E5a</string>
+    <string name="about_bottom">About</string>
+    <string name="logs_bottom">Logs</string>
+    <string name="positioning_settings">Positioning Settings</string>
+    <string name="clear_button">Clear</string>
+    <string name="cnoAxisTitle">CNo [dB-Hz]</string>
+    <string name="agcAxisTitle">AGC [dB]</string>
+    <string name="elevAxisTitle">Elevation [º]</string>
+    <string name="app_version_title">App version:</string>
+    <string name="app_version_number">1.0.0</string>
+    <string name="contact_title">Contact:</string>
+    <string name="contact_email">inariteam@gmail.com</string>
+    <string name="developed_by_title">Developed by:</string>
+    <string name="inari_team">inari team</string>
+    <string name="composed_by_title">Composed by:</string>
+    <string name="team_composers">Albert Becerra Hervás\nAlejandro Pérez Conesa\nAlfonso Amayuelas Fernández\nArnau Ochoa Bañuelos\nJoan M. Bernabeu Frias</string>
+    <string name="advisored_by_title">Advisored by:</string>
+    <string name="advisors">Daniel Egea Roca \nJosé A. del Peral Rosado</string>
+    <string name="see_tutorial_text">See tutorial</string>
+    <string name="developed_in_uab_title">Developed in \nUniversitat Autònoma \nde Barcelona</string>
+    <string name="supported_by_the_neuropean_space_agency">Supported by the \nEuropean Space Agency</string>
+    <string name="eastAxisTitle">East [m]</string>
+    <string name="northAxisTitle">North [m]</string>
+    <string name="reset_default_modes">Reset default modes</string>
+    <string name="finish">finish</string>
+
+
+    <string name="agc_cno_information_detail">Whilst Carrier to Noise Ratio (CNO) depends specifically on the received satellite signal strength, the Automatic Gain control (AGC) defines the gain applied to received signals so that the power in the AC/DC converser is relatively constant. Therefore, if AGC and CNO levels are low, an external and stronger source of interference may be present. </string>
+    <string name="elev_cno_information_detail">This plot informs the user of Satellite contributions in terms of Carrier to Noise Ratio and geometry. Satellites with poor CNO or low elevations may introduce severe errors in user’s position. Thus, masks based on this metrics are applied to avoid their contribution in the Positioning algorithm. </string>
+    <string name="error_information_detail">The error plot displays the relative error between the Position derived from the App’s algorithm with the selected configuration and the Position provided by Google’s API. In this case, there is not a reference position as both algorithms perform differently depending on the user’s scenario. </string>
+    <string name="graph_information">Graph Information</string>
+    <string name="enable_gnss_logs">Enable GNSS logs</string>
+    <string name="enable_logs_description">A file with raw mesurements will be created every time you start computing if enabled.</string>
+    <string name="average_time_title">Average Time:</string>
+
 </resources>

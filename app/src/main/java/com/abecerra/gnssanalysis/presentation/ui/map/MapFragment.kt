@@ -1,4 +1,4 @@
-package com.abecerra.gnssanalysis.presentation.map
+package com.abecerra.gnssanalysis.presentation.ui.map
 
 import android.content.Context
 import android.os.Bundle

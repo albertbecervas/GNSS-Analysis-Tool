@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sky_signal_legend"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false">
+
+    <!-- Colored C/N0 legend -->
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/sky_legend_cn0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:max="45"
+        android:min="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sky_legend_cn0" />
+
+    <SeekBar
+        android:id="@+id/seekBarMask"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/sky_legend_cn0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:max="45"
+        android:visibility="gone"
+        android:min="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sky_legend_cn0" />
+
+    <ImageView
+        android:id="@+id/sky_legend_cn0"
+        android:layout_width="@dimen/cno_meter_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/cn0_meter_border"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/signal_gradient"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/cno_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvCnoAvg"
+            android:tint="@color/red"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvCnoAvg"
+            app:layout_constraintStart_toStartOf="@+id/tvCnoAvg"
+            app:srcCompat="@drawable/ic_cn0_indicator" />
+
+        <TextView
+            android:id="@+id/tvCnoAvg"
+            style="@style/cno_avg_value"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_span="2"
+            android:gravity="center"
+            android:minWidth="@dimen/cno_value_min_width"
+            android:text="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/cno_indicator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/cno_mask_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:rotation="180"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sky_legend_cn0"
+        app:srcCompat="@drawable/ic_cn0_indicator" />
+
+    <LinearLayout
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/sky_legend_cn0"
+        app:layout_constraintEnd_toEndOf="@+id/cno_mask_indicator"
+        app:layout_constraintStart_toStartOf="@id/cno_mask_indicator"
+        app:layout_constraintTop_toTopOf="@id/sky_legend_cn0"  />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/view_signal_meter"
+        android:layout_width="@dimen/cno_meter_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sky_legend_cn0"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sky_legend_cn0" />
+
+</android.support.constraint.ConstraintLayout>

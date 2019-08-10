@@ -32,7 +32,7 @@
         </activity>
 
         <service
-            android:name=".core.computation.PvtService"
+            android:name=".core.computation.GnssService"
             android:label="PVTService" />
     </application>
 

@@ -1,24 +1,39 @@
-package com.abecerra.gnssanalysis.presentation.position
+package com.abecerra.gnssanalysis.presentation.ui.position
 
 
+import android.hardware.SensorEvent
+import android.location.GnssMeasurementsEvent
+import android.location.GnssStatus
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseLocationFragment
+import com.abecerra.gnssanalysis.core.base.BaseGnssFragment
+import com.abecerra.gnssanalysis.core.computation.GnssService
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.utils.extensions.showStopAlert
-import com.abecerra.gnssanalysis.presentation.map.MapFragment
+import com.abecerra.gnssanalysis.presentation.ui.map.MapFragment
 import kotlinx.android.synthetic.main.fragment_position.*
 
-class PositionFragment : BaseLocationFragment(), MapFragment.MapListener {
-
+class PositionFragment : BaseGnssFragment(), MapFragment.MapListener, GnssService.GnssServiceOutput.GnssEventsListener,
+    GnssService.GnssServiceOutput.PvtListener {
 //    private val viewModel: PositionViewModel by viewModel()
 
     private var mapFragment: MapFragment = MapFragment()
 
     private var isStartedComputing = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onServiceConnected() {
+        mService?.bindGnssEventsListener(this)
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_position, container, false)
@@ -81,11 +96,46 @@ class PositionFragment : BaseLocationFragment(), MapFragment.MapListener {
     }
 
 
-    override fun onPvtResult(pvtResponse: PvtResponse?) {
+    override fun onPvtResponse(pvtResponse: PvtResponse) {
+        val s = ""
+
+    }
+
+    override fun onPvtError(error: String) {
+        val s = ""
 
     }
 
     override fun onMapGesture() {
     }
+
+    override fun onGnssStarted() {
+        val s = ""
+    }
+
+    override fun onGnssStopped() {
+        val s = ""
+    }
+
+    override fun onSatelliteStatusChanged(status: GnssStatus) {
+        val s = ""
+    }
+
+    override fun onGnssMeasurementsReceived(event: GnssMeasurementsEvent) {
+        val s = ""
+    }
+
+    override fun onSensorEvent(event: SensorEvent) {
+        val s = ""
+    }
+
+    override fun onNmeaMessageReceived(message: String, timestamp: Long) {
+        val s = ""
+    }
+
+    override fun onLocationReceived(location: Location) {
+        val s = ""
+    }
+
 
 }

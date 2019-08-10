@@ -14,4 +14,34 @@
         <item name="android:visibility">visible</item>
     </style>
 
+
+
+    <!-- GNSS Sky view -->
+    <style name="sky_legend_label">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/sky_legend_text_size_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="sky_legend_value">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/sky_legend_text_size_small</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="cno_avg_value">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:background">@drawable/cno_round_corner_background</item>
+    </style>
+
+    <dimen name="sky_legend_text_size_large">14sp</dimen>
+    <dimen name="sky_legend_text_size_small">10sp</dimen>
+
 </resources>

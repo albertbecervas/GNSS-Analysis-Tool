@@ -13,7 +13,7 @@ import com.abecerra.gnssanalysis.presentation.MainActivity
 
 object NotificationBuilder {
 
-    private const val NOTIFICATION_CHANNEL_ID = ".core.services.PvtService.NOTIFICATION_ID"
+    private const val NOTIFICATION_CHANNEL_ID = ".core.services.GnssService.NOTIFICATION_ID"
 
     private var notificationManager: NotificationManager? = null
 
@@ -40,9 +40,8 @@ object NotificationBuilder {
             .setContentIntent(pendingIntent)
             .setAutoCancel(false)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            builder.priority = NotificationManager.IMPORTANCE_HIGH
-        }
+        builder.priority = NotificationManager.IMPORTANCE_HIGH
+
 
         val notification = builder.build()
 
