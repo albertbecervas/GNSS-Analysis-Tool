@@ -20,6 +20,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 
 import com.abecerra.gnssanalysis.R
+import com.abecerra.gnssanalysis.core.base.BaseFragment
 import com.abecerra.gnssanalysis.core.base.BaseGnssFragment
 import com.abecerra.gnssanalysis.core.computation.GnssService
 import com.abecerra.gnssanalysis.core.utils.extensions.Data
@@ -38,7 +39,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
-class SkyPlotFragment : BaseGnssFragment(), GnssService.GnssServiceOutput.GnssEventsListener {
+class SkyPlotFragment : BaseFragment(), GnssService.GnssServiceOutput.GnssEventsListener {
 
     private val viewModel: SkyPlotViewModel by viewModel()
 
@@ -48,10 +49,6 @@ class SkyPlotFragment : BaseGnssFragment(), GnssService.GnssServiceOutput.GnssEv
         super.onCreate(savedInstanceState)
 
         observe(viewModel.status, ::updateStatusData)
-    }
-
-    override fun onServiceConnected() {
-        mService?.bindGnssEventsListener(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

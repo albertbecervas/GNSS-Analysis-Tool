@@ -85,7 +85,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:drawableStart="@drawable/ic_recentre"
-        android:text="RECENTRE"
+        android:text="@string/recentre"
         android:visibility="gone"
         tools:visibility="visible"
         android:drawablePadding="4dp"

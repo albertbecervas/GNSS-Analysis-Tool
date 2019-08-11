@@ -108,5 +108,6 @@
     <string name="enable_gnss_logs">Enable GNSS logs</string>
     <string name="enable_logs_description">A file with raw mesurements will be created every time you start computing if enabled.</string>
     <string name="average_time_title">Average Time:</string>
+    <string name="recentre">RECENTRE</string>
 
 </resources>

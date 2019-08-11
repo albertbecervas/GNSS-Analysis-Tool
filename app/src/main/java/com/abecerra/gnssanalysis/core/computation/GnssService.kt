@@ -74,19 +74,17 @@ class GnssService : Service(), PvtServiceContract.PvtPresenterOutput, OnNmeaMess
         }
     }
 
+    fun bindGnssEventsListeners(gnssEventsListeners: ArrayList<GnssServiceOutput.GnssEventsListener>){
+        this.gnssEventsListeners.clear()
+        this.gnssEventsListeners.addAll(gnssEventsListeners)
+    }
+
     fun bindGnssEventsListener(gnssEventsListener: GnssServiceOutput.GnssEventsListener) {
         if (gnssEventsListeners.contains(gnssEventsListener)) {
             gnssEventsListeners.remove(gnssEventsListener)
         }
         gnssEventsListeners.add(gnssEventsListener)
     }
-
-    fun unbindGnssEventsListener(gnssEventsListener: GnssServiceOutput.GnssEventsListener) {
-        if (gnssEventsListeners.contains(gnssEventsListener)) {
-            gnssEventsListeners.remove(gnssEventsListener)
-        }
-    }
-
 
     private fun startGnss() {
         if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {

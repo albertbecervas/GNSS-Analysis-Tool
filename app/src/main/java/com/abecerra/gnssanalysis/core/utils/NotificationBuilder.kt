@@ -9,7 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
-import com.abecerra.gnssanalysis.presentation.MainActivity
+import com.abecerra.gnssanalysis.presentation.ui.main.MainActivity
 
 object NotificationBuilder {
 

@@ -1,6 +1,7 @@
 package com.abecerra.gnssanalysis.presentation.ui.position
 
 
+import android.content.Context
 import android.hardware.SensorEvent
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
@@ -10,33 +11,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseGnssFragment
+import com.abecerra.gnssanalysis.core.base.BaseFragment
 import com.abecerra.gnssanalysis.core.computation.GnssService
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
+import com.abecerra.gnssanalysis.core.utils.extensions.showSelectedComputationSettingsAlert
 import com.abecerra.gnssanalysis.core.utils.extensions.showStopAlert
+import com.abecerra.gnssanalysis.presentation.ui.main.MainActivityInput
 import com.abecerra.gnssanalysis.presentation.ui.map.MapFragment
+import com.abecerra.pvt.computation.data.ComputationSettings
 import kotlinx.android.synthetic.main.fragment_position.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class PositionFragment : BaseGnssFragment(), MapFragment.MapListener, GnssService.GnssServiceOutput.GnssEventsListener,
+class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
+    GnssService.GnssServiceOutput.GnssEventsListener,
     GnssService.GnssServiceOutput.PvtListener {
-//    private val viewModel: PositionViewModel by viewModel()
+
+    private val viewModel: PvtComputationViewModel by viewModel()
+
+    private var mActivityListener: MainActivityInput? = null
 
     private var mapFragment: MapFragment = MapFragment()
 
-    private var isStartedComputing = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onServiceConnected() {
-        mService?.bindGnssEventsListener(this)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_position, container, false)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        mActivityListener = context as? MainActivityInput
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,10 +49,10 @@ class PositionFragment : BaseGnssFragment(), MapFragment.MapListener, GnssServic
     private fun setViews() {
 
         btComputeAction.setOnClickListener {
-            if (isStartedComputing) {
-                onStopComputing()
+            if (isComputing()) {
+                stopComputing()
             } else {
-                onStartComputing()
+                onClickStartComputing()
             }
         }
 
@@ -60,50 +62,44 @@ class PositionFragment : BaseGnssFragment(), MapFragment.MapListener, GnssServic
 
     }
 
-
-    private fun onStartComputing() {
+    private fun onClickStartComputing() {
         val selectedModes = mPrefs.getSelectedModesList()
-
-//        if (selectedModes.isEmpty()) { // If no constellation or band has been selected
-//            context?.showSelectedComputationSettingsAlert {
-//                //navigate to settings
-//            }
-//        } else {
-        showMapLoading()
-        mapFragment.clearMap()
-        isStartedComputing = true
-        btComputeAction.text = getString(R.string.stop_computing)
-        startComputing(selectedModes)
-//        }
+        if (selectedModes.isEmpty()) { // If no constellation or band has been selected
+            context?.showSelectedComputationSettingsAlert {
+                //navigate to settings
+            }
+        } else {
+            startComputing(selectedModes)
+        }
 
     }
 
-    private fun onStopComputing() {
+    private fun startComputing(selectedModes: List<ComputationSettings>) {
+        showMapLoading()
+        mapFragment.clearMap()
+        btComputeAction.text = getString(R.string.stop_computing)
+        mActivityListener?.getGnssService()?.startComputing(selectedModes)
+    }
+
+    private fun stopComputing() {
         context?.showStopAlert {
-            btComputeAction.text = getString(R.string.start_computing)
             hideMapLoading()
+            btComputeAction.text = getString(R.string.start_computing)
             btRecenter.visibility = View.GONE
-            stopComputing()
+            mActivityListener?.getGnssService()?.stopComputing()
         }
     }
 
-    fun showMapLoading() {
-        pbMap?.visibility = View.VISIBLE
-    }
-
-    private fun hideMapLoading() {
-        pbMap?.visibility = View.GONE
-    }
+    private fun isComputing(): Boolean = btComputeAction.text == getString(R.string.start_computing)
 
 
+    //Callbacks
     override fun onPvtResponse(pvtResponse: PvtResponse) {
         val s = ""
-
     }
 
     override fun onPvtError(error: String) {
         val s = ""
-
     }
 
     override fun onMapGesture() {
@@ -137,5 +133,13 @@ class PositionFragment : BaseGnssFragment(), MapFragment.MapListener, GnssServic
         val s = ""
     }
 
+
+    private fun showMapLoading() {
+        pbMap?.visibility = View.VISIBLE
+    }
+
+    private fun hideMapLoading() {
+        pbMap?.visibility = View.GONE
+    }
 
 }
