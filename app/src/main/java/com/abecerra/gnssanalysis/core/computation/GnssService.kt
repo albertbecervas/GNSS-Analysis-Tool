@@ -16,8 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
 import org.koin.android.ext.android.inject
 
 class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, OnNmeaMessageListener,
-    SensorEventListener,
-    LocationListener {
+    SensorEventListener, LocationListener {
 
     private val mPresenter: PvtServiceContract.PvtPresenter by inject()
     private val gnssMeasLogger: GnssMeasLogger by inject()

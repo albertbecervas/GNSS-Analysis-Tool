@@ -31,10 +31,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        (context as? MainActivityInput)?.let {
-            mActivityListener = it
-            it.bindPvtListenerToGnssService(this@PvtComputationFragment)
-        }
+        mActivityListener = context as? MainActivityInput
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +57,8 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
 
     private fun onClickStartComputing() {
         val selectedModes = mPrefs.getSelectedModesList()
-        if (selectedModes.isEmpty()) { // If no constellation or band has been selected
+        //TODO change when selected modes returns non empty list
+        if (selectedModes.isNotEmpty()) { // If no constellation or band has been selected
             context?.showSelectedComputationSettingsAlert {
                 //navigate to settings
             }
@@ -75,6 +73,10 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
         mapFragment.clearMap()
         btComputeAction.text = getString(R.string.stop_computing)
         mActivityListener?.getGnssService()?.startComputing(selectedModes)
+        mActivityListener?.getGnssService()?.let {
+            it.bindPvtListener(this@PvtComputationFragment)
+            it.startComputing(selectedModes)
+        }
     }
 
     private fun stopComputing() {
@@ -82,11 +84,14 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
             hideMapLoading()
             btComputeAction.text = getString(R.string.start_computing)
             btRecenter.visibility = View.GONE
-            mActivityListener?.getGnssService()?.stopComputing()
+            mActivityListener?.getGnssService()?.let {
+                it.unbindPvtListener(this@PvtComputationFragment)
+                it.stopComputing()
+            }
         }
     }
 
-    private fun isComputing(): Boolean = btComputeAction.text == getString(R.string.start_computing)
+    private fun isComputing(): Boolean = btComputeAction.text == getString(R.string.stop_computing)
 
 
     //Callbacks
@@ -109,7 +114,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
         pbMap?.visibility = View.GONE
     }
 
-    companion object{
+    companion object {
         private const val FRAGMENT_TAG: String = "PvtComputationFragment"
     }
 

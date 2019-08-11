@@ -15,18 +15,4 @@ interface MainActivityInput {
      */
     fun getGnssService(): GnssService?
 
-    /**
-     * This bindPvtListenerToGnssService binds a fragment implementing PvtListener to the GnssService
-     *
-     * @param listener PvtListener to receive Pvt callbacks
-     */
-    fun bindPvtListenerToGnssService(listener: GnssService.GnssServiceOutput.PvtListener)
-
-    /**
-     * This unbindPvtListenerToGnssService unbinds a fragment implementing PvtListener from the GnssService
-     *
-     * @param listener PvtListener to receive Pvt callbacks
-     */
-    fun unbindPvtListenerFromGnssService(listener: GnssService.GnssServiceOutput.PvtListener)
-
 }

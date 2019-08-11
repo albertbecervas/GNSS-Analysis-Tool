@@ -38,10 +38,9 @@ abstract class BaseGnssService : Service() {
     }
 
     fun bindPvtListener(pvtListener: GnssService.GnssServiceOutput.PvtListener) {
-        if (pvtListeners.contains(pvtListener)) {
-            pvtListeners.remove(pvtListener)
+        if (!pvtListeners.contains(pvtListener)) {
+            pvtListeners.add(pvtListener)
         }
-        pvtListeners.add(pvtListener)
     }
 
     fun unbindPvtListener(pvtListener: GnssService.GnssServiceOutput.PvtListener) {

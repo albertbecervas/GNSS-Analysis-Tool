@@ -18,10 +18,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
-
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseFragment
-import com.abecerra.gnssanalysis.core.base.BaseGnssFragment
 import com.abecerra.gnssanalysis.core.computation.GnssService
 import com.abecerra.gnssanalysis.core.utils.extensions.Data
 import com.abecerra.gnssanalysis.core.utils.extensions.DataState
@@ -165,14 +163,16 @@ class SkyPlotFragment : BaseFragment(), GnssService.GnssServiceOutput.GnssEvents
 
     override fun onGnssStarted() {
         skyplot.setStarted()
+        Timber.d("$FRAGMENT_TAG :::: onGnssStarted")
     }
 
     override fun onGnssStopped() {
         skyplot.setStopped()
+        Timber.d("$FRAGMENT_TAG :::: onGnssStopped")
     }
 
     override fun onSatelliteStatusChanged(status: android.location.GnssStatus) {
-        Timber.d("onGnssCallback - Status - STATUS")
+        Timber.d("$FRAGMENT_TAG :::: onSatelliteStatusChanged")
         val filteredGnssStatus = filterGnssStatus(status, selectedConstellation)
 
         viewModel.obtainStatusParameters(filteredGnssStatus, selectedConstellation)
@@ -181,6 +181,7 @@ class SkyPlotFragment : BaseFragment(), GnssService.GnssServiceOutput.GnssEvents
     }
 
     override fun onSensorEvent(event: SensorEvent) {
+        Timber.d("$FRAGMENT_TAG :::: onSatelliteStatusChanged")
         val sensorData = activity?.getSensorData(event)
         sensorData?.let {
             skyplot.onOrientationChanged(it.orientation, it.tilt)
@@ -197,6 +198,8 @@ class SkyPlotFragment : BaseFragment(), GnssService.GnssServiceOutput.GnssEvents
     }
 
     companion object {
+
+        private const val FRAGMENT_TAG: String = "SkyPlotFragment"
 
         enum class CONSTELLATION(var id: Int) {
             ALL(-1), GALILEO(GnssStatus.CONSTELLATION_GALILEO), GPS(GnssStatus.CONSTELLATION_GPS)

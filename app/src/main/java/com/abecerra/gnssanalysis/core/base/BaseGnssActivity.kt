@@ -27,6 +27,7 @@ abstract class BaseGnssActivity : BaseActivity() {
 
         override fun onServiceDisconnected(arg0: ComponentName) {
             mService = null
+            this@BaseGnssActivity.onGnssServiceDisconnected()
         }
     }
 
@@ -49,8 +50,14 @@ abstract class BaseGnssActivity : BaseActivity() {
 
     /**
      * This onGnssServiceConnected function is used to bind listeners to the service once Binder is connected.
+     *
      * @param service GnssService not null instance used to bind the listeners.
      */
     abstract fun onGnssServiceConnected(service: GnssService)
+
+    /**
+     * This onGnssServiceDisconnected function is used to notify that Binder is disconnected
+     */
+    abstract fun onGnssServiceDisconnected()
 
 }
