@@ -16,7 +16,7 @@ abstract class BaseGnssFragment : BaseFragment() {
     private val mConnection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as GnssService.PvtServiceBinder
+            val binder = service as BaseGnssService.PvtServiceBinder
             mService = binder.service
             onServiceConnected()
         }

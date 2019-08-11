@@ -2,10 +2,6 @@ package com.abecerra.gnssanalysis.presentation.ui.position
 
 
 import android.content.Context
-import android.hardware.SensorEvent
-import android.location.GnssMeasurementsEvent
-import android.location.GnssStatus
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,13 +16,10 @@ import com.abecerra.gnssanalysis.presentation.ui.main.MainActivityInput
 import com.abecerra.gnssanalysis.presentation.ui.map.MapFragment
 import com.abecerra.pvt.computation.data.ComputationSettings
 import kotlinx.android.synthetic.main.fragment_position.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
-    GnssService.GnssServiceOutput.GnssEventsListener,
     GnssService.GnssServiceOutput.PvtListener {
-
-    private val viewModel: PvtComputationViewModel by viewModel()
 
     private var mActivityListener: MainActivityInput? = null
 
@@ -38,7 +31,10 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        mActivityListener = context as? MainActivityInput
+        (context as? MainActivityInput)?.let {
+            mActivityListener = it
+            it.bindPvtListenerToGnssService(this@PvtComputationFragment)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -95,44 +91,15 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
 
     //Callbacks
     override fun onPvtResponse(pvtResponse: PvtResponse) {
-        val s = ""
+        Timber.d("$FRAGMENT_TAG :::: pvtResponse received")
     }
 
     override fun onPvtError(error: String) {
-        val s = ""
+        Timber.d("$FRAGMENT_TAG :::: pvtResponse error")
     }
 
     override fun onMapGesture() {
     }
-
-    override fun onGnssStarted() {
-        val s = ""
-    }
-
-    override fun onGnssStopped() {
-        val s = ""
-    }
-
-    override fun onSatelliteStatusChanged(status: GnssStatus) {
-        val s = ""
-    }
-
-    override fun onGnssMeasurementsReceived(event: GnssMeasurementsEvent) {
-        val s = ""
-    }
-
-    override fun onSensorEvent(event: SensorEvent) {
-        val s = ""
-    }
-
-    override fun onNmeaMessageReceived(message: String, timestamp: Long) {
-        val s = ""
-    }
-
-    override fun onLocationReceived(location: Location) {
-        val s = ""
-    }
-
 
     private fun showMapLoading() {
         pbMap?.visibility = View.VISIBLE
@@ -140,6 +107,10 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
 
     private fun hideMapLoading() {
         pbMap?.visibility = View.GONE
+    }
+
+    companion object{
+        private const val FRAGMENT_TAG: String = "PvtComputationFragment"
     }
 
 }

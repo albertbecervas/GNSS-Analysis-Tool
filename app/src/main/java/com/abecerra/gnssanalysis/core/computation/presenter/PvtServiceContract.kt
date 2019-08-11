@@ -9,6 +9,9 @@ import io.reactivex.Single
 interface PvtServiceContract {
 
     interface PvtPresenter{
+
+        fun bindOutput(output: PvtPresenterOutput)
+
         fun startComputing(computationSettings: List<ComputationSettings>): Single<String>
         fun stopComputing()
 

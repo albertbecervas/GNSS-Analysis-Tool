@@ -11,6 +11,9 @@ object AppModule {
             UseCaseModule.get(),
             RepositoryModule.get(),
             ApiModule.get(),
+            NavigatorModule.get(),
+            PresenterModule.get(),
+            LoggerModule.get(),
             module { single { AppSharedPreferences.getInstance() } }
         )
 }

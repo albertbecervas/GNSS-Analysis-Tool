@@ -8,14 +8,13 @@ import android.os.Environment
 import android.os.SystemClock
 import com.abecerra.gnssanalysis.BuildConfig
 import java.io.File
-import java.io.FileFilter
 import java.io.FileWriter
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GnssMeasLogger {
 
+class GnssMeasLogger {
 
     companion object {
         const val APP_ROOT = "/GNSSAnalysis/Nmea/Logs/"
@@ -28,11 +27,9 @@ class GnssMeasLogger {
 
     private var mFileWriter: FileWriter? = null
 
-    init {
-        startNewLog()
-    }
+    fun startNewLog() {
 
-    private fun startNewLog() {
+//        val storage = FirebaseStorage.getInstance()
 
         val baseDirectory = File(Environment.getExternalStorageDirectory(), APP_ROOT)
         baseDirectory.mkdirs()
@@ -178,5 +175,10 @@ class GnssMeasLogger {
     fun closeLogger() {
         mFileWriter?.close()
     }
+
+    fun uploadDocument(){
+
+    }
+
 
 }

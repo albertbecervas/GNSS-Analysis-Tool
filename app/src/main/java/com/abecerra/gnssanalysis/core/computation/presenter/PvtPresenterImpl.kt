@@ -15,13 +15,17 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
-class PvtPresenterImpl(output: PvtServiceContract.PvtPresenterOutput) : PvtServiceContract.PvtPresenter {
+class PvtPresenterImpl() : PvtServiceContract.PvtPresenter {
 
-    private var mListener: PvtServiceContract.PvtPresenterOutput = output
+    private var mListener: PvtServiceContract.PvtPresenterOutput? = null
 
     private val ephemerisClient: EphemerisClient = EphemerisClient()
 
     private var gnssComputationData = GnssComputationData()
+
+    override fun bindOutput(output: PvtServiceContract.PvtPresenterOutput) {
+        this.mListener = output
+    }
 
     override fun startComputing(computationSettings: List<ComputationSettings>): Single<String> {
         return Single.create { emitter ->
@@ -69,10 +73,10 @@ class PvtPresenterImpl(output: PvtServiceContract.PvtPresenterOutput) : PvtServi
                     val pvtResponse = PvtResponse(
                         pvtFix = computedPvtData.pvtFix
                     )
-                    mListener.onPvtResponse(pvtResponse)
+                    mListener?.onPvtResponse(pvtResponse)
                 }, {
                     // Error computing PVT
-                    mListener.onPvtError("")
+                    mListener?.onPvtError("")
                 }, CompositeDisposable())
 
         }

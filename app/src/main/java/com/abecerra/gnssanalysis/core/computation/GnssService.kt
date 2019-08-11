@@ -1,96 +1,45 @@
 package com.abecerra.gnssanalysis.core.computation
 
-import android.app.Service
-import android.content.Context
-import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.location.*
-import android.os.Binder
 import android.os.Bundle
-import android.os.IBinder
+import com.abecerra.gnssanalysis.core.base.BaseGnssService
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
-import com.abecerra.gnssanalysis.core.computation.presenter.PvtPresenterImpl
 import com.abecerra.gnssanalysis.core.computation.presenter.PvtServiceContract
 import com.abecerra.gnssanalysis.core.logger.GnssMeasLogger
-import com.abecerra.gnssanalysis.core.utils.NotificationBuilder.buildNotification
 import com.abecerra.gnssanalysis.core.utils.extensions.checkPermission
-import com.abecerra.gnssanalysis.core.utils.extensions.context
 import com.abecerra.gnssanalysis.core.utils.extensions.subscribe
 import com.abecerra.pvt.computation.data.ComputationSettings
 import io.reactivex.disposables.CompositeDisposable
+import org.koin.android.ext.android.inject
 
-class GnssService : Service(), PvtServiceContract.PvtPresenterOutput, OnNmeaMessageListener, SensorEventListener,
+class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, OnNmeaMessageListener,
+    SensorEventListener,
     LocationListener {
 
-    private var mPresenter: PvtServiceContract.PvtPresenter? = null
+    private val mPresenter: PvtServiceContract.PvtPresenter by inject()
+    private val gnssMeasLogger: GnssMeasLogger by inject()
 
     private var gnssStatusListener: GnssStatus.Callback? = null
     private var gnssMeasurementsEventListener: GnssMeasurementsEvent.Callback? = null
-    private var locationManager: LocationManager? = null
 
-    private val mBinder = PvtServiceBinder()
-
-    private val pvtListeners = arrayListOf<GnssServiceOutput.PvtListener>()
-    private val gnssEventsListeners = arrayListOf<GnssServiceOutput.GnssEventsListener>()
-
-    private var gnssMeasLogger: GnssMeasLogger? = null
-
-    override fun onBind(intent: Intent?): IBinder? {
-        return mBinder
-    }
+    override fun getInstance(): GnssService = this
 
     override fun onCreate() {
         super.onCreate()
 
-        mPresenter = PvtPresenterImpl(this)
+        mPresenter.bindOutput(this)
 
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        gnssMeasLogger = GnssMeasLogger()
-
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startGnss()
-        return START_STICKY
-    }
-
-    private fun setNotification() {
-        val notification = context.buildNotification()
-        startForeground(1, notification)
-    }
-
-    fun bindPvtListener(pvtListener: GnssServiceOutput.PvtListener) {
-        if (pvtListeners.contains(pvtListener)) {
-            pvtListeners.remove(pvtListener)
-        }
-        pvtListeners.add(pvtListener)
-    }
-
-    fun unbindPvtListener(pvtListener: GnssServiceOutput.PvtListener) {
-        if (pvtListeners.contains(pvtListener)) {
-            pvtListeners.remove(pvtListener)
-        }
-    }
-
-    fun bindGnssEventsListeners(gnssEventsListeners: ArrayList<GnssServiceOutput.GnssEventsListener>){
-        this.gnssEventsListeners.clear()
-        this.gnssEventsListeners.addAll(gnssEventsListeners)
-    }
-
-    fun bindGnssEventsListener(gnssEventsListener: GnssServiceOutput.GnssEventsListener) {
-        if (gnssEventsListeners.contains(gnssEventsListener)) {
-            gnssEventsListeners.remove(gnssEventsListener)
-        }
-        gnssEventsListeners.add(gnssEventsListener)
     }
 
     private fun startGnss() {
         if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
             gnssStatusListener = object : GnssStatus.Callback() {
                 override fun onSatelliteStatusChanged(status: GnssStatus) {
-                    mPresenter?.setStatus(status)
+                    mPresenter.setStatus(status)
                     gnssEventsListeners.forEach {
                         it.onSatelliteStatusChanged(status)
                     }
@@ -113,8 +62,8 @@ class GnssService : Service(), PvtServiceContract.PvtPresenterOutput, OnNmeaMess
 
             gnssMeasurementsEventListener = object : GnssMeasurementsEvent.Callback() {
                 override fun onGnssMeasurementsReceived(measurementsEvent: GnssMeasurementsEvent) {
-                    mPresenter?.setMeasurement(measurementsEvent)
-                    gnssMeasLogger?.onGnssMeasurementsReceived(measurementsEvent)
+                    mPresenter.setMeasurement(measurementsEvent)
+                    gnssMeasLogger.onGnssMeasurementsReceived(measurementsEvent)
                     gnssEventsListeners.forEach {
                         it.onGnssMeasurementsReceived(measurementsEvent)
                     }
@@ -137,20 +86,20 @@ class GnssService : Service(), PvtServiceContract.PvtPresenterOutput, OnNmeaMess
 
 
     fun startComputing(computationSettings: List<ComputationSettings>) {
-        mPresenter?.startComputing(computationSettings)?.subscribe({
+        mPresenter.startComputing(computationSettings).subscribe({
             // obtaining Ephemeris
         }, {
             setNotification()
-            startGnss()
+            gnssMeasLogger.startNewLog()
         }, {
             //todo check loop
-//            startComputing(computationSettings)
-            startGnss()
+            startComputing(computationSettings)
         }, CompositeDisposable())
     }
 
     fun stopComputing() {
-        mPresenter?.stopComputing()
+        mPresenter.stopComputing()
+        gnssMeasLogger.closeLogger()
         stopForeground(true)
     }
 
@@ -160,14 +109,6 @@ class GnssService : Service(), PvtServiceContract.PvtPresenterOutput, OnNmeaMess
 
     override fun onPvtError(error: String) {
         pvtListeners.forEach { it.onPvtError(error) }
-    }
-
-    override fun onNmeaMessage(message: String?, timestamp: Long) {
-        gnssEventsListeners.forEach {
-            message?.let { msg ->
-                it.onNmeaMessageReceived(msg, timestamp)
-            }
-        }
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -187,6 +128,14 @@ class GnssService : Service(), PvtServiceContract.PvtPresenterOutput, OnNmeaMess
 
     }
 
+    override fun onNmeaMessage(message: String?, timestamp: Long) {
+        gnssEventsListeners.forEach {
+            message?.let { msg ->
+                it.onNmeaMessageReceived(msg, timestamp)
+            }
+        }
+    }
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         //no-op
     }
@@ -204,15 +153,9 @@ class GnssService : Service(), PvtServiceContract.PvtPresenterOutput, OnNmeaMess
     }
 
     override fun onDestroy() {
-        stopGnss()
         super.onDestroy()
+        stopGnss()
     }
-
-    inner class PvtServiceBinder : Binder() {
-        val service: GnssService
-            get() = this@GnssService
-    }
-
 
     interface GnssServiceOutput {
 

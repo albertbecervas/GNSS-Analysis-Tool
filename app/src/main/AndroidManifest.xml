@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -22,7 +21,7 @@
             android:value="AIzaSyDpYNKp79m8RtIbFstsplj5MpklWO1knm8" />
 
         <activity
-            android:name=".presentation.ui.main.MainActivity"
+            android:name=".presentation.ui.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".presentation.ui.main.MainActivity" />
+
 
         <service
             android:name=".core.computation.GnssService"

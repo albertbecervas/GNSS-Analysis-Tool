@@ -18,7 +18,7 @@ abstract class BaseGnssActivity : BaseActivity() {
     private val mConnection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as? GnssService.PvtServiceBinder
+            val binder = service as? BaseGnssService.PvtServiceBinder
             binder?.service?.let {
                 mService = it
                 this@BaseGnssActivity.onGnssServiceConnected(it)
@@ -32,7 +32,7 @@ abstract class BaseGnssActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        startGnssService()
+        startGnssService()
     }
 
     private fun startGnssService() {

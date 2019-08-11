@@ -163,9 +163,6 @@ class SkyPlotFragment : BaseFragment(), GnssService.GnssServiceOutput.GnssEvents
         }
     }
 
-    override fun onGnssMeasurementsReceived(event: GnssMeasurementsEvent) {
-    }
-
     override fun onGnssStarted() {
         skyplot.setStarted()
     }
@@ -188,6 +185,9 @@ class SkyPlotFragment : BaseFragment(), GnssService.GnssServiceOutput.GnssEvents
         sensorData?.let {
             skyplot.onOrientationChanged(it.orientation, it.tilt)
         }
+    }
+
+    override fun onGnssMeasurementsReceived(event: GnssMeasurementsEvent) {
     }
 
     override fun onNmeaMessageReceived(message: String, timestamp: Long) {

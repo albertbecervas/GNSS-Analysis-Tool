@@ -62,11 +62,18 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
         }
     }
 
-    override fun onGnssServiceConnected(service: GnssService) {
-        service.bindGnssEventsListeners(arrayListOf(pvtComputationFragment, skyPlotFragment))
-    }
-
     override fun getGnssService(): GnssService? = mService
 
+    override fun onGnssServiceConnected(service: GnssService) {
+        mService?.bindGnssEventsListener(skyPlotFragment)
+    }
+
+    override fun bindPvtListenerToGnssService(listener: GnssService.GnssServiceOutput.PvtListener) {
+        mService?.bindPvtListener(listener)
+    }
+
+    override fun unbindPvtListenerFromGnssService(listener: GnssService.GnssServiceOutput.PvtListener) {
+        mService?.unbindPvtListener(listener)
+    }
 
 }
