@@ -5,6 +5,8 @@ import android.location.GnssStatus
 import com.abecerra.gnssanalysis.core.computation.EpochDataParser
 import com.abecerra.gnssanalysis.core.computation.data.GnssComputationData
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
+import com.abecerra.gnssanalysis.core.computation.repository.PvtRepository
+import com.abecerra.gnssanalysis.core.logger.GnssMeasLogger
 import com.abecerra.gnssanalysis.core.utils.extensions.subscribe
 import com.abecerra.pvt.computation.PvtEngine
 import com.abecerra.pvt.computation.data.ComputationSettings
@@ -15,7 +17,8 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
-class PvtPresenterImpl() : PvtServiceContract.PvtPresenter {
+class PvtPresenterImpl(private val gnssMeasLogger: GnssMeasLogger, private val pvtRepository: PvtRepository) :
+    PvtServiceContract.PvtPresenter {
 
     private var mListener: PvtServiceContract.PvtPresenterOutput? = null
 
@@ -32,6 +35,7 @@ class PvtPresenterImpl() : PvtServiceContract.PvtPresenter {
             ephemerisClient.getEphemerisData(LlaLocation())
                 .subscribe({
                 }, {
+                    gnssMeasLogger.startNewLog()
                     gnssComputationData.ephemerisResponse = it
                     gnssComputationData.startedComputingDate = Date()
                     gnssComputationData.computationSettings = computationSettings
@@ -44,6 +48,9 @@ class PvtPresenterImpl() : PvtServiceContract.PvtPresenter {
     }
 
     override fun stopComputing() {
+        gnssMeasLogger.closeLoggerAndReturnFile()?.let {
+            pvtRepository.uploadNmeaFile(it)
+        }
         gnssComputationData = GnssComputationData()
     }
 
@@ -52,6 +59,7 @@ class PvtPresenterImpl() : PvtServiceContract.PvtPresenter {
     }
 
     override fun setMeasurement(measurementsEvent: GnssMeasurementsEvent) {
+        gnssMeasLogger.onGnssMeasurementsReceived(measurementsEvent)
         gnssComputationData.ephemerisResponse?.let { ephemeris ->
             gnssComputationData.gnssStatus?.let { status ->
                 val epoch = EpochDataParser.parseEpoch(measurementsEvent, status, ephemeris)

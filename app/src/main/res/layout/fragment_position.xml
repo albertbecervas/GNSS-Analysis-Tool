@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/position"
@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v4.widget.ContentLoadingProgressBar
+    <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/pbMap"
         style="@style/AppTheme.ProgressBarHorizontal"
         android:indeterminate="true"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btComputeAction" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMapTerrain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/fabOptions" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
         app:layout_constraintBottom_toTopOf="@+id/clLegend"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvLegendArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -119,9 +119,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clLegend"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cvLegend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLegend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,12 +157,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/snackbarCl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -171,4 +171,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

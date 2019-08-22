@@ -8,7 +8,6 @@ import android.os.Bundle
 import com.abecerra.gnssanalysis.core.base.BaseGnssService
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.computation.presenter.PvtServiceContract
-import com.abecerra.gnssanalysis.core.logger.GnssMeasLogger
 import com.abecerra.gnssanalysis.core.utils.extensions.checkPermission
 import com.abecerra.gnssanalysis.core.utils.extensions.subscribe
 import com.abecerra.pvt.computation.data.ComputationSettings
@@ -19,7 +18,6 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
     SensorEventListener, LocationListener {
 
     private val mPresenter: PvtServiceContract.PvtPresenter by inject()
-    private val gnssMeasLogger: GnssMeasLogger by inject()
 
     private var gnssStatusListener: GnssStatus.Callback? = null
     private var gnssMeasurementsEventListener: GnssMeasurementsEvent.Callback? = null
@@ -39,33 +37,24 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
             gnssStatusListener = object : GnssStatus.Callback() {
                 override fun onSatelliteStatusChanged(status: GnssStatus) {
                     mPresenter.setStatus(status)
-                    gnssEventsListeners.forEach {
-                        it.onSatelliteStatusChanged(status)
-                    }
+                    gnssEventsListeners.forEach { it.onSatelliteStatusChanged(status) }
                 }
 
                 override fun onStarted() {
                     super.onStarted()
-                    gnssEventsListeners.forEach {
-                        it.onGnssStarted()
-                    }
+                    gnssEventsListeners.forEach { it.onGnssStarted() }
                 }
 
                 override fun onStopped() {
                     super.onStopped()
-                    gnssEventsListeners.forEach {
-                        it.onGnssStopped()
-                    }
+                    gnssEventsListeners.forEach { it.onGnssStopped() }
                 }
             }
 
             gnssMeasurementsEventListener = object : GnssMeasurementsEvent.Callback() {
                 override fun onGnssMeasurementsReceived(measurementsEvent: GnssMeasurementsEvent) {
                     mPresenter.setMeasurement(measurementsEvent)
-                    gnssMeasLogger.onGnssMeasurementsReceived(measurementsEvent)
-                    gnssEventsListeners.forEach {
-                        it.onGnssMeasurementsReceived(measurementsEvent)
-                    }
+                    gnssEventsListeners.forEach { it.onGnssMeasurementsReceived(measurementsEvent) }
                 }
             }
 
@@ -89,7 +78,6 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
             // obtaining Ephemeris
         }, {
             setNotification()
-            gnssMeasLogger.startNewLog()
         }, {
             //todo check loop
             startComputing(computationSettings)
@@ -98,7 +86,6 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
 
     fun stopComputing() {
         mPresenter.stopComputing()
-        gnssMeasLogger.closeLogger()
         stopForeground(true)
     }
 
@@ -112,77 +99,34 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
 
     override fun onSensorChanged(event: SensorEvent?) {
         gnssEventsListeners.forEach {
-            event?.let { sensorEvent ->
-                it.onSensorEvent(sensorEvent)
-            }
+            event?.let { sensorEvent -> it.onSensorEvent(sensorEvent) }
         }
     }
 
     override fun onLocationChanged(location: Location?) {
         gnssEventsListeners.forEach {
-            location?.let { loc ->
-                it.onLocationReceived(loc)
-            }
+            location?.let { loc -> it.onLocationReceived(loc) }
         }
 
     }
 
     override fun onNmeaMessage(message: String?, timestamp: Long) {
         gnssEventsListeners.forEach {
-            message?.let { msg ->
-                it.onNmeaMessageReceived(msg, timestamp)
-            }
+            message?.let { msg -> it.onNmeaMessageReceived(msg, timestamp) }
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        //no-op
-    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-        //no-op
-    }
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
-    override fun onProviderEnabled(provider: String?) {
-        //no-op
-    }
+    override fun onProviderEnabled(provider: String?) {}
 
-    override fun onProviderDisabled(provider: String?) {
-        //no-op
-    }
+    override fun onProviderDisabled(provider: String?) {}
 
     override fun onDestroy() {
         super.onDestroy()
         stopGnss()
-    }
-
-    interface GnssServiceOutput {
-
-        interface GnssEventsListener {
-
-            fun onGnssStarted()
-
-            fun onGnssStopped()
-
-            fun onSatelliteStatusChanged(status: GnssStatus)
-
-            fun onGnssMeasurementsReceived(event: GnssMeasurementsEvent)
-
-            fun onSensorEvent(event: SensorEvent)
-
-            fun onNmeaMessageReceived(message: String, timestamp: Long)
-
-            fun onLocationReceived(location: Location)
-
-        }
-
-        interface PvtListener {
-
-            fun onPvtResponse(pvtResponse: PvtResponse)
-
-            fun onPvtError(error: String)
-
-        }
     }
 
     companion object {

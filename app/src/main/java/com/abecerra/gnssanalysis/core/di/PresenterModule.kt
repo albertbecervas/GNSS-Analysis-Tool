@@ -7,7 +7,7 @@ import org.koin.dsl.module
 object PresenterModule {
 
     fun get() = module {
-        single<PvtServiceContract.PvtPresenter> { PvtPresenterImpl() }
+        single<PvtServiceContract.PvtPresenter> { PvtPresenterImpl(get(), get()) }
     }
 
 }

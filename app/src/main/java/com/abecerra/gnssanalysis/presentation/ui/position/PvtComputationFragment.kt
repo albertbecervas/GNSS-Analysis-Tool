@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseFragment
-import com.abecerra.gnssanalysis.core.computation.GnssService
+import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.utils.extensions.showSelectedComputationSettingsAlert
 import com.abecerra.gnssanalysis.core.utils.extensions.showStopAlert
@@ -18,8 +18,7 @@ import com.abecerra.pvt.computation.data.ComputationSettings
 import kotlinx.android.synthetic.main.fragment_position.*
 import timber.log.Timber
 
-class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
-    GnssService.GnssServiceOutput.PvtListener {
+class PvtComputationFragment : BaseFragment(), MapFragment.MapListener, GnssServiceOutput.PvtListener {
 
     private var mActivityListener: MainActivityInput? = null
 
@@ -49,9 +48,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
             }
         }
 
-        childFragmentManager.beginTransaction()
-            .replace(R.id.mapFragmentContainer, mapFragment)
-            .commit()
+        replaceFragment(R.id.mapFragmentContainer, mapFragment)
 
     }
 
@@ -92,7 +89,6 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
     }
 
     private fun isComputing(): Boolean = btComputeAction.text == getString(R.string.stop_computing)
-
 
     //Callbacks
     override fun onPvtResponse(pvtResponse: PvtResponse) {

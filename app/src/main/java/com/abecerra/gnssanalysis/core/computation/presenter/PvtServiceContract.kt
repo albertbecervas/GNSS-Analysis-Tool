@@ -8,7 +8,7 @@ import io.reactivex.Single
 
 interface PvtServiceContract {
 
-    interface PvtPresenter{
+    interface PvtPresenter {
 
         fun bindOutput(output: PvtPresenterOutput)
 

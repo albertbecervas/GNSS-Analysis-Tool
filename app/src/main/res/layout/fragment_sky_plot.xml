@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,12 +17,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp">
 
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 app:tabPaddingStart="0dp"
                 app:tabRippleColor="@null" />
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/skyplotCardALL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -118,12 +118,12 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/cno_indicator_title" />
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cvData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,12 +137,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/skyplotCardALL">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="16dp">
 
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/firstColumn"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -168,9 +168,9 @@
                         <!--app:layout_constraintStart_toEndOf="@id/pdopTitle"-->
                         <!--app:layout_constraintTop_toTopOf="@id/pdopTitle" />-->
 
-                    </android.support.constraint.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/secondColumn"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -215,13 +215,13 @@
                             app:layout_constraintStart_toEndOf="@id/hvdopTitle"
                             app:layout_constraintTop_toTopOf="@id/hvdopTitle" />
 
-                    </android.support.constraint.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/legend_cv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -235,7 +235,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvData">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="8dp"
@@ -253,7 +253,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clLegend"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvLegend">
 
-                        <android.support.constraint.ConstraintLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/sky_shape_legend_gnss_galileo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -334,9 +334,9 @@
                                 app:layout_constraintStart_toEndOf="@id/sky_legend_shape_line3b"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                        </android.support.constraint.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <android.support.constraint.ConstraintLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/sky_shape_legend_gnss_gps"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -406,9 +406,9 @@
                                 app:layout_constraintStart_toEndOf="@id/sky_legend_shape_line4b"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                        </android.support.constraint.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <android.support.constraint.ConstraintLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -446,16 +446,16 @@
                                 app:layout_constraintStart_toEndOf="@+id/separator"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                        </android.support.constraint.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </android.support.constraint.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

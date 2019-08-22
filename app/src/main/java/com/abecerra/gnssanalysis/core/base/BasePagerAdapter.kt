@@ -1,7 +1,7 @@
 package com.abecerra.gnssanalysis.core.base
 
-import android.support.annotation.LayoutRes
-import android.support.v4.view.PagerAdapter
+import androidx.annotation.LayoutRes
+import androidx.viewpager.widget.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import com.abecerra.gnssanalysis.core.utils.extensions.inflate

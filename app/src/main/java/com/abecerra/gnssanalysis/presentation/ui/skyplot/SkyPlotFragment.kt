@@ -10,8 +10,8 @@ import android.hardware.SensorManager
 import android.location.GnssMeasurementsEvent
 import android.location.Location
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.design.widget.TabLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.tabs.TabLayout
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
@@ -20,7 +20,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseFragment
-import com.abecerra.gnssanalysis.core.computation.GnssService
+import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
 import com.abecerra.gnssanalysis.core.utils.extensions.Data
 import com.abecerra.gnssanalysis.core.utils.extensions.DataState
 import com.abecerra.gnssanalysis.core.utils.extensions.observe
@@ -37,7 +37,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
-class SkyPlotFragment : BaseFragment(), GnssService.GnssServiceOutput.GnssEventsListener {
+class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
 
     private val viewModel: SkyPlotViewModel by viewModel()
 
