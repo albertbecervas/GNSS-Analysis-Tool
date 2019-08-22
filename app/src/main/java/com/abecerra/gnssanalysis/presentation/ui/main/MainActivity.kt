@@ -1,7 +1,7 @@
 package com.abecerra.gnssanalysis.presentation.ui.main
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseGnssActivity
 import com.abecerra.gnssanalysis.core.computation.GnssService
@@ -68,12 +68,8 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
         mService?.bindGnssEventsListener(skyPlotFragment)
     }
 
-    override fun bindPvtListenerToGnssService(listener: GnssService.GnssServiceOutput.PvtListener) {
-        mService?.bindPvtListener(listener)
-    }
-
-    override fun unbindPvtListenerFromGnssService(listener: GnssService.GnssServiceOutput.PvtListener) {
-        mService?.unbindPvtListener(listener)
+    override fun onGnssServiceDisconnected() {
+        mService?.unbindGnssEventsListener(skyPlotFragment)
     }
 
 }

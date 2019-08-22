@@ -8,13 +8,14 @@ import android.location.LocationManager
 import android.os.Binder
 import android.os.IBinder
 import com.abecerra.gnssanalysis.core.computation.GnssService
+import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
 import com.abecerra.gnssanalysis.core.utils.NotificationBuilder.buildNotification
 import com.abecerra.gnssanalysis.core.utils.extensions.context
 
 abstract class BaseGnssService : Service() {
 
-    protected val pvtListeners = arrayListOf<GnssService.GnssServiceOutput.PvtListener>()
-    protected val gnssEventsListeners = arrayListOf<GnssService.GnssServiceOutput.GnssEventsListener>()
+    protected val pvtListeners = arrayListOf<GnssServiceOutput.PvtListener>()
+    protected val gnssEventsListeners = arrayListOf<GnssServiceOutput.GnssEventsListener>()
 
     protected var locationManager: LocationManager? = null
     private var mSensorManager: SensorManager? = null
@@ -27,36 +28,31 @@ abstract class BaseGnssService : Service() {
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return mBinder
-    }
+    override fun onBind(intent: Intent?): IBinder? = mBinder
 
     override fun onUnbind(intent: Intent?): Boolean = true
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_STICKY
-    }
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
 
-    fun bindPvtListener(pvtListener: GnssService.GnssServiceOutput.PvtListener) {
-        if (pvtListeners.contains(pvtListener)) {
-            pvtListeners.remove(pvtListener)
-        }
-        pvtListeners.add(pvtListener)
-    }
-
-    fun unbindPvtListener(pvtListener: GnssService.GnssServiceOutput.PvtListener) {
-        if (pvtListeners.contains(pvtListener)) {
-            pvtListeners.remove(pvtListener)
+    fun bindPvtListener(pvtListener: GnssServiceOutput.PvtListener) {
+        if (!pvtListeners.contains(pvtListener)) {
+            pvtListeners.add(pvtListener)
         }
     }
 
-    fun bindGnssEventsListener(gnssEventsListener: GnssService.GnssServiceOutput.GnssEventsListener) {
+    fun unbindPvtListener(pvtListener: GnssServiceOutput.PvtListener) {
+        if (pvtListeners.contains(pvtListener)) {
+            pvtListeners.remove(pvtListener)
+        }
+    }
+
+    fun bindGnssEventsListener(gnssEventsListener: GnssServiceOutput.GnssEventsListener) {
         if (!gnssEventsListeners.contains(gnssEventsListener)) {
             gnssEventsListeners.add(gnssEventsListener)
         }
     }
 
-    fun unbindGnssEventsListener(gnssEventsListener: GnssService.GnssServiceOutput.GnssEventsListener) {
+    fun unbindGnssEventsListener(gnssEventsListener: GnssServiceOutput.GnssEventsListener) {
         if (gnssEventsListeners.contains(gnssEventsListener)) {
             gnssEventsListeners.remove(gnssEventsListener)
         }

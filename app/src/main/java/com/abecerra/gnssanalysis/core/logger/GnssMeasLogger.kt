@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Environment
 import android.os.SystemClock
 import com.abecerra.gnssanalysis.BuildConfig
+import timber.log.Timber
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
@@ -16,20 +17,11 @@ import java.util.*
 
 class GnssMeasLogger {
 
-    companion object {
-        const val APP_ROOT = "/GNSSAnalysis/Nmea/Logs/"
-        const val FILE_PREFIX = "gnss_log"
-        const val MAX_FILES_STORED = 100
-
-        const val COMMENT_START = "# "
-        const val VERSION_TAG = "Version: "
-    }
+    private var currentFile: File? = null
 
     private var mFileWriter: FileWriter? = null
 
     fun startNewLog() {
-
-//        val storage = FirebaseStorage.getInstance()
 
         val baseDirectory = File(Environment.getExternalStorageDirectory(), APP_ROOT)
         baseDirectory.mkdirs()
@@ -37,13 +29,12 @@ class GnssMeasLogger {
         val formatter = SimpleDateFormat("yyy_MM_dd_HH_mm_ss", Locale.ENGLISH)
         val now = Date()
         val fileName = String.format("%s_%s.txt", FILE_PREFIX, formatter.format(now))
-        val currentFile = File(baseDirectory, fileName)
+        currentFile = File(baseDirectory, fileName)
         try {
             mFileWriter = FileWriter(currentFile)
         } catch (e: IOException) {
-
+            Timber.e("Could not create file.")
         }
-
 
         // initialize the contents of the file
         try {
@@ -172,12 +163,18 @@ class GnssMeasLogger {
         mFileWriter?.write("\n")
     }
 
-    fun closeLogger() {
+    fun closeLoggerAndReturnFile(): File? {
         mFileWriter?.close()
+        return currentFile
     }
 
-    fun uploadDocument(){
+    companion object {
+        const val APP_ROOT = "/GNSSAnalysis/Nmea/Logs/"
+        const val FILE_PREFIX = "gnss_log"
+        const val MAX_FILES_STORED = 100
 
+        const val COMMENT_START = "# "
+        const val VERSION_TAG = "Version: "
     }
 
 

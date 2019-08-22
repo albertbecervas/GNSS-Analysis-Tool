@@ -1,6 +1,6 @@
 package com.abecerra.gnssanalysis.presentation.ui.skyplot
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.abecerra.gnssanalysis.core.base.BaseViewModel
 import com.abecerra.gnssanalysis.core.utils.extensions.Data
 import com.abecerra.gnssanalysis.core.utils.extensions.updateData

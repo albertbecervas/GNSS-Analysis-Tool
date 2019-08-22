@@ -1,7 +1,7 @@
 package com.abecerra.gnssanalysis.core
 
 import android.content.Context
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.abecerra.gnssanalysis.BuildConfig
 import com.abecerra.gnssanalysis.core.di.AppModule
 import org.koin.core.context.startKoin

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseFragment
-import com.abecerra.gnssanalysis.core.computation.GnssService
+import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
 import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.utils.extensions.showSelectedComputationSettingsAlert
 import com.abecerra.gnssanalysis.core.utils.extensions.showStopAlert
@@ -18,8 +18,7 @@ import com.abecerra.pvt.computation.data.ComputationSettings
 import kotlinx.android.synthetic.main.fragment_position.*
 import timber.log.Timber
 
-class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
-    GnssService.GnssServiceOutput.PvtListener {
+class PvtComputationFragment : BaseFragment(), MapFragment.MapListener, GnssServiceOutput.PvtListener {
 
     private var mActivityListener: MainActivityInput? = null
 
@@ -31,10 +30,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        (context as? MainActivityInput)?.let {
-            mActivityListener = it
-            it.bindPvtListenerToGnssService(this@PvtComputationFragment)
-        }
+        mActivityListener = context as? MainActivityInput
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,15 +48,14 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
             }
         }
 
-        childFragmentManager.beginTransaction()
-            .replace(R.id.mapFragmentContainer, mapFragment)
-            .commit()
+        replaceFragment(R.id.mapFragmentContainer, mapFragment)
 
     }
 
     private fun onClickStartComputing() {
         val selectedModes = mPrefs.getSelectedModesList()
-        if (selectedModes.isEmpty()) { // If no constellation or band has been selected
+        //TODO change when selected modes returns non empty list
+        if (selectedModes.isNotEmpty()) { // If no constellation or band has been selected
             context?.showSelectedComputationSettingsAlert {
                 //navigate to settings
             }
@@ -75,6 +70,10 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
         mapFragment.clearMap()
         btComputeAction.text = getString(R.string.stop_computing)
         mActivityListener?.getGnssService()?.startComputing(selectedModes)
+        mActivityListener?.getGnssService()?.let {
+            it.bindPvtListener(this@PvtComputationFragment)
+            it.startComputing(selectedModes)
+        }
     }
 
     private fun stopComputing() {
@@ -82,12 +81,14 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
             hideMapLoading()
             btComputeAction.text = getString(R.string.start_computing)
             btRecenter.visibility = View.GONE
-            mActivityListener?.getGnssService()?.stopComputing()
+            mActivityListener?.getGnssService()?.let {
+                it.unbindPvtListener(this@PvtComputationFragment)
+                it.stopComputing()
+            }
         }
     }
 
-    private fun isComputing(): Boolean = btComputeAction.text == getString(R.string.start_computing)
-
+    private fun isComputing(): Boolean = btComputeAction.text == getString(R.string.stop_computing)
 
     //Callbacks
     override fun onPvtResponse(pvtResponse: PvtResponse) {
@@ -109,7 +110,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener,
         pbMap?.visibility = View.GONE
     }
 
-    companion object{
+    companion object {
         private const val FRAGMENT_TAG: String = "PvtComputationFragment"
     }
 

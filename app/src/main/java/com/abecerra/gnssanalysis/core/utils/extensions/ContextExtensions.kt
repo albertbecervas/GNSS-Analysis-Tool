@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.provider.MediaStore
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import android.view.*
 import android.widget.Toast
 import com.abecerra.gnssanalysis.core.App

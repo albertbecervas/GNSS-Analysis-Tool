@@ -7,8 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AlertDialog
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseActivity
 import com.abecerra.gnssanalysis.core.utils.extensions.*

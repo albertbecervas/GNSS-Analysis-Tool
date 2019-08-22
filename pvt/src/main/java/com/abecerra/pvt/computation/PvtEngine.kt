@@ -17,6 +17,8 @@ object PvtEngine {
 
             }
 
+            it.onError(Throwable())
+
         }
     }
 

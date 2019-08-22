@@ -9,7 +9,7 @@ import android.location.GnssMeasurement;
 import android.location.GnssNavigationMessage;
 import android.location.GnssStatus;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 

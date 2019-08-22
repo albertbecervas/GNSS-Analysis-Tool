@@ -1,7 +1,7 @@
 package com.abecerra.gnssanalysis.core.utils.extensions
 
 import android.graphics.Bitmap
-import android.support.v4.widget.TextViewCompat
+import androidx.core.widget.TextViewCompat
 import android.widget.TextView
 import okhttp3.MediaType
 import okhttp3.MultipartBody
