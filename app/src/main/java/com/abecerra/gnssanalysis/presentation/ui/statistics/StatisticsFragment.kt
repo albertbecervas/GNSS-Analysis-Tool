@@ -1,4 +1,4 @@
-package com.abecerra.gnssanalysis.presentation.ui
+package com.abecerra.gnssanalysis.presentation.ui.statistics
 
 
 import android.os.Bundle

@@ -92,5 +92,4 @@ class PvtPresenterImpl(private val gnssMeasLogger: GnssMeasLogger, private val p
 
     private fun isMeanTimePassed() = Date().time - gnssComputationData.startedComputingDate.time > 1L
 
-
 }

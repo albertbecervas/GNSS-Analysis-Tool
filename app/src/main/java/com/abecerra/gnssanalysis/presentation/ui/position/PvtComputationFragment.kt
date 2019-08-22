@@ -1,7 +1,9 @@
 package com.abecerra.gnssanalysis.presentation.ui.position
 
 
+import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,15 +46,19 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener, GnssServ
             if (isComputing()) {
                 stopComputing()
             } else {
-                onClickStartComputing()
+                startComputingIfSelectedSettings()
             }
+        }
+
+        fabOptions.setOnClickListener {
+            navigator.navigateToComputationSettingsActivity()
         }
 
         replaceFragment(R.id.mapFragmentContainer, mapFragment)
 
     }
 
-    private fun onClickStartComputing() {
+    private fun startComputingIfSelectedSettings() {
         val selectedModes = mPrefs.getSelectedModesList()
         //TODO change when selected modes returns non empty list
         if (selectedModes.isNotEmpty()) { // If no constellation or band has been selected
@@ -110,8 +116,19 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener, GnssServ
         pbMap?.visibility = View.GONE
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            SETTINGS_CODE -> {
+                if (resultCode == RESULT_OK) {
+                    startComputingIfSelectedSettings()
+                }
+            }
+        }
+    }
+
     companion object {
         private const val FRAGMENT_TAG: String = "PvtComputationFragment"
+        const val SETTINGS_CODE: Int = 0
     }
 
 }

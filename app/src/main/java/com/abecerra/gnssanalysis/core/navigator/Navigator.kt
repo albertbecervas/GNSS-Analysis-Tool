@@ -4,6 +4,8 @@ interface Navigator {
 
     fun navigateToMainActivity()
 
+    fun navigateToComputationSettingsActivity()
+
     fun sendEmail(to: String)
 
 }
