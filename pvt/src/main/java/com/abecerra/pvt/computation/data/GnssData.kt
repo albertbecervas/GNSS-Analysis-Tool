@@ -28,7 +28,6 @@ data class GnssData(
 )
 
 data class ComputationSettings(
-    var id: Int,
     val name: String = "",
     val constellations: ArrayList<Int>,
     val bands: ArrayList<Int>,

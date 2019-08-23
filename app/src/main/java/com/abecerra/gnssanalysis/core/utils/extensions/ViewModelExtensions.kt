@@ -59,6 +59,10 @@ fun <K> MutableLiveData<Data<K>>.updateData(data: K?, message: String? = null) {
     )
 }
 
+fun <K> MutableLiveData<K>.updateData(data: K) {
+    postValue(data)
+}
+
 //@Suppress("UNCHECKED_CAST")
 //fun <K> MutableLiveData<Data<K>>.updateData(data: Result<K>, message: String? = null) {
 //    postValue(

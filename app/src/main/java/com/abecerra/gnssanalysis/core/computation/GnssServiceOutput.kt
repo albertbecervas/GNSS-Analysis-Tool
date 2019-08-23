@@ -32,5 +32,9 @@ interface GnssServiceOutput {
 
         fun onPvtError(error: String)
 
+        fun onEphemerisObtained()
+
+        fun onEphemerisError()
+
     }
 }

@@ -12,25 +12,28 @@ import com.abecerra.gnssanalysis.core.utils.extensions.context
 import com.abecerra.pvt.computation.data.ComputationSettings
 import org.jetbrains.anko.toast
 
-class ModesAdapter(private val onModeSelected: () -> Unit) : RecyclerView.Adapter<ModesViewHolder>() {
+class ComputationSettingsAdapter(private val onComputationSettingsSelected: () -> Unit) :
+    RecyclerView.Adapter<ComputationSettingsViewHolder>() {
 
     private val mPrefs = AppSharedPreferences.getInstance()
-    private var modes = mPrefs.getModesList()
+    private var computationSettingsList = mPrefs.getComputationSettingsList()
 
     override fun getItemCount(): Int {
-        return modes.size
+        return computationSettingsList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModesViewHolder {
-        return ModesViewHolder(LayoutInflater.from(context).inflate(R.layout.item_mode_list, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComputationSettingsViewHolder {
+        return ComputationSettingsViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_computation_setting_list, parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: ModesViewHolder, position: Int) {
-        val mode = modes[position]
+    override fun onBindViewHolder(holder: ComputationSettingsViewHolder, position: Int) {
+        val computationSettings = computationSettingsList[position]
 
-        holder.modeName.text = mode.name
-        setDescription(holder, mode)
-        initModeSelectedState(holder, mode.isSelected)
+        holder.computationSettingsName.text = computationSettings.name
+        setDescription(holder, computationSettings)
+        initModeSelectedState(holder, computationSettings.isSelected)
 
         holder.itemView.setOnLongClickListener {
             holder.deleteButton.visibility = VISIBLE
@@ -41,58 +44,58 @@ class ModesAdapter(private val onModeSelected: () -> Unit) : RecyclerView.Adapte
             if (holder.deleteButton.visibility == VISIBLE) {
                 holder.deleteButton.visibility = GONE
             } else {
-                if (setSelected(holder, mode.isSelected)) {
-                    modes[position].isSelected = !modes[position].isSelected
-                    onModeSelected.invoke()
+                if (setSelected(holder, computationSettings.isSelected)) {
+                    computationSettingsList[position].isSelected = !computationSettingsList[position].isSelected
+                    onComputationSettingsSelected.invoke()
                 }
             }
         }
 
         holder.deleteButton.setOnClickListener {
             holder.deleteButton.visibility = GONE
-//            toast("Mode '" + modes[position].name + "' deleted")
-            mPrefs.deleteMode(mode)
-            if (mode.isSelected) {
-                onModeSelected.invoke()
+//            toast("Mode '" + computationSettingsList[position].name + "' deleted")
+            mPrefs.deleteComputationSettings(computationSettings)
+            if (computationSettings.isSelected) {
+                onComputationSettingsSelected.invoke()
             }
-            modes.removeAt(position)
+            computationSettingsList.removeAt(position)
             notifyDataSetChanged()
         }
 
     }
 
-    private fun initModeSelectedState(holder: ModesViewHolder, selected: Boolean) {
+    private fun initModeSelectedState(holder: ComputationSettingsViewHolder, selected: Boolean) {
         if (selected) {
-            holder.modeName.setTextColor(getColor(context, R.color.black))
+            holder.computationSettingsName.setTextColor(getColor(context, R.color.black))
             holder.cvMode.elevation = 16f
             holder.checkImage.visibility = VISIBLE
             holder.cvMode.setCardBackgroundColor(getColor(context, R.color.colorAccent))
         } else {
-            holder.modeName.setTextColor(getColor(context, R.color.gray))
+            holder.computationSettingsName.setTextColor(getColor(context, R.color.gray))
             holder.cvMode.elevation = 0f
             holder.cvMode.setCardBackgroundColor(getColor(context, R.color.white))
             holder.checkImage.visibility = GONE
         }
     }
 
-    private fun setSelected(holder: ModesViewHolder, selected: Boolean): Boolean {
+    private fun setSelected(holder: ComputationSettingsViewHolder, selected: Boolean): Boolean {
         val couldSelect: Boolean
 
         if (!selected) {
             val selectedModes = getSelectedItems()
 
             if (selectedModes.size < 5) {
-                holder.modeName.setTextColor(getColor(context, R.color.black))
+                holder.computationSettingsName.setTextColor(getColor(context, R.color.black))
                 holder.cvMode.elevation = 16f
                 holder.checkImage.visibility = VISIBLE
                 holder.cvMode.setCardBackgroundColor(getColor(context, R.color.colorAccent))
                 couldSelect = true
             } else {
-                holder.checkImage.context.toast("You can not select more than five modes")
+                holder.checkImage.context.toast("You can not select more than five computationSettingsList")
                 couldSelect = false
             }
         } else {
-            holder.modeName.setTextColor(getColor(context, R.color.gray))
+            holder.computationSettingsName.setTextColor(getColor(context, R.color.gray))
             holder.cvMode.elevation = 0f
             holder.cvMode.setCardBackgroundColor(getColor(context, R.color.white))
             holder.checkImage.visibility = GONE
@@ -102,7 +105,7 @@ class ModesAdapter(private val onModeSelected: () -> Unit) : RecyclerView.Adapte
         return couldSelect
     }
 
-    private fun setDescription(holder: ModesViewHolder, mode: ComputationSettings) {
+    private fun setDescription(holder: ComputationSettingsViewHolder, mode: ComputationSettings) {
         holder.constellationsDescription.text = mode.constellationsAsString()
         holder.bandsDescription.text = mode.bandsAsString()
         holder.correctionsDescription.text = mode.correctionsAsString()
@@ -110,16 +113,16 @@ class ModesAdapter(private val onModeSelected: () -> Unit) : RecyclerView.Adapte
     }
 
     fun update() {
-        modes = mPrefs.getModesList()
+        computationSettingsList = mPrefs.getComputationSettingsList()
         this.notifyDataSetChanged()
     }
 
     fun getItems(): List<ComputationSettings> {
-        return modes
+        return computationSettingsList
     }
 
     fun getSelectedItems(): List<ComputationSettings> {
-        val selectedModes = modes.filter {
+        val selectedModes = computationSettingsList.filter {
             it.isSelected
         }
 

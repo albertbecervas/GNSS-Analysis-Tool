@@ -78,6 +78,7 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
             // obtaining Ephemeris
         }, {
             setNotification()
+            pvtListeners.forEach{ it.onEphemerisObtained() }
         }, {
             //todo check loop
             startComputing(computationSettings)

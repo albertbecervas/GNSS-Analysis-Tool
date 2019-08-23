@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivity
-import com.abecerra.gnssanalysis.presentation.ui.modes.ModesActivity
+import com.abecerra.gnssanalysis.presentation.ui.modes.ComputationSettingsActivity
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationFragment.Companion.SETTINGS_CODE
 import org.jetbrains.anko.intentFor
 
@@ -18,7 +18,7 @@ class NavigatorImpl(private var context: Context) : Navigator {
 
 
     override fun navigateToComputationSettingsActivity() {
-        startActivityForResult<ModesActivity>(SETTINGS_CODE)
+        startActivityForResult<ComputationSettingsActivity>(SETTINGS_CODE)
     }
 
     override fun sendEmail(to: String) {

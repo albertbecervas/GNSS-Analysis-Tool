@@ -1,5 +1,6 @@
 package com.abecerra.gnssanalysis.presentation.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.abecerra.gnssanalysis.R
@@ -71,6 +72,10 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
 
     override fun onGnssServiceDisconnected() {
         mService?.unbindGnssEventsListener(skyPlotFragment)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 }

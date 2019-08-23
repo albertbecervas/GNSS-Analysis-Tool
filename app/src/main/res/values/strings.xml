@@ -77,7 +77,7 @@
     <string name="band_e5a">E5a</string>
     <string name="about_bottom">About</string>
     <string name="logs_bottom">Logs</string>
-    <string name="positioning_settings">Positioning Settings</string>
+    <string name="computation_settings">Computation Settings</string>
     <string name="clear_button">Clear</string>
     <string name="cnoAxisTitle">CNo [dB-Hz]</string>
     <string name="agcAxisTitle">AGC [dB]</string>
@@ -109,5 +109,18 @@
     <string name="enable_logs_description">A file with raw mesurements will be created every time you start computing if enabled.</string>
     <string name="average_time_title">Average Time:</string>
     <string name="recentre">RECENTRE</string>
+    <string name="information">information</string>
+
+    <string name="elevation_info_title">· Elevation Mask:</string>
+    <string name="elevation_info_detail">The elevation mask option stablishes a threshold from which satellites will be discarded from the Positioning algorithm.</string>
+    <string name="gnss_logs_info_title">· Enable/Disable GNSS Logs:</string>
+    <string name="gnss_logs_info_detail">If this option is enabled, a file containing raw measurements will be created every time the user starts a new computation.</string>
+    <string name="cn0_info_title">· CNO mask:</string>
+    <string name="cno_info_detail">As before, the CNO mask establishes another threshold.</string>
+    <string name="avg_info_title">· Average</string>
+    <string name="avg_info_detail">This option allows the user to enable or disable averaging and to select its duration.</string>
+    <string name="position_info_title">· Positioning modes:</string>
+    <string name="position_info_detail">Here the user can choose the constellations which will participate in the Positioning computation to compare their results if desired. The available options are GPS Least squares, Galileo Weighted least squares and Multi-constellation with Iono-Free implemented.</string>
+
 
 </resources>
