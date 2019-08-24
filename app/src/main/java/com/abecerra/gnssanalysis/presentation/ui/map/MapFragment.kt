@@ -2,10 +2,17 @@ package com.abecerra.gnssanalysis.presentation.ui.map
 
 import android.content.Context
 import android.os.Bundle
+import com.abecerra.gnssanalysis.core.computation.data.mapper.LatLngMapper
 import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences
+import com.abecerra.gnssanalysis.core.utils.getModeIcon
+import com.abecerra.pvt.computation.data.ComputedPvtData
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.ext.android.inject
 
 class MapFragment : SupportMapFragment(), OnMapReadyCallback {
@@ -15,6 +22,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
 
     private var mListener: MapListener? = null
+
+    private var isFirstMarker = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +54,39 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             }
         }
 
+    }
+
+    fun addMarkerFromPvtResponse(resp: ComputedPvtData) {
+        addMarker(LatLngMapper.map(resp.pvtFix.location), resp.computationSettings.name, resp.computationSettings.color)
+    }
+
+    private fun addMarker(latLng: LatLng, title: String, color: Int) {
+        val markerOptions = MarkerOptions()
+        markerOptions.position(latLng)
+        markerOptions.title(title)
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(getModeIcon(color)))
+        mMap?.addMarker(markerOptions)
+    }
+
+    fun updateCamera(resp: ComputedPvtData, isCameraIntercepted: Boolean) {
+        if (isFirstMarker) {
+            moveCameraWithZoom(LatLngMapper.map(resp.pvtFix.location), isCameraIntercepted)
+            isFirstMarker = false
+        } else {
+            moveCamera(LatLngMapper.map(resp.pvtFix.location), isCameraIntercepted)
+        }
+    }
+
+    private fun moveCamera(latLng: LatLng, isCameraIntercepted: Boolean) {
+        if (!isCameraIntercepted) {
+            mMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+        }
+    }
+
+    private fun moveCameraWithZoom(latLng: LatLng, isCameraIntercepted: Boolean) {
+        if (!isCameraIntercepted) {
+            mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
+        }
     }
 
     fun clearMap() {

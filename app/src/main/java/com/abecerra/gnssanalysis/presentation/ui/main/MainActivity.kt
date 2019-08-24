@@ -1,5 +1,6 @@
 package com.abecerra.gnssanalysis.presentation.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.abecerra.gnssanalysis.R
@@ -7,7 +8,7 @@ import com.abecerra.gnssanalysis.core.base.BaseGnssActivity
 import com.abecerra.gnssanalysis.core.computation.GnssService
 import com.abecerra.gnssanalysis.core.utils.CustomViewPagerAdapter
 import com.abecerra.gnssanalysis.core.utils.view.CustomAHBottomNavigationItem
-import com.abecerra.gnssanalysis.presentation.ui.StatisticsFragment
+import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationFragment
 import com.abecerra.gnssanalysis.presentation.ui.skyplot.SkyPlotFragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
@@ -18,7 +19,8 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
 
     private val pvtComputationFragment: PvtComputationFragment = PvtComputationFragment()
     private val skyPlotFragment: SkyPlotFragment = SkyPlotFragment()
-    private val statisticsFragment: StatisticsFragment = StatisticsFragment()
+    private val statisticsFragment: StatisticsFragment =
+        StatisticsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

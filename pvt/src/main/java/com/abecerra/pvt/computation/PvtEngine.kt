@@ -1,23 +1,27 @@
 package com.abecerra.pvt.computation
 
-import com.abecerra.pvt.computation.data.ComputedPvtData
-import com.abecerra.pvt.computation.data.GnssData
-import com.abecerra.pvt.computation.data.LlaLocation
-import com.abecerra.pvt.computation.data.PvtFix
+import com.abecerra.pvt.computation.data.*
 import io.reactivex.Single
 
 object PvtEngine {
 
-    fun computePosition(gnssData: GnssData): Single<ComputedPvtData> {
+    fun computePosition(gnssData: GnssData): Single<List<ComputedPvtData>> {
         return Single.create {
 
-            val filteredGnssData = MaskFiltering.filter(gnssData)
+            val computedPvtDataList = arrayListOf<ComputedPvtData>()
 
-            gnssData.computationSettings.forEach {
+//            val filteredGnssData = MaskFiltering.filter(gnssData)
 
+            gnssData.computationSettings.forEach { computationSettings ->
+                val computedPvtData = ComputedPvtData(
+                    pvtFix = PvtFix(Location(LlaLocation(47.2), EcefLocation(2.2)), 0.0),
+                    refPosition = LlaLocation(47.0, 2.0),
+                    computationSettings = computationSettings
+                )
+                computedPvtDataList.add(computedPvtData)
             }
 
-            it.onError(Throwable())
+            it.onSuccess(computedPvtDataList)
 
         }
     }

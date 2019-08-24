@@ -4,7 +4,6 @@ import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
 import com.abecerra.gnssanalysis.core.computation.EpochDataParser
 import com.abecerra.gnssanalysis.core.computation.data.GnssComputationData
-import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.computation.repository.PvtRepository
 import com.abecerra.gnssanalysis.core.logger.GnssMeasLogger
 import com.abecerra.gnssanalysis.core.utils.extensions.subscribe
@@ -78,10 +77,7 @@ class PvtPresenterImpl(private val gnssMeasLogger: GnssMeasLogger, private val p
                 .subscribe({
                     // Computing PVT
                 }, { computedPvtData ->
-                    val pvtResponse = PvtResponse(
-                        pvtFix = computedPvtData.pvtFix
-                    )
-                    mListener?.onPvtResponse(pvtResponse)
+                    mListener?.onPvtResponse(computedPvtData)
                 }, {
                     // Error computing PVT
                     mListener?.onPvtError("")
@@ -91,6 +87,5 @@ class PvtPresenterImpl(private val gnssMeasLogger: GnssMeasLogger, private val p
     }
 
     private fun isMeanTimePassed() = Date().time - gnssComputationData.startedComputingDate.time > 1L
-
 
 }

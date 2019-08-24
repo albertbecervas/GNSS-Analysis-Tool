@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.fragment.app.Fragment
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivity
+import com.abecerra.gnssanalysis.presentation.ui.modes.ComputationSettingsActivity
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationFragment.Companion.SETTINGS_CODE
 import org.jetbrains.anko.intentFor
 
 class NavigatorImpl(private var context: Context) : Navigator {
@@ -14,6 +17,13 @@ class NavigatorImpl(private var context: Context) : Navigator {
         startActivity<MainActivity>()
     }
 
+
+    override fun navigateToComputationSettingsActivity(fragment: Fragment?) {
+        fragment?.startActivityForResult(context.intentFor<ComputationSettingsActivity>(), SETTINGS_CODE)
+            ?: kotlin.run {
+                startActivityForResult<ComputationSettingsActivity>(SETTINGS_CODE)
+            }
+    }
 
     override fun sendEmail(to: String) {
         with(context) {
@@ -27,6 +37,10 @@ class NavigatorImpl(private var context: Context) : Navigator {
         with(context) {
             startActivity(intentFor<T>())
         }
+    }
+
+    private inline fun <reified T : Activity> startActivityForResult(resultCode: Int) {
+        (context as? Activity)?.startActivityForResult(context.intentFor<T>(), resultCode)
     }
 
 }

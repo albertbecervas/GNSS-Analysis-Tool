@@ -2,8 +2,8 @@ package com.abecerra.gnssanalysis.core.computation.presenter
 
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
-import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.pvt.computation.data.ComputationSettings
+import com.abecerra.pvt.computation.data.ComputedPvtData
 import io.reactivex.Single
 
 interface PvtServiceContract {
@@ -20,7 +20,7 @@ interface PvtServiceContract {
     }
 
     interface PvtPresenterOutput {
-        fun onPvtResponse(pvtResponse: PvtResponse)
+        fun onPvtResponse(pvtResponse: List<ComputedPvtData>)
         fun onPvtError(error: String)
     }
 }

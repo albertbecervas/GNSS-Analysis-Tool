@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/information"
+        android:title="@string/information"
+        android:icon="@drawable/ic_info_white"
+        android:iconTintMode="src_in"
+        app:showAsAction="always"
+        />
+
+    <item android:id="@+id/reset"
+        android:title="@string/reset_default_modes"/>
+</menu>
