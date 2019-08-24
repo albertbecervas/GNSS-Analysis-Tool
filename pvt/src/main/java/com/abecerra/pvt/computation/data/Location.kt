@@ -20,4 +20,6 @@ data class EcefLocation(
 data class PvtFix(
     var location: Location,
     var time: Double
-)
+) {
+    fun getLlaLocation(): LlaLocation = location.llaLocation
+}

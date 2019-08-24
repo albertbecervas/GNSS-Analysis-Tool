@@ -4,7 +4,7 @@ import android.hardware.SensorEvent
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
 import android.location.Location
-import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
+import com.abecerra.pvt.computation.data.ComputedPvtData
 
 interface GnssServiceOutput {
 
@@ -28,7 +28,7 @@ interface GnssServiceOutput {
 
     interface PvtListener {
 
-        fun onPvtResponse(pvtResponse: PvtResponse)
+        fun onPvtResponse(pvtResponse: List<ComputedPvtData>)
 
         fun onPvtError(error: String)
 

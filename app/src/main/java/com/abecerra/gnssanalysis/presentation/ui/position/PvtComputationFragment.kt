@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseFragment
 import com.abecerra.gnssanalysis.core.utils.extensions.Data
+import com.abecerra.gnssanalysis.core.utils.extensions.DataState.*
 import com.abecerra.gnssanalysis.core.utils.extensions.observe
 import com.abecerra.gnssanalysis.core.utils.extensions.showSelectedComputationSettingsAlert
 import com.abecerra.gnssanalysis.core.utils.extensions.showStopAlert
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivityInput
 import com.abecerra.gnssanalysis.presentation.ui.map.MapFragment
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.*
+import com.abecerra.pvt.computation.data.ComputedPvtData
 import kotlinx.android.synthetic.main.fragment_position.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -34,6 +36,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with(viewModel) {
+            observe(pvt, ::updatePvt)
             observe(computeButtonText, ::updateComputationButtonText)
             observe(status, ::updateStatus)
         }
@@ -62,7 +65,12 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
         }
 
         fabOptions.setOnClickListener {
-            navigator.navigateToComputationSettingsActivity()
+            navigator.navigateToComputationSettingsActivity(this)
+        }
+
+        btRecenter.setOnClickListener {
+            viewModel.setIsCameraIntercepted(false)
+            btRecenter.visibility = View.GONE
         }
 
         ivLegendArrow.setOnClickListener {
@@ -93,6 +101,20 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
         }
     }
 
+    private fun updatePvt(data: Data<List<ComputedPvtData>>?) {
+        data?.let {
+            when (it.dataState) {
+                LOADING -> {
+                }
+                SUCCESS -> {
+                    addPvtToMap(it)
+                }
+                ERROR -> {
+                }
+            }
+        }
+    }
+
     private fun updateComputationButtonText(text: Data<String>?) {
         btComputeAction.text = text?.data ?: getString(R.string.start_computing)
     }
@@ -110,7 +132,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
                 }
                 NONE_PARAM_SELECTED -> {
                     context?.showSelectedComputationSettingsAlert {
-                        navigator.navigateToComputationSettingsActivity()
+                        navigator.navigateToComputationSettingsActivity(this)
                     }
                 }
             }
@@ -137,6 +159,13 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
         }
     }
 
+    private fun addPvtToMap(it: Data<List<ComputedPvtData>>) {
+        it.data?.let { pos ->
+            pos.forEach { resp -> mapFragment.addMarkerFromPvtResponse(resp) }
+            if (pos.isNotEmpty()) mapFragment.updateCamera(pos[0], viewModel.isCameraIntercepted())
+        }
+    }
+
     private fun showMapLoading() {
         pbMap?.visibility = View.VISIBLE
         mapFragment.clearMap()
@@ -147,10 +176,13 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
     }
 
     override fun onMapGesture() {
+        if (btComputeAction.text == getString(R.string.stop_computing)) {
+            viewModel.setIsCameraIntercepted(true)
+            btRecenter.visibility = View.VISIBLE
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             SETTINGS_CODE -> {
                 if (resultCode == RESULT_OK) {

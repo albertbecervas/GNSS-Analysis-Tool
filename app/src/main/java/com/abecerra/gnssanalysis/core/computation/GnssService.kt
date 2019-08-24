@@ -6,11 +6,11 @@ import android.hardware.SensorEventListener
 import android.location.*
 import android.os.Bundle
 import com.abecerra.gnssanalysis.core.base.BaseGnssService
-import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.computation.presenter.PvtServiceContract
 import com.abecerra.gnssanalysis.core.utils.extensions.checkPermission
 import com.abecerra.gnssanalysis.core.utils.extensions.subscribe
 import com.abecerra.pvt.computation.data.ComputationSettings
+import com.abecerra.pvt.computation.data.ComputedPvtData
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.android.ext.android.inject
 
@@ -78,7 +78,7 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
             // obtaining Ephemeris
         }, {
             setNotification()
-            pvtListeners.forEach{ it.onEphemerisObtained() }
+            pvtListeners.forEach { it.onEphemerisObtained() }
         }, {
             //todo check loop
             startComputing(computationSettings)
@@ -90,7 +90,7 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
         stopForeground(true)
     }
 
-    override fun onPvtResponse(pvtResponse: PvtResponse) {
+    override fun onPvtResponse(pvtResponse: List<ComputedPvtData>) {
         pvtListeners.forEach { it.onPvtResponse(pvtResponse) }
     }
 

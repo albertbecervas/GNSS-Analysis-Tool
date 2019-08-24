@@ -29,11 +29,11 @@ data class GnssData(
 
 data class ComputationSettings(
     val name: String = "",
-    val constellations: ArrayList<Int>,
-    val bands: ArrayList<Int>,
-    val corrections: ArrayList<Int>,
-    val algorithm: Int,
-    var isSelected: Boolean,
+    val constellations: ArrayList<Int> = arrayListOf(),
+    val bands: ArrayList<Int> = arrayListOf(),
+    val corrections: ArrayList<Int> = arrayListOf(),
+    val algorithm: Int = -1,
+    var isSelected: Boolean = false,
     var color: Int = -1
 ) {
     /**

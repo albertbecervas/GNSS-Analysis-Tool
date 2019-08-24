@@ -4,18 +4,21 @@ import androidx.lifecycle.MutableLiveData
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseViewModel
 import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
-import com.abecerra.gnssanalysis.core.computation.data.PvtResponse
 import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences
-import com.abecerra.gnssanalysis.core.utils.SingleLiveEvent
 import com.abecerra.gnssanalysis.core.utils.context
 import com.abecerra.gnssanalysis.core.utils.extensions.Data
+import com.abecerra.gnssanalysis.core.utils.extensions.showError
 import com.abecerra.gnssanalysis.core.utils.extensions.updateData
-import timber.log.Timber
+import com.abecerra.pvt.computation.data.ComputedPvtData
 
 class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
 
     val computeButtonText = MutableLiveData<Data<String>>()
-    val status = SingleLiveEvent<Status>()
+    val status = MutableLiveData<Status>()
+
+    val pvt = MutableLiveData<Data<List<ComputedPvtData>>>()
+
+    private var isCameraIntercepted = false
 
     fun startComputingIfSelectedSettings() {
         if (AppSharedPreferences.getInstance().getSelectedComputationSettingsList().isEmpty()) {
@@ -26,29 +29,32 @@ class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
         }
     }
 
-    private fun startComputing() {
-        notifyStatusChanged(Status.STARTED_COMPUTING)
-        computeButtonText.updateData(context.getString(R.string.stop_computing))
-    }
-
     fun stopComputing() {
         computeButtonText.updateData(context.getString(R.string.start_computing))
     }
 
     fun isComputing(): Boolean = computeButtonText.value?.data == context.getString(R.string.stop_computing)
 
-    private fun notifyStatusChanged(newStatus: Status) {
-        status.value = newStatus
-        status.call()
+    private fun startComputing() {
+        notifyStatusChanged(Status.STARTED_COMPUTING)
+        computeButtonText.updateData(context.getString(R.string.stop_computing))
     }
 
+    private fun notifyStatusChanged(newStatus: Status) {
+        status.postValue(newStatus)
+    }
 
-    override fun onPvtResponse(pvtResponse: PvtResponse) {
-        Timber.d("$PVT_COMPUTATION_TAG :::: pvtResponse received")
+    fun isCameraIntercepted(): Boolean = isCameraIntercepted
+    fun setIsCameraIntercepted(intercepted: Boolean) {
+        isCameraIntercepted = intercepted
+    }
+
+    override fun onPvtResponse(pvtResponse: List<ComputedPvtData>) {
+        pvt.updateData(pvtResponse)
     }
 
     override fun onPvtError(error: String) {
-        Timber.d("$PVT_COMPUTATION_TAG :::: pvtResponse error")
+        pvt.showError("Could not obtain position")
     }
 
     override fun onEphemerisObtained() {
@@ -67,10 +73,6 @@ class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
         ERROR_EPH,
         ERROR_COMPUTING,
         NONE_PARAM_SELECTED
-    }
-
-    companion object {
-        const val PVT_COMPUTATION_TAG = "pvt_computation"
     }
 
 }
