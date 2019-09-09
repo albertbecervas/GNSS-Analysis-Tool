@@ -46,7 +46,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
         return inflater.inflate(R.layout.fragment_position, container, false)
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mActivityListener = context as? MainActivityInput
     }

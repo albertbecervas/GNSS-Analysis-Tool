@@ -30,7 +30,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         getMapAsync(this)
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mListener = context as? MapListener
     }

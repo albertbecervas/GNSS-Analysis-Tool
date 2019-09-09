@@ -9,8 +9,7 @@ import android.os.Binder
 import android.os.IBinder
 import com.abecerra.gnssanalysis.core.computation.GnssService
 import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
-import com.abecerra.gnssanalysis.core.utils.NotificationBuilder.buildNotification
-import com.abecerra.gnssanalysis.core.utils.extensions.context
+import com.abecerra.gnssanalysis.core.utils.NotificationBuilder.buildGnssNotification
 
 abstract class BaseGnssService : Service() {
 
@@ -59,8 +58,7 @@ abstract class BaseGnssService : Service() {
     }
 
     protected fun setNotification() {
-        val notification = context.buildNotification()
-        startForeground(1, notification)
+        startForeground(1, buildGnssNotification())
     }
 
     inner class PvtServiceBinder : Binder() {

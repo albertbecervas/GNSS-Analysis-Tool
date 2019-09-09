@@ -1,6 +1,5 @@
 package com.abecerra.gnssanalysis.presentation.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.abecerra.gnssanalysis.R
@@ -8,12 +7,11 @@ import com.abecerra.gnssanalysis.core.base.BaseGnssActivity
 import com.abecerra.gnssanalysis.core.computation.GnssService
 import com.abecerra.gnssanalysis.core.utils.CustomViewPagerAdapter
 import com.abecerra.gnssanalysis.core.utils.view.CustomAHBottomNavigationItem
-import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationFragment
 import com.abecerra.gnssanalysis.presentation.ui.skyplot.SkyPlotFragment
+import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : BaseGnssActivity(), MainActivityInput {
 
