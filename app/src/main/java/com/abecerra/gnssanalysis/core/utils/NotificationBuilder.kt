@@ -13,11 +13,13 @@ import androidx.core.app.NotificationManagerCompat
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivity
 
+
+
 object NotificationBuilder {
 
     private const val NOTIFICATION_CHANNEL_ID = ".core.services.GnssService.NOTIFICATION_ID"
 
-    var notificationManager: NotificationManager? = null
+    private var notificationManager: NotificationManager? = null
 
     fun Context.buildGnssNotification(): Notification {
 

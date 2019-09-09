@@ -13,7 +13,6 @@ import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : BaseGnssActivity(), MainActivityInput {
 
     private val pvtComputationFragment: PvtComputationFragment = PvtComputationFragment()
