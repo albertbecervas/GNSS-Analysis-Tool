@@ -9,15 +9,17 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivity
 
 object NotificationBuilder {
 
     private const val NOTIFICATION_CHANNEL_ID = ".core.services.GnssService.NOTIFICATION_ID"
 
-    private var notificationManager: NotificationManager? = null
+    var notificationManager: NotificationManager? = null
 
-    fun Context.buildNotification(): Notification {
+    fun Context.buildGnssNotification(): Notification {
 
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -37,24 +39,14 @@ object NotificationBuilder {
         val builder = NotificationCompat
             .Builder(this, NOTIFICATION_CHANNEL_ID)
             .setOngoing(true)
+            .setContentTitle(getString(R.string.app_name))
+            .setContentText("Computing PVT...")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setPriority(NotificationManagerCompat.IMPORTANCE_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(false)
 
-        builder.priority = NotificationManager.IMPORTANCE_HIGH
-
-
-        val notification = builder.build()
-
-        notification.contentIntent =
-            PendingIntent.getActivity(
-                this,
-                0,
-                Intent(this, MainActivity::class.java),
-                0
-            )
-
-        return notification
-
+        return builder.build()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
