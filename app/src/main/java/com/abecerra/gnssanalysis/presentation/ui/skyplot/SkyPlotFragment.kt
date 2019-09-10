@@ -181,7 +181,7 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
     }
 
     override fun onSensorEvent(event: SensorEvent) {
-        Timber.d("$FRAGMENT_TAG :::: onSatelliteStatusChanged")
+        Timber.d("$FRAGMENT_TAG :::: onSensorEvent")
         val sensorData = activity?.getSensorData(event)
         sensorData?.let {
             skyplot.onOrientationChanged(it.orientation, it.tilt)

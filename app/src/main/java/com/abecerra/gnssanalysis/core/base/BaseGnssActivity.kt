@@ -39,12 +39,10 @@ abstract class BaseGnssActivity : BaseActivity() {
 
     private fun startGnssService() {
         val intent = Intent(this, GnssService::class.java)
-        ContextCompat.startForegroundService(this, intent)
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
     }
 
     private fun stopGnssService() {
-        stopService(Intent(this, GnssService::class.java))
         mService?.let {
             unbindService(mConnection)
         }

@@ -17,8 +17,7 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
 
     private val pvtComputationFragment: PvtComputationFragment = PvtComputationFragment()
     private val skyPlotFragment: SkyPlotFragment = SkyPlotFragment()
-    private val statisticsFragment: StatisticsFragment =
-        StatisticsFragment()
+    private val statisticsFragment: StatisticsFragment = StatisticsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +65,12 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
 
     override fun onGnssServiceConnected(service: GnssService) {
         mService?.bindGnssEventsListener(skyPlotFragment)
+        mService?.bindGnssEventsListener(statisticsFragment)
     }
 
     override fun onGnssServiceDisconnected() {
         mService?.unbindGnssEventsListener(skyPlotFragment)
+        mService?.unbindGnssEventsListener(statisticsFragment)
     }
 
 }
