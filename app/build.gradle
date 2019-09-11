@@ -19,20 +19,72 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
-    buildTypes {
+
+    signingConfigs {
+        def keystorePropertiesFile = rootProject.file("keystore/keystore.properties")
+        def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+        debug {
+            storeFile file(keystoreProperties['debugStoreFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['debugKeyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
         release {
+            storeFile file(keystoreProperties['releaseStoreFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['releaseKeyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+        production {
+            storeFile file(keystoreProperties['productionStoreFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['productionKeyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
+            debuggable true
+        }
+        release {
+            applicationIdSuffix ".release"
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        production {
+            applicationIdSuffix ""
+            signingConfig signingConfigs.production
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-
 }
+
+configurations {
+    ktlint
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+    // args "--reporter=checkstyle, output=${buildDir}/ktlint.xml
+}
+
+preBuild.dependsOn ktlint
 
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
@@ -41,6 +93,7 @@ dependencies {
     implementation 'org.jetbrains.anko:anko-commons:0.10.6'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+    ktlint "com.github.shyiko:ktlint:0.15.0"
 
     // Android
     implementation 'androidx.appcompat:appcompat:1.1.0'

@@ -1,6 +1,5 @@
 package com.abecerra.gnssanalysis.core.base
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import com.abecerra.gnssanalysis.core.navigator.Navigator
 import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences

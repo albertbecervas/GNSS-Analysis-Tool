@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.IBinder
 import com.abecerra.gnssanalysis.core.computation.GnssService
 
-
 abstract class BaseGnssFragment : BaseFragment() {
 
     protected var mService: GnssService? = null

@@ -2,7 +2,7 @@ package com.abecerra.gnssanalysis.core.base
 
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<K : androidx.recyclerview.widget.RecyclerView.ViewHolder, L> : androidx.recyclerview.widget.RecyclerView.Adapter<K>() {
+abstract class BaseAdapter<K : RecyclerView.ViewHolder, L> : RecyclerView.Adapter<K>() {
 
     private val mItems: ArrayList<L> = arrayListOf()
 
@@ -62,5 +62,4 @@ abstract class BaseAdapter<K : androidx.recyclerview.widget.RecyclerView.ViewHol
         mItems.addAll(newList)
         notifyDataSetChanged()
     }
-
 }
