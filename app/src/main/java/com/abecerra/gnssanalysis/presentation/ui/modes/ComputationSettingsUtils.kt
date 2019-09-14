@@ -55,7 +55,6 @@ fun addDefaultComputationSettings(): List<ComputationSettings> {
     )
 
     return arrayListOf(mode, mode2, mode3, mode4, mode5)
-
 }
 
 fun setComputationSettingsSelectedParams(layout: View?, dialog: AlertDialog, context: Context): ComputationSettings? {
@@ -74,10 +73,10 @@ fun setComputationSettingsSelectedParams(layout: View?, dialog: AlertDialog, con
         if (it.isEnabled && it.rbL5.isChecked) bands.add(PositionParameters.BAND_L5)
         if (it.isEnabled && it.rbE1.isChecked) bands.add(PositionParameters.BAND_E1)
         if (it.isEnabled && it.rbE5a.isChecked) bands.add(PositionParameters.BAND_E5A)
-        if (it.correctionsOption1.isChecked) corrections.add(PositionParameters.CORR_IONOSPHERE)  // set selected corrections
+        if (it.correctionsOption1.isChecked) corrections.add(PositionParameters.CORR_IONOSPHERE) // set selected corrections
         if (it.correctionsOption2.isChecked) corrections.add(PositionParameters.CORR_TROPOSPHERE)
         if (it.correctionsOption3.isChecked) corrections.add(PositionParameters.CORR_IONOFREE)
-        if (it.algorithm1.isChecked) algorithm = PositionParameters.ALG_LS  // set selected algorithm
+        if (it.algorithm1.isChecked) algorithm = PositionParameters.ALG_LS // set selected algorithm
         if (it.algorithm2.isChecked) algorithm = PositionParameters.ALG_WLS
     }
     val modesList = AppSharedPreferences.getInstance().getComputationSettingsList()
@@ -86,7 +85,6 @@ fun setComputationSettingsSelectedParams(layout: View?, dialog: AlertDialog, con
     } else {
         null
     }
-
 }
 
 fun modeCanBeAdded(
@@ -113,7 +111,7 @@ fun modeCanBeAdded(
             } else { //if name already exists
                 toast("This name already exists")
             }
-        } else {//if name is blank
+        } else { //if name is blank
             toast("Name can not be blank")
         }
     }

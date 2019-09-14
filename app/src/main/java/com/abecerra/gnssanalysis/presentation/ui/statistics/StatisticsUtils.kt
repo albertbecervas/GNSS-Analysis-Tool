@@ -10,7 +10,6 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.google.android.gms.maps.model.LatLng
 
-
 const val BAND1_DOWN_THRES = 1575000000
 const val BAND1_UP_THRES = 1576000000
 const val BAND5_DOWN_THRES = 1176000000
@@ -38,7 +37,6 @@ fun createScatterChart(
         chart.axisLeft.axisMinimum = yMin
         chart.axisLeft.axisMaximum = yMax
         chart.axisRight.isEnabled = false
-
 
         val chartLP = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -81,8 +79,8 @@ fun setAgcCNoThreshold(
 ): AgcCNoThreshold {
     val agcCNoThreshold = AgcCNoThreshold()
     // Build points of threshold equation (y=mx+n)
-    repeat(1000){x ->
-        agcCNoThreshold.threshold.add(Entry(1.0f * (x-100), m * (x-100) + n ))
+    repeat(1000) { x ->
+        agcCNoThreshold.threshold.add(Entry(1.0f * (x - 100), m * (x - 100) + n))
     }
 
     // Take nominal points as points above the threshold
@@ -101,7 +99,7 @@ fun isSelectedBand(selectedBand: Int, carrierFrequencyHz: Float): Boolean {
     var isSelected = false
     when (selectedBand) {
         L1_E1 -> {
-            if ((carrierFrequencyHz > BAND1_DOWN_THRES &&  // If carrierFrequencyHz inside L1_E1 band
+            if ((carrierFrequencyHz > BAND1_DOWN_THRES && // If carrierFrequencyHz inside L1_E1 band
                         carrierFrequencyHz < BAND1_UP_THRES) ||
                 (carrierFrequencyHz == 0.0f)
             ) {
@@ -109,7 +107,7 @@ fun isSelectedBand(selectedBand: Int, carrierFrequencyHz: Float): Boolean {
             }
         }
         L5_E5 -> {
-            if (carrierFrequencyHz > BAND5_DOWN_THRES &&   // If carrierFrequencyHz inside L5_E5 band
+            if (carrierFrequencyHz > BAND5_DOWN_THRES && // If carrierFrequencyHz inside L5_E5 band
                 carrierFrequencyHz < BAND5_UP_THRES
             ) {
                 isSelected = true
@@ -150,4 +148,3 @@ fun computeErrorNE(refPos: LatLng, refAlt: Float, compPos: LatLng): DoubleArray 
 
     return doubleArrayOf(deltaN, deltaE)
 }
-

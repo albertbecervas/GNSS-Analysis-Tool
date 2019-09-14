@@ -40,17 +40,16 @@ class ComputationSettingsActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.reset -> {
                     mPrefs.saveComputationSettingsList(addDefaultComputationSettings())
                     setSelectedModes()
                     mAdapter?.update()
                 }
-                R.id.information->{
+                R.id.information -> {
                     showInfoDialog()
                 }
-                else ->{
-
+                else -> {
                 }
             }
         }
@@ -143,7 +142,6 @@ class ComputationSettingsActivity : BaseActivity() {
                 avg = progress
                 val avgProgressText = "$progress s"
                 tvAvgValue.text = avgProgressText
-
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -151,7 +149,6 @@ class ComputationSettingsActivity : BaseActivity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
-
         })
 
         seekBarMask.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -166,7 +163,6 @@ class ComputationSettingsActivity : BaseActivity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
-
         })
 
         seekBarCno.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -181,7 +177,6 @@ class ComputationSettingsActivity : BaseActivity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
-
         })
     }
 
@@ -218,7 +213,6 @@ class ComputationSettingsActivity : BaseActivity() {
             dialog.dismiss()
             mAdapter?.update()
         }
-
     }
 
     override fun onBackPressed() {

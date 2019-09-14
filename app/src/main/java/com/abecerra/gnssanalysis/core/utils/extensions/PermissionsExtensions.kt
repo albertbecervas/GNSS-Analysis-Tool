@@ -5,12 +5,9 @@ import android.app.Activity
 import android.app.Service
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 
-
 const val REQUEST_LOCATION_PERMISSION = 99
-
 const val PERMISSION_ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
 const val PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
 const val PERMISSION_WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -34,6 +31,5 @@ fun Activity.requestPermissionss(permissions: Array<String>, code: Int) {
     ActivityCompat.requestPermissions(this, permissions, code)
 }
 
-
-fun Service.requestPermissions(permissions: Array<String>, code: Int){
+fun Service.requestPermissions(permissions: Array<String>, code: Int) {
 }

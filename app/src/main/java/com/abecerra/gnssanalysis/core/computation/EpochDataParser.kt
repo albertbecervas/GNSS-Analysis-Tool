@@ -6,7 +6,11 @@ import android.location.GnssMeasurement
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
 import android.os.Build
-import com.abecerra.pvt.computation.data.*
+import com.abecerra.pvt.computation.data.Epoch
+import com.abecerra.pvt.computation.data.GAL_E1C
+import com.abecerra.pvt.computation.data.SatelliteMeasurements
+import com.abecerra.pvt.computation.data.UNCERTAINTY_THR
+import com.abecerra.pvt.computation.data.WEEK_NANOS
 import com.abecerra.pvt.computation.utils.Constants
 import com.abecerra.pvt.computation.utils.Constants.L1_FREQ
 import com.abecerra.pvt.suplclient.ephemeris.EphemerisResponse
@@ -58,7 +62,6 @@ object EpochDataParser {
         }
 
         return measurement
-
     }
 
     private fun GnssClock.getBiasNanosOrZero(): Double = if (hasBiasNanos()) biasNanos else 0.0
@@ -67,7 +70,6 @@ object EpochDataParser {
         return if (!hasMultiPathOrUncertainty(this)) {
             buildSatellite(this, timeNanosGnss, state)
         } else null
-
     }
 
     private fun hasMultiPathOrUncertainty(gnssMeasurement: GnssMeasurement): Boolean {
@@ -131,5 +133,4 @@ object EpochDataParser {
     }
 
     private fun getPseudoRange(tTx: Double, tRx: Double): Double = ((tRx - tTx) / 1e9) * Constants.C
-
 }

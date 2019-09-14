@@ -25,7 +25,6 @@ class LegendAdapter : BaseAdapter<LegendAdapter.LegendViewHolder, ComputationSet
         return LegendViewHolder(inflate(R.layout.item_legend, p0))
     }
 
-
     class LegendViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val color: CardView = view.cvColor

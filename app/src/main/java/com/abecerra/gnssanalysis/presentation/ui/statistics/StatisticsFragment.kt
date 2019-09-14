@@ -1,6 +1,5 @@
 package com.abecerra.gnssanalysis.presentation.ui.statistics
 
-
 import android.graphics.Color
 import android.hardware.SensorEvent
 import android.location.GnssMeasurement
@@ -93,7 +92,6 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
             }
             ivGraphInformation.rotation = ivGraphInformation.rotation + 180
         }
-
     }
 
     fun setGraph() {
@@ -218,7 +216,6 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
                 }
             } // If has stopped, do nothing
         }
-
     }
 
     private fun plotElevCNoGraph(status: GnssStatus) {
@@ -266,7 +263,6 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
                     chart.data = scatterData
                     // Update chart view
                     chart.invalidate()
-
                 } // If user has stopped, do nothing
             }
         }
@@ -299,7 +295,6 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
 
     override fun onLocationReceived(location: Location) {
     }
-
 
     companion object {
         const val L1_E1_text = "L1/E1"
@@ -338,8 +333,5 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
         const val AGC_CNO_M = -0.1f
         const val AGC_CNO_N_L1 = 45f
         const val AGC_CNO_N_L5 = 6f
-
     }
-
-
 }

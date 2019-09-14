@@ -24,7 +24,6 @@ class AppSharedPreferences {
         const val SELECTED_GRAPH_TYPE = "selected_graph_type"
         const val GNSS_LOGGING_ENABLED = "gnss_logging_enabled"
 
-
         private var INSTANCE: AppSharedPreferences? = null
 
         fun getInstance(): AppSharedPreferences {
@@ -53,14 +52,12 @@ class AppSharedPreferences {
             .apply()
     }
 
-
     fun isGnssLoggingEnabled() = mPrefs.getBoolean(GNSS_LOGGING_ENABLED, false)
     fun setGnssLoggingEnabled(enabled: Boolean) {
         mPrefs.edit()
             .putBoolean(GNSS_LOGGING_ENABLED, enabled)
             .apply()
     }
-
 
     fun getComputationSettingsList(): ArrayList<ComputationSettings> {
         val gson = Gson()
@@ -115,7 +112,6 @@ class AppSharedPreferences {
 
         return modesList
     }
-
 
     fun isAverageEnabled(): Boolean = mPrefs.getBoolean(AVG_ENABLED, true)
     fun setAverageEnabled(enabled: Boolean) {

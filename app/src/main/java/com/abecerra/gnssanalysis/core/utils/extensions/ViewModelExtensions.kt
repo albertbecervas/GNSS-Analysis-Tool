@@ -30,7 +30,6 @@ fun <T> Single<T>.subscribe(
         }, {
             error.invoke(it)
         }).addToCompositeDisposable(compositeDisposable)
-
 }
 
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) {
@@ -73,4 +72,3 @@ fun <K> MutableLiveData<K>.updateData(data: K) {
 //        )
 //    )
 //}
-

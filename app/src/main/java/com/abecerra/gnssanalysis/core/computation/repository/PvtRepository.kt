@@ -5,5 +5,4 @@ import java.io.File
 interface PvtRepository {
 
     fun uploadNmeaFile(file: File)
-
 }

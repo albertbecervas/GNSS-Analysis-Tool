@@ -9,5 +9,4 @@ object PresenterModule {
     fun get() = module {
         single<PvtServiceContract.PvtPresenter> { PvtPresenterImpl(get(), get()) }
     }
-
 }

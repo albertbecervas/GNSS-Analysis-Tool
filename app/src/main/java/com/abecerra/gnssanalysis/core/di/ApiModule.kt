@@ -49,9 +49,4 @@ object ApiModule {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
-
-
-//    private fun provideSubscriptionsDataService(retrofit: Retrofit): SubscriptionsDataService =
-//        retrofit.create(SubscriptionsDataService::class.java)
-
 }

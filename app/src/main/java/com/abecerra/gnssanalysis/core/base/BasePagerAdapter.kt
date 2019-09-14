@@ -51,5 +51,4 @@ abstract class BasePagerAdapter<K>(@LayoutRes val layout: Int) : PagerAdapter() 
         mItems.clear()
         notifyDataSetChanged()
     }
-
 }

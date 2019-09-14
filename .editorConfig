@@ -1,4 +1,5 @@
 root=true
 [*.{kt,kts}]
-insert_final_newline= true
-disabled_rules=no-wildcard-imports, rule-empty-line-before
+insert_final_newline = true
+no-wildcard-imports = true
+rule-empty-line-before = false

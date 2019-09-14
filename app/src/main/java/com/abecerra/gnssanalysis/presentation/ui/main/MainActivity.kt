@@ -72,5 +72,4 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
         mService?.unbindGnssEventsListener(skyPlotFragment)
         mService?.unbindGnssEventsListener(statisticsFragment)
     }
-
 }

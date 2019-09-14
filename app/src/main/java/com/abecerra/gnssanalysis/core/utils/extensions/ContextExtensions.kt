@@ -6,10 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import android.view.*
-import android.widget.Toast
 import com.abecerra.gnssanalysis.core.App
 import com.abecerra.gnssanalysis.core.base.BaseActivity
 

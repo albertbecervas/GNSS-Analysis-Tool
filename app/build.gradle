@@ -47,18 +47,15 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
             debuggable true
         }
         release {
-            applicationIdSuffix ".release"
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         production {
-            applicationIdSuffix ""
             signingConfig signingConfigs.production
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -78,7 +75,7 @@ task ktlint(type: JavaExec, group: "verification") {
     // args "--reporter=checkstyle, output=${buildDir}/ktlint.xml
 }
 
-preBuild.dependsOn ktlint
+//preBuild.dependsOn ktlint
 
 dependencies {
 

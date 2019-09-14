@@ -20,11 +20,9 @@ class PvtRepositoryImpl : PvtRepository {
         }.addOnFailureListener {
             Timber.d("error")
         }
-
     }
 
     companion object {
         const val NMEA_REF = "nmea/"
     }
-
 }

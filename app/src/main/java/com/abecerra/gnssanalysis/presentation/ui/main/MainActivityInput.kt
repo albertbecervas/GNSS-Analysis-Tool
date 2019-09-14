@@ -14,5 +14,4 @@ interface MainActivityInput {
      * @return GnssService nullable instance
      */
     fun getGnssService(): GnssService?
-
 }

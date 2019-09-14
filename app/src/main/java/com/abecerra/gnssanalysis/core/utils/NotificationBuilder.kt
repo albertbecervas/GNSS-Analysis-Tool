@@ -13,8 +13,6 @@ import androidx.core.app.NotificationManagerCompat
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivity
 
-
-
 object NotificationBuilder {
 
     private const val NOTIFICATION_CHANNEL_ID = ".core.services.GnssService.NOTIFICATION_ID"
@@ -61,7 +59,5 @@ object NotificationBuilder {
         notificationChannel.enableLights(false)
         notificationChannel.enableVibration(false)
         notificationManager?.createNotificationChannel(notificationChannel)
-
     }
-
 }

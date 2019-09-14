@@ -9,5 +9,4 @@ object RepositoryModule {
     fun get() = module {
         single<PvtRepository> { PvtRepositoryImpl() }
     }
-
 }

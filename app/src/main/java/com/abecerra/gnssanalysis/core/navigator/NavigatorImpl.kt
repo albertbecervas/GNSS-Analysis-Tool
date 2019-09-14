@@ -12,11 +12,9 @@ import org.jetbrains.anko.intentFor
 
 class NavigatorImpl(private var context: Context) : Navigator {
 
-
     override fun navigateToMainActivity() {
         startActivity<MainActivity>()
     }
-
 
     override fun navigateToComputationSettingsActivity(fragment: Fragment?) {
         fragment?.startActivityForResult(context.intentFor<ComputationSettingsActivity>(), SETTINGS_CODE)
@@ -42,5 +40,4 @@ class NavigatorImpl(private var context: Context) : Navigator {
     private inline fun <reified T : Activity> startActivityForResult(resultCode: Int) {
         (context as? Activity)?.startActivityForResult(context.intentFor<T>(), resultCode)
     }
-
 }

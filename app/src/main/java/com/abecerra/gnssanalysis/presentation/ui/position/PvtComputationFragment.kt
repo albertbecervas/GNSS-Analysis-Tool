@@ -1,6 +1,5 @@
 package com.abecerra.gnssanalysis.presentation.ui.position
 
-
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
@@ -12,15 +11,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseFragment
 import com.abecerra.gnssanalysis.core.utils.extensions.Data
-import com.abecerra.gnssanalysis.core.utils.extensions.DataState.*
+import com.abecerra.gnssanalysis.core.utils.extensions.DataState.ERROR
+import com.abecerra.gnssanalysis.core.utils.extensions.DataState.LOADING
+import com.abecerra.gnssanalysis.core.utils.extensions.DataState.SUCCESS
 import com.abecerra.gnssanalysis.core.utils.extensions.observe
 import com.abecerra.gnssanalysis.core.utils.extensions.showSelectedComputationSettingsAlert
 import com.abecerra.gnssanalysis.core.utils.extensions.showStopAlert
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivityInput
 import com.abecerra.gnssanalysis.presentation.ui.map.MapFragment
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.*
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.ERROR_COMPUTING
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.ERROR_EPH
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.HIDE_LOADING
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.NONE_PARAM_SELECTED
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.SHOW_LOADING
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.STARTED_COMPUTING
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.STOPPED_COMPUTING
 import com.abecerra.pvt.computation.data.ComputedPvtData
-import kotlinx.android.synthetic.main.fragment_position.*
+import kotlinx.android.synthetic.main.fragment_position.btComputeAction
+import kotlinx.android.synthetic.main.fragment_position.btRecenter
+import kotlinx.android.synthetic.main.fragment_position.clLegend
+import kotlinx.android.synthetic.main.fragment_position.cvLegend
+import kotlinx.android.synthetic.main.fragment_position.cvLegendArrow
+import kotlinx.android.synthetic.main.fragment_position.fabOptions
+import kotlinx.android.synthetic.main.fragment_position.ivLegendArrow
+import kotlinx.android.synthetic.main.fragment_position.pbMap
+import kotlinx.android.synthetic.main.fragment_position.rvLegend
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
@@ -80,7 +95,6 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
 
         rvLegend.layoutManager = LinearLayoutManager(context)
         rvLegend.adapter = legendAdapter
-
     }
 
     override fun onResume() {
@@ -195,5 +209,4 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
     companion object {
         const val SETTINGS_CODE: Int = 0
     }
-
 }

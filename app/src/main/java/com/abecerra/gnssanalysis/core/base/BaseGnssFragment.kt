@@ -39,5 +39,4 @@ abstract class BaseGnssFragment : BaseFragment() {
             c.bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
         }
     }
-
 }

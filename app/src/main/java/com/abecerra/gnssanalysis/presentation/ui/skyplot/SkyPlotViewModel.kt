@@ -15,5 +15,4 @@ class SkyPlotViewModel : BaseViewModel() {
     fun obtainStatusParameters(gnssStatus: GnssStatus, selectedConstellation: SkyPlotFragment.Companion.CONSTELLATION) {
         status.updateData(getStatusData(gnssStatus, selectedConstellation))
     }
-
 }
