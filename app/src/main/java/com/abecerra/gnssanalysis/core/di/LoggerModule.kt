@@ -8,5 +8,4 @@ object LoggerModule {
     fun get() = module {
         single { GnssMeasLogger() }
     }
-
 }

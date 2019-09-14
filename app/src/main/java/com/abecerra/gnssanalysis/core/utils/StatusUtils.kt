@@ -49,7 +49,6 @@ fun getCNo(gnssStatus: GnssStatus, selectedConstellation: SkyPlotFragment.Compan
     return cno
 }
 
-
 /**
  * Returns the string to be printed on the number of satellites field in status views.
  */

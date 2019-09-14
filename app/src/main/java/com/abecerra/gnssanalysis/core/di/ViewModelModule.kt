@@ -11,5 +11,4 @@ object ViewModelModule {
         viewModel { PvtComputationViewModel() }
         viewModel { SkyPlotViewModel() }
     }
-
 }

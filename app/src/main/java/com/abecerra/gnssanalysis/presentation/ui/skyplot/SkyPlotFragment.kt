@@ -1,6 +1,5 @@
 package com.abecerra.gnssanalysis.presentation.ui.skyplot
 
-
 import android.app.Activity
 import android.graphics.Color
 import android.hardware.GeomagneticField
@@ -10,14 +9,13 @@ import android.hardware.SensorManager
 import android.location.GnssMeasurementsEvent
 import android.location.Location
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.tabs.TabLayout
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseFragment
 import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
@@ -31,11 +29,11 @@ import com.abecerra.gnssanalysis.core.utils.takeTwoDecimalsToDouble
 import com.abecerra.gnssanalysis.presentation.data.GnssStatus
 import com.abecerra.gnssanalysis.presentation.data.SensorData
 import com.abecerra.gnssanalysis.presentation.data.StatusData
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_sky_plot.*
 import kotlinx.android.synthetic.main.view_cno_indicator.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
-
 
 class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
 
@@ -99,12 +97,9 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
                         selectedConstellation = CONSTELLATION.values()[it]
                     }
                 }
-
             }
         })
-
     }
-
 
     //helpers
     private fun createTab(title: String): TabLayout.Tab {
@@ -131,7 +126,6 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
                     tvCnoAvg?.text = "$cno"
                     clIndicator?.x = it.thumb.bounds.exactCenterX()
                 }
-
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -139,9 +133,7 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
-
         })
-
     }
 
     private fun updateStatusData(data: Data<StatusData>?) {
@@ -181,7 +173,7 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
     }
 
     override fun onSensorEvent(event: SensorEvent) {
-        Timber.d("$FRAGMENT_TAG :::: onSatelliteStatusChanged")
+        Timber.d("$FRAGMENT_TAG :::: onSensorEvent")
         val sensorData = activity?.getSensorData(event)
         sensorData?.let {
             skyplot.onOrientationChanged(it.orientation, it.tilt)
@@ -234,7 +226,6 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
                         System.arraycopy(event.values, 0, mTruncatedRotationVector, 0, 4)
                         SensorManager.getRotationMatrixFromVector(mRotationMatrix, mTruncatedRotationVector)
                     }
-
                 } else {
                     // Truncate the array to avoid the exception on some devices (see #39)
                     System.arraycopy(event.values, 0, mTruncatedRotationVector, 0, 4)
@@ -275,9 +266,9 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
                     else ->
                         // This shouldn't happen - assume default orientation
                         SensorManager.getOrientation(mRotationMatrix, mValues)
-                }// Log.d(TAG, "Rotation-0");
+                } // Log.d(TAG, "Rotation-0");
                 // Log.d(TAG, "Rotation-Unknown");
-                orientation = Math.toDegrees(mValues[0].toDouble())  // azimuth
+                orientation = Math.toDegrees(mValues[0].toDouble()) // azimuth
                 tilt = Math.toDegrees(mValues[1].toDouble())
             }
             Sensor.TYPE_ORIENTATION ->
@@ -294,9 +285,6 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
             // Make sure value is between 0-360
             orientation = MathUtils.mod(orientation.toFloat(), 360.0f).toDouble()
         }
-
         return SensorData(orientation, tilt)
     }
-
-
 }

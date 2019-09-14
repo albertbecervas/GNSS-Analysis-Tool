@@ -14,7 +14,7 @@ import com.abecerra.pvt.computation.data.LlaLocation
 import com.abecerra.pvt.computation.ephemeris.EphemerisClient
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import java.util.*
+import java.util.Date
 
 class PvtPresenterImpl(private val gnssMeasLogger: GnssMeasLogger, private val pvtRepository: PvtRepository) :
     PvtServiceContract.PvtPresenter {
@@ -43,7 +43,6 @@ class PvtPresenterImpl(private val gnssMeasLogger: GnssMeasLogger, private val p
                     emitter.onError(Throwable())
                 }, CompositeDisposable())
         }
-
     }
 
     override fun stopComputing() {
@@ -82,10 +81,8 @@ class PvtPresenterImpl(private val gnssMeasLogger: GnssMeasLogger, private val p
                     // Error computing PVT
                     mListener?.onPvtError("")
                 }, CompositeDisposable())
-
         }
     }
 
     private fun isMeanTimePassed() = Date().time - gnssComputationData.startedComputingDate.time > 1L
-
 }

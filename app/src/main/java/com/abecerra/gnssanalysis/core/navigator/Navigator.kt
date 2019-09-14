@@ -9,5 +9,4 @@ interface Navigator {
     fun navigateToComputationSettingsActivity(fragment: Fragment? = null)
 
     fun sendEmail(to: String)
-
 }

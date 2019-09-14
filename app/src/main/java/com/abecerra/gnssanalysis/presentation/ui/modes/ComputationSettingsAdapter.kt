@@ -61,7 +61,6 @@ class ComputationSettingsAdapter(private val onComputationSettingsSelected: () -
             computationSettingsList.removeAt(position)
             notifyDataSetChanged()
         }
-
     }
 
     private fun initModeSelectedState(holder: ComputationSettingsViewHolder, selected: Boolean) {

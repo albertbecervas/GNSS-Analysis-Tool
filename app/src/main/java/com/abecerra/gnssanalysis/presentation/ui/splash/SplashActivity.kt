@@ -11,8 +11,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseActivity
-import com.abecerra.gnssanalysis.core.utils.extensions.*
-
+import com.abecerra.gnssanalysis.core.utils.extensions.PERMISSION_ACCESS_FINE_LOCATION
+import com.abecerra.gnssanalysis.core.utils.extensions.PERMISSION_READ_EXTERNAL_STORAGE
+import com.abecerra.gnssanalysis.core.utils.extensions.PERMISSION_WRITE_EXTERNAL_STORAGE
+import com.abecerra.gnssanalysis.core.utils.extensions.checkPermissionsList
+import com.abecerra.gnssanalysis.core.utils.extensions.requestPermissionss
 
 class SplashActivity : BaseActivity() {
 
@@ -39,8 +42,6 @@ class SplashActivity : BaseActivity() {
                     ), PERMISSIONS_CODE
                 )
             }
-
-
         }, 1000L)
     }
 
@@ -65,9 +66,7 @@ class SplashActivity : BaseActivity() {
                         ), PERMISSIONS_CODE
                     )
                 }
-
             }, TIME_OUT)
-
         }
     }
 
@@ -107,7 +106,6 @@ class SplashActivity : BaseActivity() {
                         .create()
 
                     dialog.show()
-
                 }
             }
         } else {
@@ -130,7 +128,6 @@ class SplashActivity : BaseActivity() {
                     .create()
 
                 dialog.show()
-
             } else {
 
                 val dialog = AlertDialog.Builder(this)
@@ -150,8 +147,6 @@ class SplashActivity : BaseActivity() {
                 dialog.show()
             }
         }
-
-
     }
 
     private fun goToSettings() {
@@ -161,7 +156,6 @@ class SplashActivity : BaseActivity() {
         startActivity(myAppSettings)
         isComingFromSettings = true
     }
-
 
     companion object {
         const val PERMISSIONS_CODE = 99

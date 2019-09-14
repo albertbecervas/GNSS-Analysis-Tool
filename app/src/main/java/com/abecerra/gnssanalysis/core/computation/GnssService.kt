@@ -3,7 +3,12 @@ package com.abecerra.gnssanalysis.core.computation
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.location.*
+import android.location.GnssMeasurementsEvent
+import android.location.GnssStatus
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.location.OnNmeaMessageListener
 import android.os.Bundle
 import com.abecerra.gnssanalysis.core.base.BaseGnssService
 import com.abecerra.gnssanalysis.core.computation.presenter.PvtServiceContract
@@ -72,7 +77,6 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
         locationManager?.removeUpdates(this)
     }
 
-
     fun startComputing(computationSettings: List<ComputationSettings>) {
         mPresenter.startComputing(computationSettings).subscribe({
             // obtaining Ephemeris
@@ -108,7 +112,6 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
         gnssEventsListeners.forEach {
             location?.let { loc -> it.onLocationReceived(loc) }
         }
-
     }
 
     override fun onNmeaMessage(message: String?, timestamp: Long) {
@@ -134,5 +137,4 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
         private const val MIN_TIME = 1L
         private const val MIN_DISTANCE = 0.0F
     }
-
 }

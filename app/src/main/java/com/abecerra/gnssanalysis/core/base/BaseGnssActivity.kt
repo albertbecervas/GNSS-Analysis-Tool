@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import androidx.core.content.ContextCompat
 import com.abecerra.gnssanalysis.core.computation.GnssService
 
 /**
@@ -39,12 +38,10 @@ abstract class BaseGnssActivity : BaseActivity() {
 
     private fun startGnssService() {
         val intent = Intent(this, GnssService::class.java)
-        ContextCompat.startForegroundService(this, intent)
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
     }
 
     private fun stopGnssService() {
-        stopService(Intent(this, GnssService::class.java))
         mService?.let {
             unbindService(mConnection)
         }
@@ -66,5 +63,4 @@ abstract class BaseGnssActivity : BaseActivity() {
      * This onGnssServiceDisconnected function is used to notify that Binder is disconnected
      */
     abstract fun onGnssServiceDisconnected()
-
 }

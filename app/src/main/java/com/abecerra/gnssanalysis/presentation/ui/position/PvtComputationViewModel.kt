@@ -62,7 +62,6 @@ class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
     }
 
     override fun onEphemerisError() {
-
     }
 
     enum class Status {
@@ -74,5 +73,4 @@ class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
         ERROR_COMPUTING,
         NONE_PARAM_SELECTED
     }
-
 }

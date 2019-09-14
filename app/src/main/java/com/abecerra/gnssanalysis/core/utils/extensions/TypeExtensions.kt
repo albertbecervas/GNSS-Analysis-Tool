@@ -1,15 +1,15 @@
 package com.abecerra.gnssanalysis.core.utils.extensions
 
 import android.graphics.Bitmap
-import androidx.core.widget.TextViewCompat
 import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
+import java.util.UUID
 
 fun Any?.toString(): String {
     return this?.toString() ?: ""
@@ -144,6 +144,5 @@ fun String.beautify(): String {
 
     return stringBuilder.toString().toLowerCase().capitalize()
 }
-
 
 fun String.isWhitespace() = all { it.isWhitespace() }

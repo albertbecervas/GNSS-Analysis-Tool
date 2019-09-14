@@ -6,6 +6,8 @@ import com.abecerra.gnssanalysis.BuildConfig
 import com.abecerra.gnssanalysis.core.di.AppModule
 import org.koin.core.context.startKoin
 import timber.log.Timber
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 class App : MultiDexApplication() {
 
@@ -18,7 +20,6 @@ class App : MultiDexApplication() {
         fun get(context: Context): App {
             return context.applicationContext as App
         }
-
     }
 
     override fun onCreate() {
@@ -26,6 +27,7 @@ class App : MultiDexApplication() {
         INSTANCE = this
         initKoin()
         initTimber()
+        Fabric.with(this, Crashlytics())
     }
 
     private fun initKoin() {
@@ -34,11 +36,9 @@ class App : MultiDexApplication() {
         }
     }
 
-
     private fun initTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
     }
-
 }

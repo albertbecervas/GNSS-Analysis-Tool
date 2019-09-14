@@ -4,14 +4,17 @@ import android.widget.Toast
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.App
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
+import java.io.InputStreamReader
 
 val context = App.getAppContext()
 
 fun toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, message, duration).show()
 }
-
 
 @Throws(Exception::class)
 fun getStringFromFile(filePath: String): String {

@@ -74,7 +74,6 @@ fun Context.showNewModeDialog(onCreateSelected: (layout: View?, dialgo: AlertDia
             } else {
                 it.rbL1.isEnabled = false
                 it.rbL5.isEnabled = false
-
             }
         }
 
@@ -88,11 +87,8 @@ fun Context.showNewModeDialog(onCreateSelected: (layout: View?, dialgo: AlertDia
                 it.rbE5a.isEnabled = false
             }
         }
-
-
     }
     dialog.show()
-
 }
 
 fun Context.showInfoDialog() {
@@ -105,5 +101,4 @@ fun Context.showInfoDialog() {
         dialog.dismiss()
     }
     dialog.show()
-
 }

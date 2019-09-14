@@ -23,7 +23,6 @@ interface GnssServiceOutput {
         fun onNmeaMessageReceived(message: String, timestamp: Long)
 
         fun onLocationReceived(location: Location)
-
     }
 
     interface PvtListener {
@@ -35,6 +34,5 @@ interface GnssServiceOutput {
         fun onEphemerisObtained()
 
         fun onEphemerisError()
-
     }
 }

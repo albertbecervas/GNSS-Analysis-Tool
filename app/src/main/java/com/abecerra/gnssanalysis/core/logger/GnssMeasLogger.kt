@@ -12,8 +12,8 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
-
+import java.util.Date
+import java.util.Locale
 
 class GnssMeasLogger {
 
@@ -92,9 +92,7 @@ class GnssMeasLogger {
         } catch (e: IOException) {
             return
         }
-
     }
-
 
     fun onGnssMeasurementsReceived(event: GnssMeasurementsEvent) {
         if (mFileWriter == null) {
@@ -106,7 +104,6 @@ class GnssMeasLogger {
                 writeGnssMeasurementToFile(gnssClock, measurement)
             } catch (e: IOException) {
             }
-
         }
     }
 
@@ -124,8 +121,7 @@ class GnssMeasLogger {
             if (clock.hasDriftNanosPerSecond()) clock.driftNanosPerSecond else "",
             if (clock.hasDriftUncertaintyNanosPerSecond())
                 clock.driftUncertaintyNanosPerSecond
-            else
-                "",
+            else "",
             clock.hardwareClockDiscontinuityCount.toString() + ","
         )
         mFileWriter?.write(clockStream)
@@ -148,15 +144,13 @@ class GnssMeasLogger {
             if (measurement.hasCarrierPhase()) measurement.carrierPhase else "",
             if (measurement.hasCarrierPhaseUncertainty())
                 measurement.carrierPhaseUncertainty
-            else
-                "",
+            else "",
             measurement.multipathIndicator,
             if (measurement.hasSnrInDb()) measurement.snrInDb else "",
             measurement.constellationType,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && measurement.hasAutomaticGainControlLevelDb())
                 measurement.automaticGainControlLevelDb
-            else
-                "",
+            else "",
             if (measurement.hasCarrierFrequencyHz()) measurement.carrierFrequencyHz else ""
         )
         mFileWriter?.write(measurementStream)
@@ -176,6 +170,4 @@ class GnssMeasLogger {
         const val COMMENT_START = "# "
         const val VERSION_TAG = "Version: "
     }
-
-
 }

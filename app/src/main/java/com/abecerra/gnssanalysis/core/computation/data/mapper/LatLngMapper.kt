@@ -17,5 +17,4 @@ object LatLngMapper : BaseMapper<Location, LatLng>() {
             LatLng(latitude, longitude)
         }
     }
-
 }

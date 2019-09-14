@@ -3,13 +3,16 @@ package com.abecerra.gnssanalysis.core.utils.extensions
 import android.annotation.SuppressLint
 import android.os.Environment
 import okhttp3.ResponseBody
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 private val root: File =
     android.os.Environment.getExternalStorageDirectory()
 
 private const val APP_ROOT: String = "/Innroute/Logs/"
-
 
 @SuppressLint("SetWorldReadable")
 fun saveFile(
@@ -43,7 +46,6 @@ fun saveFile(
                 outputStream.write(fileReader, 0, read)
             }
             outputStream.flush()
-
         } catch (e: IOException) {
         } finally {
             inputStream?.close()
@@ -58,7 +60,6 @@ fun getFilesList(): Array<File> {
     val directory = File(path)
     return directory.listFiles()
 }
-
 
 class Logger(fileName: String = "Location.txt") {
 
@@ -83,8 +84,5 @@ class Logger(fileName: String = "Location.txt") {
 //        } catch (ex: IOException) {
 //            System.err.println("$formattedDate ---> Couldn't log this: $s")
 //        }
-
     }
-
 }
-

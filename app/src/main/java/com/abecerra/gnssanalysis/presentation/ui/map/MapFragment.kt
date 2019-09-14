@@ -53,7 +53,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 }
             }
         }
-
     }
 
     fun addMarkerFromPvtResponse(resp: ComputedPvtData) {
@@ -96,5 +95,4 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     interface MapListener {
         fun onMapGesture()
     }
-
 }

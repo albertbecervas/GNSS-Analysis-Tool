@@ -12,6 +12,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="GNSS Test"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -19,6 +20,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDpYNKp79m8RtIbFstsplj5MpklWO1knm8" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="181f738349c778a0a5d296f58e3dd6d76986f872" />
 
         <activity
             android:name=".presentation.ui.splash.SplashActivity"
@@ -30,12 +35,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.ui.main.MainActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".presentation.ui.main.MainActivity"
             android:launchMode="singleTop"
-            />
-        <activity android:name=".presentation.ui.modes.ComputationSettingsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.ui.modes.ComputationSettingsActivity"
+            android:screenOrientation="portrait" />
 
 
         <service
