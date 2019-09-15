@@ -67,16 +67,6 @@ configurations {
     ktlint
 }
 
-task ktlint(type: JavaExec, group: "verification") {
-    description = "Check Kotlin code style."
-    classpath = configurations.ktlint
-    main = "com.github.shyiko.ktlint.Main"
-    args "src/**/*.kt"
-    // args "--reporter=checkstyle, output=${buildDir}/ktlint.xml
-}
-
-//preBuild.dependsOn ktlint
-
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -149,5 +139,85 @@ dependencies {
     implementation project(':pvt')
 
 }
+
+android.applicationVariants.all { variant ->
+    variant.mergeResources.doLast{
+        generateAppIconResource(variant)
+    }
+}
+
+// Method to generate app icons with debug, rc or gold badges.
+private void generateAppIconResource(buildVariant) {
+
+    def buildInfo = extractBuildInfo(buildVariant)
+    println "INFOOO -> $buildInfo"
+
+    def dpis = ["xxxhdpi", "xxhdpi", "xhdpi", "hdpi", "mdpi"];
+    def pixelSizes = ["192", "144", "96", "72", "48"];
+
+    dpis.eachWithIndex { String dpi, int i ->
+        def launcherPath = "$rootProject.projectDir/app/src/main/res/mipmap-$dpi/ic_launcher.png"
+        def launcherDest = "$rootProject.projectDir/app/src/$buildInfo.baseBuildType/res/mipmap-$dpi"
+
+        def destinationDirectory = new File(launcherDest)
+        if (!destinationDirectory.exists()) {
+            destinationDirectory.mkdirs()
+        }
+
+        // Do not modify icon for release candidates
+        if (buildInfo.baseBuildType == "production"){
+            copy {
+                from launcherPath
+                into launcherDest
+            }
+            println "copy $launcherPath to $launcherDest"
+            return
+        }
+
+        def script = "applybadge.sh"
+        def iconSource = launcherPath
+        def iconDest = "$launcherDest/ic_launcher.png"
+
+        def arguments = [script, iconSource, buildInfo.baseBuildType, pixelSizes[i], "android", iconDest]
+
+        // Debug the script arguments
+        println arguments.join(" ")
+
+        exec {
+            workingDir '../icontools/'
+            executable "sh"
+            args arguments
+        }
+    }
+}
+
+static def extractBuildInfo(buildVariant) {
+    def buildInfo = [:]
+
+    buildInfo.buildType = buildVariant.buildType.name
+    buildInfo.baseBuildType = buildInfo.buildType.toLowerCase().replace("guardit", "").replace("unprotected", "").replace("fortesting", "")
+    buildInfo.flavor = buildVariant.name.substring(0, buildVariant.name.toLowerCase().replace(buildInfo.buildType.toLowerCase(), "").length())
+
+    buildInfo.isProtected = ((buildInfo.buildType.toLowerCase().contains("guardit")) ||
+            ((!buildInfo.baseBuildType.toLowerCase().equals("debug")) && (!buildInfo.buildType.toLowerCase().contains("unprotected")))
+            || (buildInfo.buildType.toLowerCase().contains("fortesting")))
+
+    buildInfo.isDebug = buildInfo.baseBuildType.toLowerCase().equals("debug")
+
+    buildInfo.isTesting = buildInfo.buildType.toLowerCase().contains("fortesting")
+
+    return buildInfo
+}
+
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+    // args "--reporter=checkstyle, output=${buildDir}/ktlint.xml
+}
+
+//preBuild.dependsOn ktlint
 
 apply plugin: 'com.google.gms.google-services'
