@@ -1,0 +1,12 @@
+HOW TO USE:
+Parameters:
+	inputfile	--	path to original file with extension 
+	budget		--	[debug, rc, rcg]
+	dimension	--	dimension in number for generate output file 
+	platform	--	[ios, android]
+	outputfile	--	path to outpuf file with extension
+
+Example:
+
+$ ./applybadge.sh pathToInputFile.png rcg 180 ios pathToOutputFile.png
+$ ./applybadge.sh pathToInputFile.png debug 192 android pathToOutputFile.png
