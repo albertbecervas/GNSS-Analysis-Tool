@@ -2,8 +2,6 @@ package com.abecerra.gnssanalysis.presentation.ui.statistics
 
 import android.content.Context
 import android.widget.RelativeLayout
-import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment.Companion.L1_E1
-import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment.Companion.L5_E5
 import com.abecerra.pvt_acquisition.data.GnssStatus
 import com.github.mikephil.charting.charts.ScatterChart
 import com.github.mikephil.charting.components.XAxis
@@ -14,6 +12,12 @@ const val BAND1_DOWN_THRES = 1575000000
 const val BAND1_UP_THRES = 1576000000
 const val BAND5_DOWN_THRES = 1176000000
 const val BAND5_UP_THRES = 1177000000
+
+const val L1_E1 = 0
+const val L5_E5 = 1
+
+const val L1_E1_text = "L1/E1"
+const val L5_E5_text = "L5/E5a"
 
 class SatElevCNo(var svid: Int, var elevation: Float, var cNo: Float)
 class AgcCNoThreshold(
@@ -57,7 +61,11 @@ fun obtainCnoElevValues(selectedBand: Int, status: GnssStatus): ArrayList<SatEle
     val satElevCNoList = arrayListOf<SatElevCNo>()
     with(status) {
         for (sat in 0 until satelliteCount) {
-            if (isSelectedBand(selectedBand, getCarrierFrequencyHz(sat))) { // Add it if it is in selected band
+            if (isSelectedBand(
+                    selectedBand,
+                    getCarrierFrequencyHz(sat)
+                )
+            ) { // Add it if it is in selected band
                 // Obtain point information
                 satElevCNoList.add(
                     SatElevCNo(
@@ -70,29 +78,6 @@ fun obtainCnoElevValues(selectedBand: Int, status: GnssStatus): ArrayList<SatEle
         } // End for
     }
     return satElevCNoList
-}
-
-fun setAgcCNoThreshold(
-    m: Float,
-    n: Float,
-    points: ArrayList<Entry>
-): AgcCNoThreshold {
-    val agcCNoThreshold = AgcCNoThreshold()
-    // Build points of threshold equation (y=mx+n)
-    repeat(1000) { x ->
-        agcCNoThreshold.threshold.add(Entry(1.0f * (x - 100), m * (x - 100) + n))
-    }
-
-    // Take nominal points as points above the threshold
-    agcCNoThreshold.nominalPoints = points.filter { p -> p.y >= m * p.x + n } as? ArrayList<Entry> ?: arrayListOf()
-    // Take interference points as points under the threshold
-    agcCNoThreshold.interferencePoints = points.filter { p -> p.y < m * p.x + n } as? ArrayList<Entry> ?: arrayListOf()
-
-    // Sort points over X to plot them
-    agcCNoThreshold.nominalPoints.sortBy { p -> p.x }
-    agcCNoThreshold.interferencePoints.sortBy { p -> p.x }
-
-    return agcCNoThreshold
 }
 
 fun isSelectedBand(selectedBand: Int, carrierFrequencyHz: Float): Boolean {

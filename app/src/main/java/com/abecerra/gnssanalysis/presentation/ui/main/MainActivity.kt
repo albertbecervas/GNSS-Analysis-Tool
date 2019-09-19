@@ -4,15 +4,16 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.app.utils.CustomViewPagerAdapter
-import com.abecerra.gnssanalysis.presentation.view.CustomAHBottomNavigationItem
+import com.abecerra.gnssanalysis.core.utils.CustomFragmentPagerAdapter
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationFragment
 import com.abecerra.gnssanalysis.presentation.ui.skyplot.SkyPlotFragment
 import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment
+import com.abecerra.gnssanalysis.presentation.view.CustomAHBottomNavigationItem
+import com.abecerra.pvt_acquisition.app.base.BaseGnssActivity
 import com.abecerra.pvt_acquisition.framework.GnssService
 import com.abecerra.pvt_acquisition.framework.GnssServiceOutput
-import com.abecerra.pvt_acquisition.app.base.BaseGnssActivity
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -31,11 +32,11 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
     }
 
     private fun setViewPager() {
-        val pagerAdapter = CustomViewPagerAdapter(supportFragmentManager)
+        val pagerAdapter = CustomFragmentPagerAdapter<Fragment>(supportFragmentManager)
 
-        pagerAdapter.addFragments(pvtComputationFragment, "Position")
-        pagerAdapter.addFragments(skyPlotFragment, "GNSS state")
-        pagerAdapter.addFragments(statisticsFragment, "Statistics")
+        pagerAdapter.addFragment(pvtComputationFragment, "Position")
+        pagerAdapter.addFragment(skyPlotFragment, "GNSS state")
+        pagerAdapter.addFragment(statisticsFragment, "Statistics")
 
         viewPager.setPagingEnabled(false)
         viewPager.offscreenPageLimit = 5
