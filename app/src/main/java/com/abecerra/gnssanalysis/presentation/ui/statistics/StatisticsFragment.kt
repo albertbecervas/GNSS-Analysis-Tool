@@ -32,11 +32,6 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
 
     private var titlesAdapter: GraphsTitleSpinnerAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setGraphs()
-    }
-
     private fun setGraphs() {
         val agcCnoGraphFragment = AgcCnoGraphFragment()
         val cnoElevGraphFragment = CnoElevGraphFragment()
@@ -56,7 +51,7 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setGraphs()
         setViews(view)
     }
 

@@ -3,28 +3,40 @@ package com.abecerra.gnssanalysis.presentation.ui.statistics.agc
 import android.graphics.Color
 import android.location.GnssMeasurement
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.presentation.ui.statistics.BaseGraphFragment
 import com.abecerra.pvt.computation.utils.Constants
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.fragment_agc_cno_graph.agcCnoGraphComponent
-import kotlinx.android.synthetic.main.fragment_cno_elev_graph.tabLayout
+import kotlinx.android.synthetic.main.fragment_graph.tabLayout
+import kotlinx.android.synthetic.main.view_graph.rlGraph
+import kotlinx.android.synthetic.main.view_graph.xAxisTitle
+import kotlinx.android.synthetic.main.view_graph.yAxisTitle
 
 class AgcCnoGraphFragment : BaseGraphFragment(), AgcCnoFragmentInput {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_agc_cno_graph, container, false)
-    }
+    private var agcCnoGraph: AgcCnoGraph? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTabLayout()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        tabLayout.getTabAt(0)?.select()
+    }
+
+    override fun setGraph(view: View) {
+        agcCnoGraph = AgcCnoGraph(view.context)
+        yAxisTitle?.text = view.context.getString(R.string.agcAxisTitle)
+        xAxisTitle?.text = view.context.getString(R.string.cnoAxisTitle)
+        rlGraph?.addView(agcCnoGraph)
+    }
+
+    private fun setTabLayout() {
         tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT)
         tabLayout.addTab(createTab(Constants.L1_E1_text))
         tabLayout.addTab(createTab(Constants.L5_E5_text))
@@ -44,15 +56,10 @@ class AgcCnoGraphFragment : BaseGraphFragment(), AgcCnoFragmentInput {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.tab)
                     ?.setBackgroundResource(R.drawable.bg_corners_blue)
                 tab?.position?.let { band ->
-                    agcCnoGraphComponent.updateBand(band)
+                    agcCnoGraph?.updateBand(band)
                 }
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        tabLayout.getTabAt(0)?.select()
     }
 
     override fun getGraphInformation(): String {
@@ -60,7 +67,7 @@ class AgcCnoGraphFragment : BaseGraphFragment(), AgcCnoFragmentInput {
     }
 
     override fun onGnssMeasurementReceived(gnssMeasurements: Collection<GnssMeasurement>) {
-        agcCnoGraphComponent.plotAgcCNoGraph(gnssMeasurements)
+        agcCnoGraph?.plotAgcCNoGraph(gnssMeasurements)
     }
 
     private fun createTab(title: String): TabLayout.Tab {
