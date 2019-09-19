@@ -44,4 +44,10 @@ object Constants {
     const val E1 = 3
     const val E5A = 4
 
+    const val L1_E1_text = "L1/E1"
+    const val L5_E5_text = "L5/E5a"
+
+    const val L1_E1 = 0
+    const val L5_E5 = 1
+
 }

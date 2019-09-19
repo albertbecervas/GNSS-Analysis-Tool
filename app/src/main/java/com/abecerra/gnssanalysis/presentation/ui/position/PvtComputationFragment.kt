@@ -110,8 +110,8 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
             clLegend.visibility = View.VISIBLE
         } else {
             legendAdapter.clear()
-            cvLegendArrow.visibility = View.GONE
-            clLegend.visibility = View.GONE
+            cvLegendArrow.visibility = View.INVISIBLE
+            clLegend.visibility = View.INVISIBLE
         }
     }
 

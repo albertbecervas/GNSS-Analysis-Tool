@@ -1,12 +1,13 @@
 package com.abecerra.gnssanalysis.core.utils;
 
 
+import android.util.SparseArray;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import android.util.SparseArray;
-import android.view.ViewGroup;
 
 /*
    Extension of FragmentStatePagerAdapter which intelligently caches
@@ -18,7 +19,7 @@ public abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerA
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
     public SmartFragmentStatePagerAdapter(FragmentManager fragmentManager) {
-        super(fragmentManager);
+        super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     // Register the fragment when the item is instantiated

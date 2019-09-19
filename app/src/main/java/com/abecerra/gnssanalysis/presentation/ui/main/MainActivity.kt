@@ -2,16 +2,18 @@ package com.abecerra.gnssanalysis.presentation.ui.main
 
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.core.base.BaseGnssActivity
 import com.abecerra.gnssanalysis.core.computation.GnssService
-import com.abecerra.gnssanalysis.core.utils.CustomViewPagerAdapter
+import com.abecerra.gnssanalysis.core.utils.CustomFragmentPagerAdapter
 import com.abecerra.gnssanalysis.core.utils.view.CustomAHBottomNavigationItem
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationFragment
 import com.abecerra.gnssanalysis.presentation.ui.skyplot.SkyPlotFragment
 import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.bottomNavigation
+import kotlinx.android.synthetic.main.activity_main.viewPager
 
 class MainActivity : BaseGnssActivity(), MainActivityInput {
 
@@ -28,11 +30,11 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
     }
 
     private fun setViewPager() {
-        val pagerAdapter = CustomViewPagerAdapter(supportFragmentManager)
+        val pagerAdapter = CustomFragmentPagerAdapter<Fragment>(supportFragmentManager)
 
-        pagerAdapter.addFragments(pvtComputationFragment, "Position")
-        pagerAdapter.addFragments(skyPlotFragment, "GNSS state")
-        pagerAdapter.addFragments(statisticsFragment, "Statistics")
+        pagerAdapter.addFragment(pvtComputationFragment, "Position")
+        pagerAdapter.addFragment(skyPlotFragment, "GNSS state")
+        pagerAdapter.addFragment(statisticsFragment, "Statistics")
 
         viewPager.setPagingEnabled(false)
         viewPager.offscreenPageLimit = 5
@@ -41,9 +43,18 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
     }
 
     private fun setupBottomNavigation() {
-        val position = CustomAHBottomNavigationItem(getString(R.string.position_bottom), R.drawable.ic_position)
-        val status = CustomAHBottomNavigationItem(getString(R.string.gnss_state_bottom), R.drawable.ic_satellite)
-        val statistics = CustomAHBottomNavigationItem(getString(R.string.statistics_bottom), R.drawable.ic_statistics)
+        val position = CustomAHBottomNavigationItem(
+            getString(R.string.position_bottom),
+            R.drawable.ic_position
+        )
+        val status = CustomAHBottomNavigationItem(
+            getString(R.string.gnss_state_bottom),
+            R.drawable.ic_satellite
+        )
+        val statistics = CustomAHBottomNavigationItem(
+            getString(R.string.statistics_bottom),
+            R.drawable.ic_statistics
+        )
 
         val itemList = arrayListOf(position, status, statistics)
         bottomNavigation.addItems(itemList)

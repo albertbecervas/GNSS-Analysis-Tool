@@ -122,6 +122,8 @@
     <string name="avg_info_detail">This option allows the user to enable or disable averaging and to select its duration.</string>
     <string name="position_info_title">· Positioning modes:</string>
     <string name="position_info_detail">Here the user can choose the constellations which will participate in the Positioning computation to compare their results if desired. The available options are GPS Least squares, Galileo Weighted least squares and Multi-constellation with Iono-Free implemented.</string>
+    <string name="cno_elev_graph_name">CNo/Elevation</string>
+    <string name="agc_cno_graph_name">AGC/CNo</string>
 
 
 </resources>

@@ -30,8 +30,15 @@ import com.abecerra.gnssanalysis.presentation.data.GnssStatus
 import com.abecerra.gnssanalysis.presentation.data.SensorData
 import com.abecerra.gnssanalysis.presentation.data.StatusData
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.fragment_sky_plot.*
-import kotlinx.android.synthetic.main.view_cno_indicator.*
+import kotlinx.android.synthetic.main.fragment_sky_plot.clLegend
+import kotlinx.android.synthetic.main.fragment_sky_plot.cn0Content
+import kotlinx.android.synthetic.main.fragment_sky_plot.numSatsContent
+import kotlinx.android.synthetic.main.fragment_sky_plot.skyplot
+import kotlinx.android.synthetic.main.fragment_sky_plot.tabLayout
+import kotlinx.android.synthetic.main.fragment_sky_plot.tvLegend
+import kotlinx.android.synthetic.main.view_cno_indicator.clIndicator
+import kotlinx.android.synthetic.main.view_cno_indicator.seekBar
+import kotlinx.android.synthetic.main.view_cno_indicator.tvCnoAvg
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -154,12 +161,12 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
     }
 
     override fun onGnssStarted() {
-        skyplot.setStarted()
+        skyplot?.setStarted()
         Timber.d("$FRAGMENT_TAG :::: onGnssStarted")
     }
 
     override fun onGnssStopped() {
-        skyplot.setStopped()
+        skyplot?.setStopped()
         Timber.d("$FRAGMENT_TAG :::: onGnssStopped")
     }
 
@@ -176,7 +183,7 @@ class SkyPlotFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener {
         Timber.d("$FRAGMENT_TAG :::: onSensorEvent")
         val sensorData = activity?.getSensorData(event)
         sensorData?.let {
-            skyplot.onOrientationChanged(it.orientation, it.tilt)
+            skyplot?.onOrientationChanged(it.orientation, it.tilt)
         }
     }
 
