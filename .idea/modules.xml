@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GNSS-Analysis-Tool.iml" filepath="$PROJECT_DIR$/GNSS-Analysis-Tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pvt/pvt.iml" filepath="$PROJECT_DIR$/pvt/pvt.iml" />
     </modules>
   </component>
 </project>
