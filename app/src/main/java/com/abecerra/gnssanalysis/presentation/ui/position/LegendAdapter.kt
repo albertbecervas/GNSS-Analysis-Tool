@@ -7,11 +7,11 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseAdapter
-import com.abecerra.gnssanalysis.core.utils.extensions.context
-import com.abecerra.gnssanalysis.core.utils.extensions.inflate
-import com.abecerra.gnssanalysis.core.utils.getLegendColor
-import com.abecerra.pvt.computation.data.ComputationSettings
+import com.abecerra.gnssanalysis.app.base.BaseAdapter
+import com.abecerra.gnssanalysis.app.utils.extensions.context
+import com.abecerra.gnssanalysis.app.utils.extensions.inflate
+import com.abecerra.gnssanalysis.app.utils.getLegendColor
+import com.abecerra.pvt_computation.data.input.ComputationSettings
 import kotlinx.android.synthetic.main.item_legend.view.*
 
 class LegendAdapter : BaseAdapter<LegendAdapter.LegendViewHolder, ComputationSettings>() {

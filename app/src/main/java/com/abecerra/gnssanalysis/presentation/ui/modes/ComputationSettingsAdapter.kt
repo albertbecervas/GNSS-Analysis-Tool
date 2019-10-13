@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences
-import com.abecerra.gnssanalysis.core.utils.extensions.context
-import com.abecerra.pvt.computation.data.ComputationSettings
+import com.abecerra.gnssanalysis.app.utils.AppSharedPreferences
+import com.abecerra.gnssanalysis.app.utils.extensions.context
+import com.abecerra.pvt_computation.data.input.ComputationSettings
 import org.jetbrains.anko.toast
 
 class ComputationSettingsAdapter(private val onComputationSettingsSelected: () -> Unit) :

@@ -136,8 +136,8 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
 
     //PVT
-    implementation project(':pvt')
-
+    implementation project(':pvt-acquisition')
+    implementation project(':pvt-computation')
 }
 
 android.applicationVariants.all { variant ->
@@ -146,7 +146,7 @@ android.applicationVariants.all { variant ->
     }
 }
 
-// Method to generate app icons with debug, rc or gold badges.
+// Method to generate pvtApp icons with debug, rc or gold badges.
 private void generateAppIconResource(buildVariant) {
 
     def buildInfo = extractBuildInfo(buildVariant)
@@ -156,8 +156,8 @@ private void generateAppIconResource(buildVariant) {
     def pixelSizes = ["192", "144", "96", "72", "48"];
 
     dpis.eachWithIndex { String dpi, int i ->
-        def launcherPath = "$rootProject.projectDir/app/src/main/res/mipmap-$dpi/ic_launcher.png"
-        def launcherDest = "$rootProject.projectDir/app/src/$buildInfo.baseBuildType/res/mipmap-$dpi"
+        def launcherPath = "$rootProject.projectDir/pvtApp/src/main/res/mipmap-$dpi/ic_launcher.png"
+        def launcherDest = "$rootProject.projectDir/pvtApp/src/$buildInfo.baseBuildType/res/mipmap-$dpi"
 
         def destinationDirectory = new File(launcherDest)
         if (!destinationDirectory.exists()) {

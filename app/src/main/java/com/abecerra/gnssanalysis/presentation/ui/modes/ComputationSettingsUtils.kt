@@ -3,9 +3,9 @@ package com.abecerra.gnssanalysis.presentation.ui.modes
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
-import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences
-import com.abecerra.pvt.computation.data.ComputationSettings
-import com.abecerra.pvt.computation.data.PositionParameters
+import com.abecerra.gnssanalysis.app.utils.AppSharedPreferences
+import com.abecerra.pvt_computation.data.input.ComputationSettings
+import com.abecerra.pvt_computation.utils.PvtConstants
 import kotlinx.android.synthetic.main.dialog_new_mode.view.*
 import org.jetbrains.anko.toast
 
@@ -13,44 +13,44 @@ fun addDefaultComputationSettings(): List<ComputationSettings> {
 
     val mode = ComputationSettings(
         "GPS LS",
-        arrayListOf(PositionParameters.CONST_GPS),
-        arrayListOf(PositionParameters.BAND_L1),
-        arrayListOf(PositionParameters.CORR_IONOSPHERE, PositionParameters.CORR_TROPOSPHERE),
-        PositionParameters.ALG_LS,
+        arrayListOf(PvtConstants.CONST_GPS),
+        arrayListOf(PvtConstants.BAND_L1),
+        arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
+        PvtConstants.ALG_LS,
         isSelected = false
     )
     val mode2 = ComputationSettings(
         "Galileo E1",
-        arrayListOf(PositionParameters.CONST_GAL),
-        arrayListOf(PositionParameters.BAND_E1),
-        arrayListOf(PositionParameters.CORR_IONOSPHERE, PositionParameters.CORR_TROPOSPHERE),
-        PositionParameters.ALG_LS,
+        arrayListOf(PvtConstants.CONST_GAL),
+        arrayListOf(PvtConstants.BAND_E1),
+        arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
+        PvtConstants.ALG_LS,
         isSelected = false
     )
     val mode3 = ComputationSettings(
         "GPS WLS",
-        arrayListOf(PositionParameters.CONST_GPS),
-        arrayListOf(PositionParameters.BAND_L1),
-        arrayListOf(PositionParameters.CORR_IONOSPHERE, PositionParameters.CORR_TROPOSPHERE),
-        PositionParameters.ALG_WLS,
+        arrayListOf(PvtConstants.CONST_GPS),
+        arrayListOf(PvtConstants.BAND_L1),
+        arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
+        PvtConstants.ALG_WLS,
         isSelected = false
     )
 
     val mode4 = ComputationSettings(
         "Galileo WLS",
-        arrayListOf(PositionParameters.CONST_GAL),
-        arrayListOf(PositionParameters.BAND_E1),
-        arrayListOf(PositionParameters.CORR_IONOSPHERE, PositionParameters.CORR_TROPOSPHERE),
-        PositionParameters.ALG_WLS,
+        arrayListOf(PvtConstants.CONST_GAL),
+        arrayListOf(PvtConstants.BAND_E1),
+        arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
+        PvtConstants.ALG_WLS,
         isSelected = false
     )
 
     val mode5 = ComputationSettings(
         "Multiconst Iono-Free",
-        arrayListOf(PositionParameters.CONST_GPS, PositionParameters.CONST_GAL),
-        arrayListOf(PositionParameters.BAND_L1, PositionParameters.BAND_E1),
-        arrayListOf(PositionParameters.CORR_TROPOSPHERE, PositionParameters.CORR_IONOFREE),
-        PositionParameters.ALG_LS,
+        arrayListOf(PvtConstants.CONST_GPS, PvtConstants.CONST_GAL),
+        arrayListOf(PvtConstants.BAND_L1, PvtConstants.BAND_E1),
+        arrayListOf(PvtConstants.CORR_TROPOSPHERE, PvtConstants.CORR_IONOFREE),
+        PvtConstants.ALG_LS,
         isSelected = false
     )
 
@@ -67,21 +67,28 @@ fun setComputationSettingsSelectedParams(layout: View?, dialog: AlertDialog, con
 
     layout?.let {
         name = it.modeNameTextEdit.text.toString() // set the name
-        if (it.constOption1.isChecked) constellations.add(PositionParameters.CONST_GPS) // set selected constellations
-        if (it.constOption2.isChecked) constellations.add(PositionParameters.CONST_GAL)
-        if (it.isEnabled && it.rbL1.isChecked) bands.add(PositionParameters.BAND_L1) // set selected bands
-        if (it.isEnabled && it.rbL5.isChecked) bands.add(PositionParameters.BAND_L5)
-        if (it.isEnabled && it.rbE1.isChecked) bands.add(PositionParameters.BAND_E1)
-        if (it.isEnabled && it.rbE5a.isChecked) bands.add(PositionParameters.BAND_E5A)
-        if (it.correctionsOption1.isChecked) corrections.add(PositionParameters.CORR_IONOSPHERE) // set selected corrections
-        if (it.correctionsOption2.isChecked) corrections.add(PositionParameters.CORR_TROPOSPHERE)
-        if (it.correctionsOption3.isChecked) corrections.add(PositionParameters.CORR_IONOFREE)
-        if (it.algorithm1.isChecked) algorithm = PositionParameters.ALG_LS // set selected algorithm
-        if (it.algorithm2.isChecked) algorithm = PositionParameters.ALG_WLS
+        if (it.constOption1.isChecked) constellations.add(PvtConstants.CONST_GPS) // set selected constellations
+        if (it.constOption2.isChecked) constellations.add(PvtConstants.CONST_GAL)
+        if (it.isEnabled && it.rbL1.isChecked) bands.add(PvtConstants.BAND_L1) // set selected bands
+        if (it.isEnabled && it.rbL5.isChecked) bands.add(PvtConstants.BAND_L5)
+        if (it.isEnabled && it.rbE1.isChecked) bands.add(PvtConstants.BAND_E1)
+        if (it.isEnabled && it.rbE5a.isChecked) bands.add(PvtConstants.BAND_E5A)
+        if (it.correctionsOption1.isChecked) corrections.add(PvtConstants.CORR_IONOSPHERE) // set selected corrections
+        if (it.correctionsOption2.isChecked) corrections.add(PvtConstants.CORR_TROPOSPHERE)
+        if (it.correctionsOption3.isChecked) corrections.add(PvtConstants.CORR_IONOFREE)
+        if (it.algorithm1.isChecked) algorithm = PvtConstants.ALG_LS // set selected algorithm
+        if (it.algorithm2.isChecked) algorithm = PvtConstants.ALG_WLS
     }
     val modesList = AppSharedPreferences.getInstance().getComputationSettingsList()
     return if (modeCanBeAdded(name, constellations, bands, modesList, context)) {
-        ComputationSettings(name, constellations, bands, corrections, algorithm, false)
+        ComputationSettings(
+            name,
+            constellations,
+            bands,
+            corrections,
+            algorithm,
+            false
+        )
     } else {
         null
     }

@@ -11,10 +11,10 @@ import android.view.View.VISIBLE
 import android.widget.SeekBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseActivity
-import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences
-import com.abecerra.gnssanalysis.core.utils.extensions.showInfoDialog
-import com.abecerra.gnssanalysis.core.utils.extensions.showNewModeDialog
+import com.abecerra.gnssanalysis.app.base.BaseActivity
+import com.abecerra.gnssanalysis.app.utils.AppSharedPreferences
+import com.abecerra.gnssanalysis.app.utils.extensions.showInfoDialog
+import com.abecerra.gnssanalysis.app.utils.extensions.showNewModeDialog
 import kotlinx.android.synthetic.main.activity_modes.*
 import org.jetbrains.anko.toast
 

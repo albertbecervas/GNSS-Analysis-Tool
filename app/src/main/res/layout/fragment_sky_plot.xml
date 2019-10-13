@@ -64,7 +64,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <com.abecerra.gnssanalysis.presentation.ui.skyplot.view.GpsSkyView
+                        <com.abecerra.gnssanalysis.presentation.view.GpsSkyView
                             android:id="@+id/skyplot"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -157,16 +157,16 @@
                         <!--android:layout_marginTop="@dimen/default_gap"-->
                         <!--android:text="@string/pdop_title"-->
                         <!--android:textStyle="bold"-->
-                        <!--app:layout_constraintStart_toStartOf="parent"-->
-                        <!--app:layout_constraintTop_toBottomOf="@id/numSatsTitle" />-->
+                        <!--pvtApp:layout_constraintStart_toStartOf="parent"-->
+                        <!--pvtApp:layout_constraintTop_toBottomOf="@id/numSatsTitle" />-->
 
                         <!--<TextView-->
                         <!--android:id="@+id/pdopContent"-->
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:layout_marginStart="@dimen/default_gap"-->
-                        <!--app:layout_constraintStart_toEndOf="@id/pdopTitle"-->
-                        <!--app:layout_constraintTop_toTopOf="@id/pdopTitle" />-->
+                        <!--pvtApp:layout_constraintStart_toEndOf="@id/pdopTitle"-->
+                        <!--pvtApp:layout_constraintTop_toTopOf="@id/pdopTitle" />-->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.main.MainActivity">
 
-    <com.abecerra.gnssanalysis.core.utils.view.CustomViewPager
+    <com.abecerra.gnssanalysis.presentation.view.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.abecerra.gnssanalysis.core.utils.view.CustomAHBottomNavigation
+    <com.abecerra.gnssanalysis.presentation.view.CustomAHBottomNavigation
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

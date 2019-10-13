@@ -9,14 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseFragment
-import com.abecerra.gnssanalysis.core.utils.extensions.Data
-import com.abecerra.gnssanalysis.core.utils.extensions.DataState.ERROR
-import com.abecerra.gnssanalysis.core.utils.extensions.DataState.LOADING
-import com.abecerra.gnssanalysis.core.utils.extensions.DataState.SUCCESS
-import com.abecerra.gnssanalysis.core.utils.extensions.observe
-import com.abecerra.gnssanalysis.core.utils.extensions.showSelectedComputationSettingsAlert
-import com.abecerra.gnssanalysis.core.utils.extensions.showStopAlert
+import com.abecerra.gnssanalysis.app.base.BaseFragment
+import com.abecerra.gnssanalysis.app.utils.extensions.Data
+import com.abecerra.gnssanalysis.app.utils.extensions.DataState.ERROR
+import com.abecerra.gnssanalysis.app.utils.extensions.DataState.LOADING
+import com.abecerra.gnssanalysis.app.utils.extensions.DataState.SUCCESS
+import com.abecerra.gnssanalysis.app.utils.extensions.observe
+import com.abecerra.gnssanalysis.app.utils.extensions.showSelectedComputationSettingsAlert
+import com.abecerra.gnssanalysis.app.utils.extensions.showStopAlert
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivityInput
 import com.abecerra.gnssanalysis.presentation.ui.map.MapFragment
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.ERROR_COMPUTING
@@ -26,7 +26,7 @@ import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewMode
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.SHOW_LOADING
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.STARTED_COMPUTING
 import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.STOPPED_COMPUTING
-import com.abecerra.pvt.computation.data.ComputedPvtData
+import com.abecerra.pvt_computation.data.output.PvtOutputData
 import kotlinx.android.synthetic.main.fragment_position.btComputeAction
 import kotlinx.android.synthetic.main.fragment_position.btRecenter
 import kotlinx.android.synthetic.main.fragment_position.clLegend
@@ -115,7 +115,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
         }
     }
 
-    private fun updatePvt(data: Data<List<ComputedPvtData>>?) {
+    private fun updatePvt(data: Data<List<PvtOutputData>>?) {
         data?.let {
             when (it.dataState) {
                 LOADING -> {
@@ -173,7 +173,7 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
         }
     }
 
-    private fun addPvtToMap(it: Data<List<ComputedPvtData>>) {
+    private fun addPvtToMap(it: Data<List<PvtOutputData>>) {
         it.data?.let { pos ->
             pos.forEach { resp -> mapFragment.addMarkerFromPvtResponse(resp) }
             if (pos.isNotEmpty()) mapFragment.updateCamera(pos[0], viewModel.isCameraIntercepted())

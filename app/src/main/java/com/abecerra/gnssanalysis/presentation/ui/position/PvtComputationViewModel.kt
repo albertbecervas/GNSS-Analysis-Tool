@@ -2,21 +2,21 @@ package com.abecerra.gnssanalysis.presentation.ui.position
 
 import androidx.lifecycle.MutableLiveData
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseViewModel
-import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
-import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences
-import com.abecerra.gnssanalysis.core.utils.context
-import com.abecerra.gnssanalysis.core.utils.extensions.Data
-import com.abecerra.gnssanalysis.core.utils.extensions.showError
-import com.abecerra.gnssanalysis.core.utils.extensions.updateData
-import com.abecerra.pvt.computation.data.ComputedPvtData
+import com.abecerra.gnssanalysis.app.base.BaseViewModel
+import com.abecerra.gnssanalysis.app.utils.AppSharedPreferences
+import com.abecerra.gnssanalysis.app.utils.context
+import com.abecerra.gnssanalysis.app.utils.extensions.Data
+import com.abecerra.gnssanalysis.app.utils.extensions.showError
+import com.abecerra.gnssanalysis.app.utils.extensions.updateData
+import com.abecerra.pvt_computation.data.output.PvtOutputData
+import com.abecerra.pvt_acquisition.acquisition.GnssServiceOutput
 
 class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
 
     val computeButtonText = MutableLiveData<Data<String>>()
     val status = MutableLiveData<Status>()
 
-    val pvt = MutableLiveData<Data<List<ComputedPvtData>>>()
+    val pvt = MutableLiveData<Data<List<PvtOutputData>>>()
 
     private var isCameraIntercepted = false
 
@@ -49,7 +49,7 @@ class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
         isCameraIntercepted = intercepted
     }
 
-    override fun onPvtResponse(pvtResponse: List<ComputedPvtData>) {
+    override fun onPvtResponse(pvtResponse: List<PvtOutputData>) {
         pvt.updateData(pvtResponse)
     }
 

@@ -1,1 +1,1 @@
-include ':app', ':pvt'
+include ':app', ':pvt-acquisition', ':pvt-computation'

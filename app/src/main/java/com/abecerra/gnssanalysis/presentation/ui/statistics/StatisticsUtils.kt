@@ -2,9 +2,9 @@ package com.abecerra.gnssanalysis.presentation.ui.statistics
 
 import android.content.Context
 import android.widget.RelativeLayout
-import com.abecerra.gnssanalysis.presentation.data.GnssStatus
 import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment.Companion.L1_E1
 import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment.Companion.L5_E5
+import com.abecerra.pvt_acquisition.data.GnssStatus
 import com.github.mikephil.charting.charts.ScatterChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry

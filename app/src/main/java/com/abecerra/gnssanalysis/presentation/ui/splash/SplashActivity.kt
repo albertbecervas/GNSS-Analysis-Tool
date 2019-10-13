@@ -10,12 +10,12 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseActivity
-import com.abecerra.gnssanalysis.core.utils.extensions.PERMISSION_ACCESS_FINE_LOCATION
-import com.abecerra.gnssanalysis.core.utils.extensions.PERMISSION_READ_EXTERNAL_STORAGE
-import com.abecerra.gnssanalysis.core.utils.extensions.PERMISSION_WRITE_EXTERNAL_STORAGE
-import com.abecerra.gnssanalysis.core.utils.extensions.checkPermissionsList
-import com.abecerra.gnssanalysis.core.utils.extensions.requestPermissionss
+import com.abecerra.gnssanalysis.app.base.BaseActivity
+import com.abecerra.gnssanalysis.app.utils.extensions.PERMISSION_ACCESS_FINE_LOCATION
+import com.abecerra.gnssanalysis.app.utils.extensions.PERMISSION_READ_EXTERNAL_STORAGE
+import com.abecerra.gnssanalysis.app.utils.extensions.PERMISSION_WRITE_EXTERNAL_STORAGE
+import com.abecerra.gnssanalysis.app.utils.extensions.checkPermissionsList
+import com.abecerra.gnssanalysis.app.utils.extensions.requestPermissionss
 
 class SplashActivity : BaseActivity() {
 

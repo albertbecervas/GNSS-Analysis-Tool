@@ -1,0 +1,43 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //SUPL
+    implementation 'com.google.guava:guava:19+'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+    implementation 'javax.annotation:jsr250-api:1.0'
+    implementation group: 'joda-time', name: 'joda-time', version: '2.3'
+    implementation'com.google.protobuf:protobuf-java:3.4.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+
+    implementation 'org.json:json:20190722'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // RX
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+
+    // EJML
+    implementation 'org.ejml:ejml-all:0.38'
+
+    implementation 'org.nield:kotlin-statistics:1.2.1'
+
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+
+

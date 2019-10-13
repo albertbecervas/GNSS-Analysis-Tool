@@ -14,10 +14,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.abecerra.gnssanalysis.R
-import com.abecerra.gnssanalysis.core.base.BaseFragment
-import com.abecerra.gnssanalysis.core.computation.GnssServiceOutput
-import com.abecerra.gnssanalysis.core.utils.filterGnssStatus
+import com.abecerra.gnssanalysis.app.base.BaseFragment
+import com.abecerra.gnssanalysis.app.utils.filterGnssStatus
 import com.abecerra.gnssanalysis.presentation.ui.skyplot.SkyPlotFragment
+import com.abecerra.pvt_acquisition.acquisition.GnssServiceOutput
 import com.github.mikephil.charting.charts.ScatterChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.ScatterData
@@ -38,7 +38,11 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
 
     private var graph: String = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_statistics, container, false)
     }
 
@@ -116,8 +120,10 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
         context?.let { c ->
             // programmatically create a ScatterChart
             when (selectedBand) {
-                L1_E1 -> scatterChart = createScatterChart(c, MIN_CNO_L1, MAX_CNO_L1, MIN_AGC_L1, MAX_AGC_L1)
-                L5_E5 -> scatterChart = createScatterChart(c, MIN_CNO_L5, MAX_CNO_L5, MIN_AGC_L5, MAX_AGC_L5)
+                L1_E1 -> scatterChart =
+                    createScatterChart(c, MIN_CNO_L1, MAX_CNO_L1, MIN_AGC_L1, MAX_AGC_L1)
+                L5_E5 -> scatterChart =
+                    createScatterChart(c, MIN_CNO_L5, MAX_CNO_L5, MIN_AGC_L5, MAX_AGC_L5)
             }
             xAxisTitle.text = getString(R.string.avgCnoAxisTitle)
             yAxisTitle.text = getString(R.string.agcAxisTitle)
@@ -160,7 +166,11 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
                     val agcs = arrayListOf<Double>()
                     it.forEach { meas ->
                         if (meas.hasAutomaticGainControlLevelDb()) {
-                            if (meas.hasCarrierFrequencyHz() && isSelectedBand(selectedBand, meas.carrierFrequencyHz)) {
+                            if (meas.hasCarrierFrequencyHz() && isSelectedBand(
+                                    selectedBand,
+                                    meas.carrierFrequencyHz
+                                )
+                            ) {
                                 if (agcCNoValues.size == MAX_AGC_CNO_POINTS) {
                                     agcCNoValues.removeAt(0)
                                 }
@@ -177,7 +187,12 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
                     // Generate points with obtained and previous measurements
                     val points = arrayListOf<Entry>()
                     agcCNoValues.forEach { point ->
-                        points.add(Entry(point.first.toFloat(), point.second.toFloat())) // x: CNo, y: AGC
+                        points.add(
+                            Entry(
+                                point.first.toFloat(),
+                                point.second.toFloat()
+                            )
+                        ) // x: CNo, y: AGC
                     }
 
                     // Obtain threshold and points divided by threshold
@@ -196,15 +211,21 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
                     thresholdSet.color = ContextCompat.getColor(c, R.color.agcCnoThreshold)
                     thresholdSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE)
                     thresholdSet.scatterShapeSize = 5.0f
-                    val nominalPointsSet = ScatterDataSet(agcCNoThreshold.nominalPoints, "Nominal conditions")
+                    val nominalPointsSet =
+                        ScatterDataSet(agcCNoThreshold.nominalPoints, "Nominal conditions")
                     nominalPointsSet.color = ContextCompat.getColor(c, R.color.agcCnoNominal)
                     nominalPointsSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE)
-                    val interfPointsSet = ScatterDataSet(agcCNoThreshold.interferencePoints, "Possible interference")
+                    val interfPointsSet =
+                        ScatterDataSet(agcCNoThreshold.interferencePoints, "Possible interference")
                     interfPointsSet.color = ContextCompat.getColor(c, R.color.agcCnoInterf)
                     interfPointsSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE)
 
                     // Join sets and plot them on the graph
-                    val dataSets = arrayListOf<IScatterDataSet>(thresholdSet, nominalPointsSet, interfPointsSet)
+                    val dataSets = arrayListOf<IScatterDataSet>(
+                        thresholdSet,
+                        nominalPointsSet,
+                        interfPointsSet
+                    )
                     val scatterData = ScatterData(dataSets)
                     // Do not show labels on each point
                     scatterData.setDrawValues(false)
@@ -223,8 +244,10 @@ class StatisticsFragment : BaseFragment(), GnssServiceOutput.GnssEventsListener 
             scatterChart?.let { chart ->
                 if (!hasStopped) {
                     // Obtain status separately for GPS and GAL
-                    val gpsGnssStatus = filterGnssStatus(status, SkyPlotFragment.Companion.CONSTELLATION.GPS)
-                    val galGnssStatus = filterGnssStatus(status, SkyPlotFragment.Companion.CONSTELLATION.GALILEO)
+                    val gpsGnssStatus =
+                        filterGnssStatus(status, SkyPlotFragment.Companion.CONSTELLATION.GPS)
+                    val galGnssStatus =
+                        filterGnssStatus(status, SkyPlotFragment.Companion.CONSTELLATION.GALILEO)
 
                     // Obtain desired values of Status: svid, elevation and CNo for given frequency band
                     val gpsValues = obtainCnoElevValues(selectedBand, gpsGnssStatus)

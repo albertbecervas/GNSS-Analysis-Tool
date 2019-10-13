@@ -1,6 +1,6 @@
 package com.abecerra.gnssanalysis.presentation.ui.main
 
-import com.abecerra.gnssanalysis.core.computation.GnssService
+import com.abecerra.pvt_acquisition.acquisition.GnssService
 
 /**
  * This MainActivityInput interface is the protocol to communicate with MainActivity

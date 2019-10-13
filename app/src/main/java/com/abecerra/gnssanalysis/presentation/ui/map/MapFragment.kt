@@ -2,10 +2,10 @@ package com.abecerra.gnssanalysis.presentation.ui.map
 
 import android.content.Context
 import android.os.Bundle
-import com.abecerra.gnssanalysis.core.computation.data.mapper.LatLngMapper
-import com.abecerra.gnssanalysis.core.utils.AppSharedPreferences
-import com.abecerra.gnssanalysis.core.utils.getModeIcon
-import com.abecerra.pvt.computation.data.ComputedPvtData
+import com.abecerra.gnssanalysis.app.utils.AppSharedPreferences
+import com.abecerra.gnssanalysis.app.utils.getModeIcon
+import com.abecerra.pvt_computation.data.output.PvtOutputData
+import com.abecerra.pvt_acquisition.data.mapper.LatLngMapper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -55,7 +55,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         }
     }
 
-    fun addMarkerFromPvtResponse(resp: ComputedPvtData) {
+    fun addMarkerFromPvtResponse(resp: PvtOutputData) {
         addMarker(LatLngMapper.map(resp.pvtFix.location), resp.computationSettings.name, resp.computationSettings.color)
     }
 
@@ -67,7 +67,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         mMap?.addMarker(markerOptions)
     }
 
-    fun updateCamera(resp: ComputedPvtData, isCameraIntercepted: Boolean) {
+    fun updateCamera(resp: PvtOutputData, isCameraIntercepted: Boolean) {
         if (isFirstMarker) {
             moveCameraWithZoom(LatLngMapper.map(resp.pvtFix.location), isCameraIntercepted)
             isFirstMarker = false
