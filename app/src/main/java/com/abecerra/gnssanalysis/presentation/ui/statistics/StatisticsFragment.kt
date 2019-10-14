@@ -17,7 +17,7 @@ import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.app.base.BaseFragment
 import com.abecerra.gnssanalysis.app.utils.filterGnssStatus
 import com.abecerra.gnssanalysis.presentation.ui.skyplot.SkyPlotFragment
-import com.abecerra.pvt_acquisition.acquisition.GnssServiceOutput
+import com.abecerra.pvt_acquisition.framework.GnssServiceOutput
 import com.github.mikephil.charting.charts.ScatterChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.ScatterData

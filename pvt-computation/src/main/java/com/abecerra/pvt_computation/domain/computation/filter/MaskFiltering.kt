@@ -1,4 +1,4 @@
-package com.abecerra.pvt_computation.domain.computation
+package com.abecerra.pvt_computation.domain.computation.filter
 
 import com.abecerra.pvt_computation.data.input.PvtInputData
 

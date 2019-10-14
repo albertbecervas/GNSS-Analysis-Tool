@@ -1,7 +1,7 @@
 package com.abecerra.pvt_acquisition.data.mapper
 
-import com.abecerra.pvt_computation.domain.computation.data.LlaLocation
-import com.abecerra.pvt_computation.domain.computation.data.Location
+import com.abecerra.pvt_computation.data.LlaLocation
+import com.abecerra.pvt_computation.data.Location
 import com.abecerra.pvt_acquisition.app.base.BaseMapper
 import com.google.android.gms.maps.model.LatLng
 

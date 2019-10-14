@@ -1,8 +1,8 @@
-package com.abecerra.pvt_computation.domain.computation.corrections
+package com.abecerra.pvt_computation.domain.corrections
 
 
-import com.abecerra.pvt_computation.domain.computation.utils.Constants.PRESSURE
-import com.abecerra.pvt_computation.domain.computation.utils.Constants.TEMPERATURE
+import com.abecerra.pvt_computation.data.Constants.PRESSURE
+import com.abecerra.pvt_computation.data.Constants.TEMPERATURE
 import kotlin.math.*
 
 /**

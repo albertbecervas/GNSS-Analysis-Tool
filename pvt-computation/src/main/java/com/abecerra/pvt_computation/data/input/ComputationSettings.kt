@@ -1,6 +1,6 @@
 package com.abecerra.pvt_computation.data.input
 
-import com.abecerra.pvt_computation.domain.computation.utils.Constants
+import com.abecerra.pvt_computation.data.Constants
 import com.abecerra.pvt_computation.utils.PvtConstants
 
 data class ComputationSettings(

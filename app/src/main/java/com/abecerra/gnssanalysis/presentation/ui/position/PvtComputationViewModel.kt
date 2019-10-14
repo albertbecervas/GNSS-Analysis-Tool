@@ -9,7 +9,7 @@ import com.abecerra.gnssanalysis.app.utils.extensions.Data
 import com.abecerra.gnssanalysis.app.utils.extensions.showError
 import com.abecerra.gnssanalysis.app.utils.extensions.updateData
 import com.abecerra.pvt_computation.data.output.PvtOutputData
-import com.abecerra.pvt_acquisition.acquisition.GnssServiceOutput
+import com.abecerra.pvt_acquisition.framework.GnssServiceOutput
 
 class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
 

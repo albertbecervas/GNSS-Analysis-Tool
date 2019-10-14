@@ -27,7 +27,7 @@ import com.abecerra.gnssanalysis.app.utils.skyplot.MathUtils
 import com.abecerra.gnssanalysis.app.utils.takeTwoDecimalsToDouble
 import com.abecerra.gnssanalysis.presentation.data.SensorData
 import com.abecerra.gnssanalysis.presentation.data.StatusData
-import com.abecerra.pvt_acquisition.acquisition.GnssServiceOutput
+import com.abecerra.pvt_acquisition.framework.GnssServiceOutput
 import com.abecerra.pvt_acquisition.data.GnssStatus
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_sky_plot.*

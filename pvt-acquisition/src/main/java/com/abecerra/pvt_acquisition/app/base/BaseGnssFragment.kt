@@ -7,7 +7,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.Fragment
-import com.abecerra.pvt_acquisition.acquisition.GnssService
+import com.abecerra.pvt_acquisition.framework.GnssService
 
 abstract class BaseGnssFragment : Fragment() {
 

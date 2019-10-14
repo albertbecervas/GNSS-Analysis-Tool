@@ -1,9 +1,9 @@
-package com.abecerra.pvt_computation.domain.computation.corrections
+package com.abecerra.pvt_computation.domain.corrections
 
-import com.abecerra.pvt_computation.domain.computation.data.EcefLocation
+import com.abecerra.pvt_computation.data.EcefLocation
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
-import com.abecerra.pvt_computation.domain.computation.satPos
-import com.abecerra.pvt_computation.domain.computation.utils.Constants.C
+import com.abecerra.pvt_computation.domain.computation.utils.satPos
+import com.abecerra.pvt_computation.data.Constants.C
 import com.abecerra.pvt_computation.domain.computation.utils.checkTime
 import com.abecerra.pvt_computation.domain.computation.utils.earthRotCorr
 import org.ejml.data.DMatrixRMaj
@@ -19,12 +19,14 @@ fun getCtrlCorr(
     val txRaw = tow - pR / C
 
     // Get clock corrections
-    var tCorr = satClockErrorCorrection(txRaw, satellite)
+    var tCorr =
+        satClockErrorCorrection(txRaw, satellite)
     tCorr -= satellite.satelliteEphemeris.tgdS
     var txGPS = txRaw - tCorr
 
     // Compute again the clock bias
-    tCorr = satClockErrorCorrection(txGPS, satellite)
+    tCorr =
+        satClockErrorCorrection(txGPS, satellite)
     tCorr -= satellite.satelliteEphemeris.tgdS
 
     // Get the satellite coordinates (corrected) and velocity
@@ -47,7 +49,10 @@ fun getCtrlCorr(
     val travelTime = tow - txGPS
     x = earthRotCorr(travelTime, x)
 
-    return CtrlCorr(EcefLocation(x[0], x[1], x[2]), tCorr)
+    return CtrlCorr(
+        EcefLocation(x[0], x[1], x[2]),
+        tCorr
+    )
 }
 
 fun satClockErrorCorrection(time: Double, satellite: SatelliteMeasurements): Double {

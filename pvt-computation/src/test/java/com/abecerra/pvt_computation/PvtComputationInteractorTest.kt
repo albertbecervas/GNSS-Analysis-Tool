@@ -1,17 +1,17 @@
 package com.abecerra.pvt_computation
 
-import com.abecerra.pvt_computation.domain.computation.PvtEngine
+import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractorImpl
 import com.abecerra.pvt_computation.data.input.PvtInputData
 import org.junit.Test
 
-class PvtEngineTest {
+class PvtComputationInteractorTest {
 
     @Test
     fun testPVTEngine() {
 
         val gnssData = PvtInputData()
 
-        PvtEngine.computePosition(gnssData)
+        PvtComputationInteractorImpl.computePosition(gnssData)
             .subscribe({
                 print(it)
             }, {

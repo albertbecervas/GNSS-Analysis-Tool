@@ -1,4 +1,4 @@
-package com.abecerra.pvt_computation.domain.computation.utils
+package com.abecerra.pvt_computation.data
 
 object Constants {
 

@@ -1,6 +1,6 @@
 package com.abecerra.pvt_computation.data.input
 
-import com.abecerra.pvt_computation.domain.computation.data.Location
+import com.abecerra.pvt_computation.data.Location
 
 data class PvtInputData(
     var cn0mask: Int = 0,

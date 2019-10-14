@@ -8,8 +8,8 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
-import com.abecerra.pvt_acquisition.acquisition.GnssService
-import com.abecerra.pvt_acquisition.acquisition.GnssServiceOutput
+import com.abecerra.pvt_acquisition.framework.GnssService
+import com.abecerra.pvt_acquisition.framework.GnssServiceOutput
 
 /**
  * This BaseGnssActivity creates the GnssService and implements the connection with it.

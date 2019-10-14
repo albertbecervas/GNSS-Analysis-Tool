@@ -1,4 +1,9 @@
-package com.abecerra.pvt_computation.domain.computation.data
+package com.abecerra.pvt_computation.data
+
+data class PvtFix(
+    var location: Location,
+    var time: Double
+)
 
 data class Location(
     var llaLocation: LlaLocation = LlaLocation(),
@@ -17,9 +22,3 @@ data class EcefLocation(
     var z: Double = 0.0
 )
 
-data class PvtFix(
-    var location: Location,
-    var time: Double
-) {
-    fun getLlaLocation(): LlaLocation = location.llaLocation
-}

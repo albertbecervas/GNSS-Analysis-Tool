@@ -8,8 +8,8 @@ import android.hardware.SensorManager
 import android.location.LocationManager
 import android.os.Binder
 import android.os.IBinder
-import com.abecerra.pvt_acquisition.acquisition.GnssService
-import com.abecerra.pvt_acquisition.acquisition.GnssServiceOutput
+import com.abecerra.pvt_acquisition.framework.GnssService
+import com.abecerra.pvt_acquisition.framework.GnssServiceOutput
 import com.abecerra.pvt_acquisition.app.NotificationBuilder.buildGnssNotification
 
 abstract class BaseGnssService : Service() {

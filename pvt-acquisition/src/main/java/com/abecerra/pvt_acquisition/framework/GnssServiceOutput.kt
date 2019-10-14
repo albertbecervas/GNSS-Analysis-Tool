@@ -1,4 +1,4 @@
-package com.abecerra.pvt_acquisition.acquisition
+package com.abecerra.pvt_acquisition.framework
 
 import android.hardware.SensorEvent
 import android.location.GnssMeasurementsEvent

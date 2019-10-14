@@ -1,7 +1,7 @@
 package com.abecerra.pvt_computation.domain.computation.utils
 
-import com.abecerra.pvt_computation.domain.computation.data.EcefLocation
-import com.abecerra.pvt_computation.domain.computation.data.LlaLocation
+import com.abecerra.pvt_computation.data.EcefLocation
+import com.abecerra.pvt_computation.data.LlaLocation
 import org.ejml.data.DMatrixRMaj
 import org.ejml.dense.row.mult.MatrixVectorMult_DDRM
 import java.lang.Math.*

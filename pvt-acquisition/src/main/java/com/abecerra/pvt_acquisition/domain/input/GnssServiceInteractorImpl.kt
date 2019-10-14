@@ -1,28 +1,30 @@
-package com.abecerra.pvt_acquisition.acquisition.presenter
+package com.abecerra.pvt_acquisition.domain.input
 
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
 import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.input.Epoch
-import com.abecerra.pvt_computation.domain.computation.PvtEngine
-import com.abecerra.pvt_computation.domain.computation.data.LlaLocation
-import com.abecerra.pvt_computation.domain.computation.ephemeris.EphemerisClient
+import com.abecerra.pvt_computation.data.LlaLocation
+import com.abecerra.pvt_computation.suplclient.EphemerisClient
 import com.abecerra.pvt_acquisition.app.extensions.subscribe
-import com.abecerra.pvt_acquisition.data.parser.EpochDataParser
+import com.abecerra.pvt_acquisition.domain.acquisition.EpochAcquisitionDataBuilder
 import com.abecerra.pvt_acquisition.data.GnssComputationData
+import com.abecerra.pvt_acquisition.data.mapper.PvtInputDataMapper
+import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
-class PvtPresenterImpl : PvtServiceContract.PvtPresenter {
+class GnssServiceInteractorImpl(
+    private val ephemerisClient: EphemerisClient,private val pvtComputationInteractor: PvtComputationInteractor
+) :
+    GnssServiceContract.GnssServiceInteractor {
 
-    private var mListener: PvtServiceContract.PvtPresenterOutput? = null
-
-    private val ephemerisClient: EphemerisClient = EphemerisClient()
+    private var mListener: GnssServiceContract.GnssInteractorOutput? = null
 
     private var gnssComputationData = GnssComputationData()
 
-    override fun bindOutput(output: PvtServiceContract.PvtPresenterOutput) {
+    override fun bindOutput(output: GnssServiceContract.GnssInteractorOutput) {
         this.mListener = output
     }
 
@@ -52,7 +54,7 @@ class PvtPresenterImpl : PvtServiceContract.PvtPresenter {
     override fun setMeasurement(measurementsEvent: GnssMeasurementsEvent) {
         gnssComputationData.ephemerisResponse?.let { ephemeris ->
             gnssComputationData.gnssStatus?.let { status ->
-                val epoch = EpochDataParser.parseEpoch(measurementsEvent, status, ephemeris)
+                val epoch = EpochAcquisitionDataBuilder.mapToEpoch(measurementsEvent, status, ephemeris)
                 computePvt(epoch)
             }
         }
@@ -63,8 +65,8 @@ class PvtPresenterImpl : PvtServiceContract.PvtPresenter {
         gnssComputationData.epochs.add(epoch)
 
         if (isMeanTimePassed()) {
-            val gnssData = gnssComputationData.parseToGnssData()
-            PvtEngine.computePosition(gnssData)
+            val gnssData = PvtInputDataMapper.mapToPvtInputData(gnssComputationData)
+            pvtComputationInteractor.computePosition(gnssData)
                 .subscribe({
                     // Computing PVT
                 }, { computedPvtData ->

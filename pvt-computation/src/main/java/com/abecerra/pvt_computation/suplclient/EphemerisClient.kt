@@ -1,6 +1,6 @@
-package com.abecerra.pvt_computation.domain.computation.ephemeris
+package com.abecerra.pvt_computation.suplclient
 
-import com.abecerra.pvt_computation.domain.computation.data.LlaLocation
+import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.suplclient.ephemeris.EphemerisResponse
 import com.abecerra.pvt_computation.suplclient.supl.SuplConnectionRequest
 import com.abecerra.pvt_computation.suplclient.supl.SuplController
@@ -19,11 +19,16 @@ class EphemerisClient {
 
     private fun buildSuplController() {
         val request = SuplConnectionRequest()
-        request.serverHost = SUPL_SERVER_HOST
-        request.serverPort = SUPL_SERVER_PORT
-        request.isSslEnabled = SUPL_SSL_ENABLED
-        request.isMessageLoggingEnabled = SUPL_MESSAGE_LOGGING_ENABLED
-        request.isLoggingEnabled = SUPL_LOGGING_ENABLED
+        request.serverHost =
+            SUPL_SERVER_HOST
+        request.serverPort =
+            SUPL_SERVER_PORT
+        request.isSslEnabled =
+            SUPL_SSL_ENABLED
+        request.isMessageLoggingEnabled =
+            SUPL_MESSAGE_LOGGING_ENABLED
+        request.isLoggingEnabled =
+            SUPL_LOGGING_ENABLED
         suplController = SuplController(request)
     }
 

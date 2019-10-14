@@ -1,24 +1,28 @@
-package com.abecerra.pvt_acquisition.acquisition
+package com.abecerra.pvt_acquisition.framework
 
-import android.app.PendingIntent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.location.*
 import android.os.Bundle
-import com.abecerra.pvt_acquisition.acquisition.presenter.PvtPresenterImpl
-import com.abecerra.pvt_acquisition.acquisition.presenter.PvtServiceContract
 import com.abecerra.pvt_acquisition.app.base.BaseGnssService
 import com.abecerra.pvt_acquisition.app.extensions.checkPermission
 import com.abecerra.pvt_acquisition.app.extensions.subscribe
+import com.abecerra.pvt_acquisition.domain.input.GnssServiceContract
+import com.abecerra.pvt_acquisition.domain.input.GnssServiceInteractorImpl
 import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.output.PvtOutputData
+import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
+import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractorImpl
+import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithm
+import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithmImpl
+import com.abecerra.pvt_computation.suplclient.EphemerisClient
 import io.reactivex.disposables.CompositeDisposable
 
-class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, OnNmeaMessageListener,
-    SensorEventListener, LocationListener {
+class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
+    OnNmeaMessageListener, SensorEventListener, LocationListener {
 
-    private val mPresenter: PvtServiceContract.PvtPresenter = PvtPresenterImpl()
+    private var mInteractor: GnssServiceContract.GnssServiceInteractor? = null
 
     private var gnssStatusListener: GnssStatus.Callback? = null
     private var gnssMeasurementsEventListener: GnssMeasurementsEvent.Callback? = null
@@ -27,8 +31,13 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
 
     override fun onCreate() {
         super.onCreate()
+        val ephemerisClient = EphemerisClient()
+        val pvtComputationAlgorithm: PvtComputationAlgorithm = PvtComputationAlgorithmImpl()
+        val pvtComputationInteractor: PvtComputationInteractor =
+            PvtComputationInteractorImpl(pvtComputationAlgorithm)
 
-        mPresenter.bindOutput(this)
+        mInteractor = GnssServiceInteractorImpl(ephemerisClient, pvtComputationInteractor)
+        mInteractor?.bindOutput(this)
 
         startGnss()
     }
@@ -37,7 +46,7 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
         if (checkPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
             gnssStatusListener = object : GnssStatus.Callback() {
                 override fun onSatelliteStatusChanged(status: GnssStatus) {
-                    mPresenter.setStatus(status)
+                    mInteractor?.setStatus(status)
                     gnssEventsListeners.forEach { it.onSatelliteStatusChanged(status) }
                 }
 
@@ -54,7 +63,7 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
 
             gnssMeasurementsEventListener = object : GnssMeasurementsEvent.Callback() {
                 override fun onGnssMeasurementsReceived(measurementsEvent: GnssMeasurementsEvent) {
-                    mPresenter.setMeasurement(measurementsEvent)
+                    mInteractor?.setMeasurement(measurementsEvent)
                     gnssEventsListeners.forEach { it.onGnssMeasurementsReceived(measurementsEvent) }
                 }
             }
@@ -88,7 +97,7 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
     }
 
     fun startComputing(computationSettings: List<ComputationSettings>) {
-        mPresenter.startComputing(computationSettings).subscribe({
+        mInteractor?.startComputing(computationSettings)?.subscribe({
             // obtaining Ephemeris
         }, {
             setNotification()
@@ -100,7 +109,7 @@ class GnssService : BaseGnssService(), PvtServiceContract.PvtPresenterOutput, On
     }
 
     fun stopComputing() {
-        mPresenter.stopComputing()
+        mInteractor?.stopComputing()
         stopForeground(true)
     }
 
