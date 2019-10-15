@@ -1,8 +1,8 @@
 package com.abecerra.pvt_computation.data
 
 data class PvtFix(
-    var location: Location,
-    var time: Double
+    var location: Location = Location(),
+    var time: Double = 0.0
 )
 
 data class Location(

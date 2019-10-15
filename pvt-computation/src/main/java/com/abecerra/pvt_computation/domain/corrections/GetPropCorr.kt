@@ -5,6 +5,7 @@ import com.abecerra.pvt_computation.data.output.PvtEcef
 import com.abecerra.pvt_computation.data.Constants.CORR_IONOSPHERE
 import com.abecerra.pvt_computation.data.Constants.CORR_TROPOSPHERE
 import com.abecerra.pvt_computation.data.Constants.KLOBUCHAR
+import com.abecerra.pvt_computation.data.PvtFix
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.ecef2lla
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.toTopocent
 
@@ -19,7 +20,7 @@ data class PropCorr(
  */
 fun getPropCorr(
     satPos: EcefLocation,
-    refPos: PvtEcef,
+    refPos: EcefLocation,
     iono: ArrayList<Double>,
     tow: Double,
     corrections: ArrayList<Int>

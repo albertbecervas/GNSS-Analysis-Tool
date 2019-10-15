@@ -2,21 +2,24 @@ package com.abecerra.pvt_acquisition.domain.input
 
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
-import com.abecerra.pvt_computation.data.input.ComputationSettings
-import com.abecerra.pvt_computation.data.input.Epoch
-import com.abecerra.pvt_computation.data.LlaLocation
-import com.abecerra.pvt_computation.suplclient.EphemerisClient
 import com.abecerra.pvt_acquisition.app.extensions.subscribe
-import com.abecerra.pvt_acquisition.domain.acquisition.EpochAcquisitionDataBuilder
 import com.abecerra.pvt_acquisition.data.GnssComputationData
 import com.abecerra.pvt_acquisition.data.mapper.PvtInputDataMapper
+import com.abecerra.pvt_acquisition.domain.acquisition.EpochAcquisitionDataBuilder
+import com.abecerra.pvt_computation.data.LlaLocation
+import com.abecerra.pvt_computation.data.Location
+import com.abecerra.pvt_computation.data.input.ComputationSettings
+import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
+import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.lla2ecef
+import com.abecerra.pvt_computation.suplclient.EphemerisClient
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
 class GnssServiceInteractorImpl(
-    private val ephemerisClient: EphemerisClient,private val pvtComputationInteractor: PvtComputationInteractor
+    private val ephemerisClient: EphemerisClient,
+    private val pvtComputationInteractor: PvtComputationInteractor
 ) :
     GnssServiceContract.GnssServiceInteractor {
 
@@ -28,7 +31,12 @@ class GnssServiceInteractorImpl(
         this.mListener = output
     }
 
-    override fun startComputing(computationSettings: List<ComputationSettings>): Single<String> {
+    override fun startComputing(
+        computationSettings: List<ComputationSettings>, referenceLocation: LlaLocation
+    ): Single<String> {
+
+        gnssComputationData.refLocation = Location(referenceLocation, lla2ecef(referenceLocation))
+
         return Single.create { emitter ->
             ephemerisClient.getEphemerisData(LlaLocation())
                 .subscribe({
@@ -54,7 +62,8 @@ class GnssServiceInteractorImpl(
     override fun setMeasurement(measurementsEvent: GnssMeasurementsEvent) {
         gnssComputationData.ephemerisResponse?.let { ephemeris ->
             gnssComputationData.gnssStatus?.let { status ->
-                val epoch = EpochAcquisitionDataBuilder.mapToEpoch(measurementsEvent, status, ephemeris)
+                val epoch =
+                    EpochAcquisitionDataBuilder.mapToEpoch(measurementsEvent, status, ephemeris)
                 computePvt(epoch)
             }
         }

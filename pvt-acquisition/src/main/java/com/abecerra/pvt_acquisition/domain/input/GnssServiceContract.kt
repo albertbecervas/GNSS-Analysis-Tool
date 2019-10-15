@@ -2,6 +2,7 @@ package com.abecerra.pvt_acquisition.domain.input
 
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
+import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.output.PvtOutputData
 import io.reactivex.Single
@@ -12,7 +13,8 @@ interface GnssServiceContract {
 
         fun bindOutput(output: GnssInteractorOutput)
 
-        fun startComputing(computationSettings: List<ComputationSettings>): Single<String>
+        fun startComputing(computationSettings: List<ComputationSettings>,
+                           referenceLocation: LlaLocation): Single<String>
         fun stopComputing()
 
         fun setStatus(gnssStatus: GnssStatus)

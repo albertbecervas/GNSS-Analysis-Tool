@@ -1,12 +1,8 @@
 package com.abecerra.pvt_computation.domain.computation
 
-import com.abecerra.pvt_computation.data.EcefLocation
-import com.abecerra.pvt_computation.data.LlaLocation
-import com.abecerra.pvt_computation.data.Location
-import com.abecerra.pvt_computation.data.PvtFix
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
-import com.abecerra.pvt_computation.data.output.PvtOutputData
 import com.abecerra.pvt_computation.data.input.PvtInputData
+import com.abecerra.pvt_computation.data.output.PvtOutputData
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithm
 import io.reactivex.Single
 
@@ -24,6 +20,7 @@ class PvtComputationInteractorImpl(private val pvtComputationAlgorithm: PvtCompu
 
                 val pvtAlgorithmInputData = PvtAlgorithmInputData(
                     epochMeasurements = pvtInputData.epochMeasurements,
+                    referenceLocation = pvtInputData.refLocation,
                     computationSettings = computationSettings
                 )
 

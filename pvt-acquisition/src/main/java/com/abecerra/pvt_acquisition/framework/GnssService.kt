@@ -10,6 +10,7 @@ import com.abecerra.pvt_acquisition.app.extensions.checkPermission
 import com.abecerra.pvt_acquisition.app.extensions.subscribe
 import com.abecerra.pvt_acquisition.domain.input.GnssServiceContract
 import com.abecerra.pvt_acquisition.domain.input.GnssServiceInteractorImpl
+import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.output.PvtOutputData
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
@@ -26,6 +27,8 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
 
     private var gnssStatusListener: GnssStatus.Callback? = null
     private var gnssMeasurementsEventListener: GnssMeasurementsEvent.Callback? = null
+
+    private var referenceLocation: LlaLocation = LlaLocation()
 
     override fun getInstance(): GnssService = this
 
@@ -97,7 +100,7 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
     }
 
     fun startComputing(computationSettings: List<ComputationSettings>) {
-        mInteractor?.startComputing(computationSettings)?.subscribe({
+        mInteractor?.startComputing(computationSettings, referenceLocation)?.subscribe({
             // obtaining Ephemeris
         }, {
             setNotification()
@@ -128,8 +131,11 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
     }
 
     override fun onLocationChanged(location: Location?) {
-        gnssEventsListeners.forEach {
-            location?.let { loc -> it.onLocationReceived(loc) }
+        location?.let { loc ->
+            referenceLocation = LlaLocation(loc.latitude, loc.altitude, loc.altitude)
+            gnssEventsListeners.forEach {
+                it.onLocationReceived(loc)
+            }
         }
     }
 
