@@ -9,13 +9,9 @@ import com.abecerra.pvt_computation.data.output.ResponsePvtMultiConst
 import com.abecerra.pvt_computation.data.Constants.C
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
 import com.abecerra.pvt_computation.data.output.Corrections
-import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.ecef2lla
-import com.abecerra.pvt_computation.domain.computation.utils.computeCNoWeightMatrix
-import com.abecerra.pvt_computation.domain.computation.utils.leastSquares
+import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.leastSquares
 import com.abecerra.pvt_computation.domain.computation.utils.outliers
 import com.abecerra.pvt_computation.domain.corrections.getCtrlCorr
-import org.ejml.data.DMatrixRMaj
-import org.ejml.dense.row.CommonOps_DDRM
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -128,14 +124,37 @@ fun pvtMultiConst(pvtInputData: PvtInputData, computationSettings: ComputationSe
                     val multiConstcn0 = gpsCn0 + galCn0
 
                     responsePvtMultiConst =
-                        leastSquares(position, multiConstP, multiconstA, isMultiConst, multiConstcn0, isWeight)
+                        leastSquares(
+                            position,
+                            multiConstP,
+                            multiconstA,
+                            isMultiConst,
+                            multiConstcn0,
+                            isWeight
+                        )
                 } else {
                     when {
                         computationSettings.constellations.contains(Constants.GPS) -> {
-                            responsePvtMultiConst = leastSquares(position, gpsP, gpsA, isMultiConst, gpsCn0, isWeight)
+                            responsePvtMultiConst =
+                                leastSquares(
+                                    position,
+                                    gpsP,
+                                    gpsA,
+                                    isMultiConst,
+                                    gpsCn0,
+                                    isWeight
+                                )
                         }
                         computationSettings.constellations.contains(Constants.GALILEO) -> {
-                            responsePvtMultiConst = leastSquares(position, galP, galA, isMultiConst, galCn0, isWeight)
+                            responsePvtMultiConst =
+                                leastSquares(
+                                    position,
+                                    galP,
+                                    galA,
+                                    isMultiConst,
+                                    galCn0,
+                                    isWeight
+                                )
                         }
                     }
                 }

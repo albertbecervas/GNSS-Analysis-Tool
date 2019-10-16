@@ -54,24 +54,3 @@ fun nsgpst2gpst(timeNanos: Long): LongArray {
 
     return longArrayOf(tow, now)
 }
-
-/**
- * Compute Weight Matrix
- */
-fun computeCNoWeightMatrix(cnos: List<Double>, isWeight: Boolean): DMatrixRMaj {
-    var wMat = CommonOps_DDRM.identity(cnos.size, cnos.size)
-    if (isWeight) {
-        val diagonal = arrayListOf<Double>()
-        val tmp = arrayListOf<Double>()
-        cnos.forEach { cno ->
-            tmp.add(pow(10.0, -cno / 10))
-        }
-        val sum = tmp.sum()
-        tmp.forEach {
-            diagonal.add(1 / (it / sum))
-        }
-        wMat = CommonOps_DDRM.diag(*diagonal.toDoubleArray())
-    }
-
-    return wMat
-}

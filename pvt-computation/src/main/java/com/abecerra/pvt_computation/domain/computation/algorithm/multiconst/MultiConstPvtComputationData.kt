@@ -1,0 +1,3 @@
+package com.abecerra.pvt_computation.domain.computation.algorithm.multiconst
+
+class MultiConstPvtComputationData
