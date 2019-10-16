@@ -3,20 +3,20 @@ package com.abecerra.pvt_computation.data.algorithm
 import com.abecerra.pvt_computation.data.EcefLocation
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
 
-abstract class PvtAlgorithmComputationInputData {
-    abstract fun getA(): ArrayList<ArrayList<Double>>
-    abstract fun getP(): ArrayList<Double>
-    abstract fun getTCorr(): ArrayList<Double>
-    abstract fun getPCorr(): ArrayList<Double>
-    abstract fun getX(): ArrayList<EcefLocation>
-    abstract fun getPr(): ArrayList<Double>
-    abstract fun getSvn(): ArrayList<Int>
-    abstract fun getCn0(): ArrayList<Double>
-    abstract fun getSatellites(): ArrayList<SatelliteMeasurements>
-    abstract fun getCorr(): Double
-    abstract fun getPrC(): Double
-    abstract fun getD0(): Double
-    abstract fun getAx(): Double
-    abstract fun getAy(): Double
-    abstract fun getAz(): Double
-}
+data class PvtAlgorithmComputationInputData(
+    val a: ArrayList<ArrayList<Double>> = arrayListOf(),
+    var p: ArrayList<Double> = arrayListOf(),
+    val tCorr: ArrayList<Double> = arrayListOf(),
+    var pCorr: ArrayList<Double> = arrayListOf(),
+    val x: ArrayList<EcefLocation> = arrayListOf(),
+    val pR: ArrayList<Double> = arrayListOf<Double>(),
+    val svn: ArrayList<Int> = arrayListOf<Int>(),
+    val cn0: ArrayList<Double> = arrayListOf<Double>(),
+    val satellites: ArrayList<SatelliteMeasurements> = arrayListOf<SatelliteMeasurements>(),
+    var corr: Double = 0.0,
+    var pRc: Double = 0.0,
+    var d0: Double = 0.0,
+    var aX: Double = 0.0,
+    var aY: Double = 0.0,
+    var aZ: Double = 0.0
+)

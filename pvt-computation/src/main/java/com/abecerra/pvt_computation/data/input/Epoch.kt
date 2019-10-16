@@ -16,4 +16,12 @@ data class Epoch(
     fun getGalSatelliteMeasurements(): List<SatelliteMeasurements> {
         return satellitesMeasurements.filter { it.constellation == Constants.GALILEO }
     }
+
+    fun getConstellationSatellites(constellation: Int): List<SatelliteMeasurements> {
+        return when (constellation) {
+            Constants.GPS -> getGpsSatelliteMeasurements()
+            Constants.GALILEO -> getGalSatelliteMeasurements()
+            else -> arrayListOf()
+        }
+    }
 }

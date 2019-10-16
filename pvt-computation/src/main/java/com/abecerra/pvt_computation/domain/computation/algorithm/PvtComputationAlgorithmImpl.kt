@@ -1,16 +1,11 @@
 package com.abecerra.pvt_computation.domain.computation.algorithm
 
 import com.abecerra.pvt_computation.data.Constants
-import com.abecerra.pvt_computation.data.EcefLocation
 import com.abecerra.pvt_computation.data.PvtFix
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmComputationInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
 import com.abecerra.pvt_computation.data.input.Epoch
-import com.abecerra.pvt_computation.data.output.PvtEcef
-import com.abecerra.pvt_computation.domain.computation.algorithm.gal.GalComputation
-import com.abecerra.pvt_computation.domain.computation.algorithm.gal.GalComputation.computeGal
-import com.abecerra.pvt_computation.domain.computation.algorithm.gps.GpsComputation
-import com.abecerra.pvt_computation.domain.computation.algorithm.gps.GpsComputation.computeGps
+import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputation.computePvtAlgorithmComputationInputData
 import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.leastSquares
 
 class PvtComputationAlgorithmImpl : PvtComputationAlgorithm {
@@ -23,61 +18,83 @@ class PvtComputationAlgorithmImpl : PvtComputationAlgorithm {
 
         algorithmInputData.epochMeasurements.forEach {
 
-            computeEpoch(it, algorithmInputData)
+            computeEpoch(it, algorithmInputData)?.let {
+                obtainedPvtFixes.add(it)
+            }
 
         }
+
+        // TODO compute epoch mean
 
         return pvtFix
     }
 
 
-    private fun computeEpoch(epoch: Epoch, algorithmInputData: PvtAlgorithmInputData) {
-        var position = algorithmInputData.referenceLocation.ecefLocation
+    private fun computeEpoch(epoch: Epoch, algorithmInputData: PvtAlgorithmInputData): PvtFix? {
+        var epochPvtFix: PvtFix? = PvtFix(algorithmInputData.referenceLocation)
 
-        var gpsPvtComputationData = GpsComputation.initGpsPvtComputationDataIfSelected(epoch)
+        var gpsPvtComputationData =
+            PvtComputation.initPvtComputationDataForConstellation(epoch, Constants.GPS)
 
-        var galPvtComputatiomData = GalComputation.initGalPvtComputationDataIfSelected(epoch)
+        var galPvtComputationData =
+            PvtComputation.initPvtComputationDataForConstellation(epoch, Constants.GALILEO)
 
-        var pvtAlgorithmComputationInputData: PvtAlgorithmComputationInputData =
-            gpsPvtComputationData
+
+        var pvtAlgorithmComputationInputData: PvtAlgorithmComputationInputData
 
         repeat(Constants.PVT_ITER) {
 
-            when {
-                algorithmInputData.isGpsSelected() -> {
-                    pvtAlgorithmComputationInputData =
-                        computeGps(position, epoch, algorithmInputData, gpsPvtComputationData)
-                }
-                algorithmInputData.isGalileoSelected() -> {
-                    pvtAlgorithmComputationInputData =
-                        computeGal(position, epoch, algorithmInputData, galPvtComputatiomData)
 
+            epochPvtFix?.let {fix ->
+                pvtAlgorithmComputationInputData = when {
+                    algorithmInputData.isGpsSelected() -> {
+                        gpsPvtComputationData =
+                            computePvtAlgorithmComputationInputData(
+                                fix.location.ecefLocation,
+                                epoch, algorithmInputData, gpsPvtComputationData
+                            )
+                        gpsPvtComputationData
+                    }
+                    algorithmInputData.isGalileoSelected() -> {
+                        galPvtComputationData =
+                            computePvtAlgorithmComputationInputData(
+                                fix.location.ecefLocation,
+                                epoch, algorithmInputData, galPvtComputationData
+                            )
+                        galPvtComputationData
+                    }
+                    else -> gpsPvtComputationData
+                }
+
+                if (algorithmInputData.isMultiConstellationSelected()) {
+                    pvtAlgorithmComputationInputData.p.clear()
+                    pvtAlgorithmComputationInputData.p.addAll(
+                        gpsPvtComputationData.p + galPvtComputationData.p
+                    )
+
+                    pvtAlgorithmComputationInputData.a.clear()
+                    pvtAlgorithmComputationInputData.a.addAll(
+                        gpsPvtComputationData.a + galPvtComputationData.a
+                    )
+
+                    //TODO: add
+//                val multiConstcn0 = gpsCleanCn0 + galCleanCn0
+                }
+
+                val pvtAlgorithmComputationOutputData = leastSquares(
+                    fix.location.ecefLocation,
+                    pvtAlgorithmComputationInputData,
+                    algorithmInputData.isMultiConstellationSelected(),
+                    algorithmInputData.isWeightedLeastSquaresSelected()
+                )
+
+                pvtAlgorithmComputationOutputData?.pvtFix?.let {
+                    epochPvtFix = it
+                }?.let {
+                    epochPvtFix = null
                 }
             }
-
-            if (algorithmInputData.isMultiConstellationSelected()){
-
-            }
-
-            computePvtWithLeastSquares(
-                position,
-                pvtAlgorithmComputationInputData,
-                algorithmInputData
-            )
-
         }
-    }
-
-    private fun computePvtWithLeastSquares(
-        position: EcefLocation,
-        pvtAlgorithmComputationInputData: PvtAlgorithmComputationInputData,
-        pvtAlgorithmInputData: PvtAlgorithmInputData
-    ) {
-        leastSquares(
-            position,
-            pvtAlgorithmComputationInputData,
-            pvtAlgorithmInputData.isMultiConstellationSelected(),
-            pvtAlgorithmInputData.isWeightedLeastSquaresSelected()
-        )
+        return epochPvtFix
     }
 }

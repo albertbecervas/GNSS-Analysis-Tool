@@ -25,10 +25,10 @@ fun leastSquares(
         var response: PvtAlgorithmComputationOutputData? = null
         val position = PvtEcef(refPosition.x,refPosition.y,refPosition.z)
         try {
-            val nSatellites = getPr().size
+            val nSatellites = pR.size
             val nUnknowns = if (isMultiC) 5 else 4
             if (nSatellites >= nUnknowns) {
-                if (getA().size != nSatellites) {
+                if (a.size != nSatellites) {
                     println("A and p are not the same length")
                 }
 
@@ -36,18 +36,18 @@ fun leastSquares(
 
                 // Column vector p of nSatellites rows
                 val pVector =
-                    SimpleMatrix(nSatellites, 1, true, getPr().toDoubleArray())
+                    SimpleMatrix(nSatellites, 1, true, pR.toDoubleArray())
                 // Matrix G of nSatellites rows and nUnknowns columns
                 val gMatrix = SimpleMatrix(nSatellites, nUnknowns)
                 // Matrix W of nSatellites rows and nSatellites columns, identity if isWeight = false
-                val wMatrix = computeCNoWeightMatrix(getCn0(), isWeight)
+                val wMatrix = computeCNoWeightMatrix(cn0, isWeight)
 
-                getA().forEachIndexed { row, arrayList ->
-                    gMatrix.set(row, 0, getA()[row][0])
-                    gMatrix.set(row, 1, getA()[row][1])
-                    gMatrix.set(row, 2, getA()[row][2])
-                    gMatrix.set(row, 3, getA()[row][3])
-                    if (nUnknowns == 5) gMatrix.set(row, 4, getA()[row][4])
+                a.forEachIndexed { row, arrayList ->
+                    gMatrix.set(row, 0, a[row][0])
+                    gMatrix.set(row, 1, a[row][1])
+                    gMatrix.set(row, 2, a[row][2])
+                    gMatrix.set(row, 3, a[row][3])
+                    if (nUnknowns == 5) gMatrix.set(row, 4, a[row][4])
                 }
 
                 // H = inv(G'*W*G)
