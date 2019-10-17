@@ -9,8 +9,8 @@ data class PvtOutputData(
     var pvtFix: PvtFix,
     var refPosition: LlaLocation,
     var computationSettings: ComputationSettings,
-    var corrections: Corrections,
-    var dop: Dop,
+    var corrections: Corrections = Corrections(),
+    var dop: Dop = Dop(),
     var residue: Double = 0.0,
     var nSats: Float = 0f
 ) : Serializable

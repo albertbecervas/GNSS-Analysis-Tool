@@ -34,6 +34,12 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
 
     override fun onCreate() {
         super.onCreate()
+
+        setPvtComputationInteractor()
+        startGnss()
+    }
+
+    private fun setPvtComputationInteractor() {
         val ephemerisClient = EphemerisClient()
         val pvtComputationAlgorithm: PvtComputationAlgorithm = PvtComputationAlgorithmImpl()
         val pvtComputationInteractor: PvtComputationInteractor =
@@ -41,8 +47,6 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
 
         mInteractor = GnssServiceInteractorImpl(ephemerisClient, pvtComputationInteractor)
         mInteractor?.bindOutput(this)
-
-        startGnss()
     }
 
     private fun startGnss() {

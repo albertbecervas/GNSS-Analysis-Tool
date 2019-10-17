@@ -20,8 +20,7 @@ import java.util.*
 class GnssServiceInteractorImpl(
     private val ephemerisClient: EphemerisClient,
     private val pvtComputationInteractor: PvtComputationInteractor
-) :
-    GnssServiceContract.GnssServiceInteractor {
+) : GnssServiceContract.GnssServiceInteractor {
 
     private var mListener: GnssServiceContract.GnssInteractorOutput? = null
 
@@ -76,14 +75,6 @@ class GnssServiceInteractorImpl(
         if (isMeanTimePassed()) {
             val gnssData = PvtInputDataMapper.mapToPvtInputData(gnssComputationData)
             pvtComputationInteractor.computePosition(gnssData)
-                .subscribe({
-                    // Computing PVT
-                }, { computedPvtData ->
-                    mListener?.onPvtResponse(computedPvtData)
-                }, {
-                    // Error computing PVT
-                    mListener?.onPvtError("")
-                }, CompositeDisposable())
         }
     }
 

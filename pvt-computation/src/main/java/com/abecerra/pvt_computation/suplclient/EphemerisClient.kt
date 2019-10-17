@@ -5,8 +5,6 @@ import com.abecerra.pvt_computation.suplclient.ephemeris.EphemerisResponse
 import com.abecerra.pvt_computation.suplclient.supl.SuplConnectionRequest
 import com.abecerra.pvt_computation.suplclient.supl.SuplController
 import io.reactivex.Single
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlin.math.roundToLong
 
 class EphemerisClient {
@@ -37,18 +35,16 @@ class EphemerisClient {
     ): Single<EphemerisResponse> {
 
         return Single.create { emitter ->
-            GlobalScope.launch {
-                val ephResponse: EphemerisResponse?
-                val latE7 = (refPos.latitude * 1e7).roundToLong()
-                val lngE7 = (refPos.longitude * 1e7).roundToLong()
+            val ephResponse: EphemerisResponse?
+            val latE7 = (refPos.latitude * 1e7).roundToLong()
+            val lngE7 = (refPos.longitude * 1e7).roundToLong()
 
-                suplController?.sendSuplRequest(latE7, lngE7)
-                ephResponse = suplController?.generateEphResponse(latE7, lngE7)
-                ephResponse?.let {
-                    emitter.onSuccess(it)
-                } ?: run {
-                    emitter.onError(Throwable("error obtaining ephemeris"))
-                }
+            suplController?.sendSuplRequest(latE7, lngE7)
+            ephResponse = suplController?.generateEphResponse(latE7, lngE7)
+            ephResponse?.let {
+                emitter.onSuccess(it)
+            } ?: run {
+                emitter.onError(Throwable("error obtaining ephemeris"))
             }
         }
 

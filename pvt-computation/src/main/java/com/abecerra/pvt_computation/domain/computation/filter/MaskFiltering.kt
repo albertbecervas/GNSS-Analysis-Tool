@@ -17,7 +17,5 @@ object MaskFiltering {
 
         return pvtInputData
     }
-
-
 }
 

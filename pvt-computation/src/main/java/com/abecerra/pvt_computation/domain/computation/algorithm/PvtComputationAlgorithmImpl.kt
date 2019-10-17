@@ -4,13 +4,15 @@ import com.abecerra.pvt_computation.data.Constants
 import com.abecerra.pvt_computation.data.PvtFix
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmComputationInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
+import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputation.computePvtAlgorithmComputationInputData
 import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.leastSquares
 
 class PvtComputationAlgorithmImpl : PvtComputationAlgorithm {
 
-    override fun executePvtAlgorithm(algorithmInputData: PvtAlgorithmInputData): PvtFix {
+    override fun executePvtAlgorithm(algorithmInputData: PvtAlgorithmInputData):
+            PvtAlgorithmOutputData {
 
         val pvtFix = PvtFix()
 
@@ -21,12 +23,11 @@ class PvtComputationAlgorithmImpl : PvtComputationAlgorithm {
             computeEpoch(it, algorithmInputData)?.let {
                 obtainedPvtFixes.add(it)
             }
-
         }
 
         // TODO compute epoch mean
 
-        return pvtFix
+        return PvtAlgorithmOutputData(pvtFix)
     }
 
 
@@ -45,7 +46,7 @@ class PvtComputationAlgorithmImpl : PvtComputationAlgorithm {
         repeat(Constants.PVT_ITER) {
 
 
-            epochPvtFix?.let {fix ->
+            epochPvtFix?.let { fix ->
                 pvtAlgorithmComputationInputData = when {
                     algorithmInputData.isGpsSelected() -> {
                         gpsPvtComputationData =
