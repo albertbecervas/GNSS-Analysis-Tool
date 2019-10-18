@@ -3,7 +3,7 @@ package com.abecerra.pvt_acquisition.domain.acquisition
 import android.location.GnssMeasurementsEvent
 import android.location.GnssStatus
 import com.abecerra.pvt_computation.data.input.Epoch
-import com.abecerra.pvt_computation.suplclient.ephemeris.EphemerisResponse
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.EphemerisResponse
 
 object EpochAcquisitionDataBuilder {
 

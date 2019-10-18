@@ -1,6 +1,6 @@
 package com.abecerra.pvt_computation.data.input
 
-import com.abecerra.pvt_computation.suplclient.ephemeris.KeplerianModel
+import com.abecerra.pvt_computation.data.ephemeris.KeplerianModel
 
 data class SatelliteEphemeris(
     var tow: Double = -1.0,

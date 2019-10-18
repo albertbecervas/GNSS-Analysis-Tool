@@ -17,7 +17,7 @@ import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractorImpl
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithm
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithmImpl
-import com.abecerra.pvt_computation.suplclient.EphemerisClient
+import com.abecerra.pvt_ephemeris_client.suplclient.EphemerisClient
 import io.reactivex.disposables.CompositeDisposable
 
 class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,

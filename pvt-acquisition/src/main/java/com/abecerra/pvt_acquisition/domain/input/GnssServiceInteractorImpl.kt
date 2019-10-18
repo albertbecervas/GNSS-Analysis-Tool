@@ -12,7 +12,8 @@ import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.lla2ecef
-import com.abecerra.pvt_computation.suplclient.EphemerisClient
+import com.abecerra.pvt_ephemeris_client.suplclient.EphemerisClient
+import com.abecerra.pvt_ephemeris_client.suplclient.data.EphLocation
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
@@ -37,16 +38,17 @@ class GnssServiceInteractorImpl(
         gnssComputationData.refLocation = Location(referenceLocation, lla2ecef(referenceLocation))
 
         return Single.create { emitter ->
-            ephemerisClient.getEphemerisData(LlaLocation())
-                .subscribe({
-                }, {
-                    gnssComputationData.ephemerisResponse = it
-                    gnssComputationData.startedComputingDate = Date()
-                    gnssComputationData.computationSettings = computationSettings
-                    emitter.onSuccess("")
-                }, {
-                    emitter.onError(Throwable())
-                }, CompositeDisposable())
+            ephemerisClient.getEphemerisData(
+                EphLocation(referenceLocation.latitude, referenceLocation.longitude)
+            ).subscribe({
+            }, {
+                gnssComputationData.ephemerisResponse = it
+                gnssComputationData.startedComputingDate = Date()
+                gnssComputationData.computationSettings = computationSettings
+                emitter.onSuccess("")
+            }, {
+                emitter.onError(Throwable())
+            }, CompositeDisposable())
         }
     }
 

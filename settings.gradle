@@ -1,1 +1,1 @@
-include ':app', ':pvt-acquisition', ':pvt-computation'
+include ':app', ':pvt-acquisition', ':pvt-computation', ':pvt-ephemeris-client'

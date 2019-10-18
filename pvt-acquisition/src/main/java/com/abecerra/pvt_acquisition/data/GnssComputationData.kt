@@ -4,7 +4,7 @@ import android.location.GnssStatus
 import com.abecerra.pvt_computation.data.Location
 import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.input.Epoch
-import com.abecerra.pvt_computation.suplclient.ephemeris.EphemerisResponse
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.EphemerisResponse
 import java.util.*
 
 data class GnssComputationData(

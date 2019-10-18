@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/pvt-acquisition/pvt-acquisition.iml" filepath="$PROJECT_DIR$/pvt-acquisition/pvt-acquisition.iml" />
       <module fileurl="file://$PROJECT_DIR$/pvt-computation/pvt-computation.iml" filepath="$PROJECT_DIR$/pvt-computation/pvt-computation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pvt-ephemeris-client/pvt-ephemeris-client.iml" filepath="$PROJECT_DIR$/pvt-ephemeris-client/pvt-ephemeris-client.iml" />
     </modules>
   </component>
 </project>
