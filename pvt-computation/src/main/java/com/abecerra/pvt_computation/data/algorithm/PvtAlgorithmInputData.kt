@@ -12,11 +12,13 @@ class PvtAlgorithmInputData(
 ) {
 
     fun isGpsSelected(): Boolean {
-        return computationSettings.constellations.contains(Constants.GPS)
+        return computationSettings.constellations.size == 1
+                && computationSettings.constellations.contains(Constants.GPS)
     }
 
-    fun isGalileoSelected(): Boolean {
-        return computationSettings.constellations.contains(Constants.GALILEO)
+    fun isGalileoOnlySelected(): Boolean {
+        return computationSettings.constellations.size == 1
+                && computationSettings.constellations.contains(Constants.GALILEO)
     }
 
     fun isMultiConstellationSelected(): Boolean {

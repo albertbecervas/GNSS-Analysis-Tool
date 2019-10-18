@@ -2,12 +2,12 @@ package com.abecerra.pvt_computation.domain.computation.algorithm
 
 import com.abecerra.pvt_computation.data.Constants
 import com.abecerra.pvt_computation.data.EcefLocation
-import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmComputationInputData
+import com.abecerra.pvt_computation.data.algorithm.LeastSquaresInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.domain.computation.utils.outliers
-import com.abecerra.pvt_computation.domain.corrections.getCtrlCorr
-import com.abecerra.pvt_computation.domain.corrections.getPropCorr
+import com.abecerra.pvt_computation.domain.computation.corrections.getCtrlCorr
+import com.abecerra.pvt_computation.domain.computation.corrections.getPropCorr
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -15,11 +15,11 @@ object PvtComputation {
 
     private const val INITIAL_INDEX: Int = 0
 
-    fun initPvtComputationDataForConstellation(
+    fun initLeastSquaresInputDataForConstellation(
         epoch: Epoch,
         constellation: Int
-    ): PvtAlgorithmComputationInputData {
-        val pvtAlgorithmComputationInputData = PvtAlgorithmComputationInputData()
+    ): LeastSquaresInputData {
+        val pvtAlgorithmComputationInputData = LeastSquaresInputData()
         with(pvtAlgorithmComputationInputData) {
             satellites.addAll(epoch.getConstellationSatellites(constellation))
 
@@ -43,14 +43,18 @@ object PvtComputation {
         return pvtAlgorithmComputationInputData
     }
 
-    fun computePvtAlgorithmComputationInputData(
+    fun prepareLeastSquaresInputData(
         referencePosition: EcefLocation,
         epoch: Epoch,
         pvtAlgorithmInputData: PvtAlgorithmInputData,
-        PvtComputationData: PvtAlgorithmComputationInputData
-    ): PvtAlgorithmComputationInputData {
+        pvtComputationData: LeastSquaresInputData
+    ): LeastSquaresInputData {
 
-        PvtComputationData.run {
+        pvtComputationData.run {
+
+            refPosition = referencePosition
+            isMultiC = pvtAlgorithmInputData.isMultiConstellationSelected()
+            isWeight = pvtAlgorithmInputData.isWeightedLeastSquaresSelected()
 
             satellites.forEachIndexed { j, Sat ->
 
@@ -87,10 +91,10 @@ object PvtComputation {
                 cn0.removeAt(it)
             }
         }
-        return PvtComputationData
+        return pvtComputationData
     }
 
-    private fun PvtAlgorithmComputationInputData.getPropagationCorrections(
+    private fun LeastSquaresInputData.getPropagationCorrections(
         j: Int,
         referencePosition: EcefLocation,
         epoch: Epoch,

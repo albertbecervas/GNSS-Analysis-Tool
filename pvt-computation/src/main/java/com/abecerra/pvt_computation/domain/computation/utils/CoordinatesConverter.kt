@@ -2,6 +2,8 @@ package com.abecerra.pvt_computation.domain.computation.utils
 
 import com.abecerra.pvt_computation.data.EcefLocation
 import com.abecerra.pvt_computation.data.LlaLocation
+import com.abecerra.pvt_computation.data.PvtEcef
+import com.abecerra.pvt_computation.data.PvtLatLng
 import org.ejml.data.DMatrixRMaj
 import org.ejml.dense.row.mult.MatrixVectorMult_DDRM
 import java.lang.Math.*
@@ -216,6 +218,18 @@ object CoordinatesConverter {
         val d = sqrt(pow(dxArray[0], 2.0) + pow(dxArray[1], 2.0) + pow(dxArray[2], 2.0))
 
         return Topocentric(az, el, d)
+    }
+
+    fun pvtEcef2PvtLla(pvtEcef: PvtEcef): PvtLatLng {
+        val posEcef = EcefLocation(pvtEcef.x, pvtEcef.y, pvtEcef.z)
+        val posLla = ecef2lla(posEcef)
+        return PvtLatLng(posLla.latitude, posLla.longitude, posLla.altitude, pvtEcef.clockBias)
+    }
+
+    fun pvtLla2PvtEcef(pvtLatLng: PvtLatLng): PvtEcef {
+        val posLatLng = LlaLocation(pvtLatLng.lat, pvtLatLng.lng, pvtLatLng.altitude)
+        val posEcef = lla2ecef(posLatLng)
+        return PvtEcef(posEcef.x, posEcef.y, posEcef.z, pvtLatLng.clockBias)
     }
 }
 

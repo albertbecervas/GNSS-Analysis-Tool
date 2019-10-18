@@ -1,29 +1,24 @@
 package com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares
 
 import com.abecerra.pvt_computation.data.EcefLocation
-import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.data.Location
+import com.abecerra.pvt_computation.data.PvtEcef
 import com.abecerra.pvt_computation.data.PvtFix
-import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmComputationInputData
-import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmComputationOutputData
-import com.abecerra.pvt_computation.data.output.*
+import com.abecerra.pvt_computation.data.algorithm.LeastSquaresInputData
+import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
+import com.abecerra.pvt_computation.data.output.Corrections
+import com.abecerra.pvt_computation.data.output.Dop
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.ecef2lla
-import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.lla2ecef
 import org.ejml.simple.SimpleMatrix
-import java.lang.Exception
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 
-fun leastSquares(
-    refPosition: EcefLocation,
-    pvtAlgorithmComputationData: PvtAlgorithmComputationInputData,
-    isMultiC: Boolean,
-    isWeight: Boolean
-): PvtAlgorithmComputationOutputData? {
-    with(pvtAlgorithmComputationData) {
-        var response: PvtAlgorithmComputationOutputData? = null
-        val position = PvtEcef(refPosition.x,refPosition.y,refPosition.z)
+fun leastSquares(leastSquaresData: LeastSquaresInputData):
+        PvtAlgorithmOutputData? {
+    with(leastSquaresData) {
+        var response: PvtAlgorithmOutputData? = null
+        val position = PvtEcef(refPosition.x, refPosition.y, refPosition.z)
         try {
             val nSatellites = pR.size
             val nUnknowns = if (isMultiC) 5 else 4
@@ -42,12 +37,12 @@ fun leastSquares(
                 // Matrix W of nSatellites rows and nSatellites columns, identity if isWeight = false
                 val wMatrix = computeCNoWeightMatrix(cn0, isWeight)
 
-                a.forEachIndexed { row, arrayList ->
-                    gMatrix.set(row, 0, a[row][0])
-                    gMatrix.set(row, 1, a[row][1])
-                    gMatrix.set(row, 2, a[row][2])
-                    gMatrix.set(row, 3, a[row][3])
-                    if (nUnknowns == 5) gMatrix.set(row, 4, a[row][4])
+                a.forEachIndexed { row, a ->
+                    gMatrix.set(row, 0, a[0])
+                    gMatrix.set(row, 1, a[1])
+                    gMatrix.set(row, 2, a[2])
+                    gMatrix.set(row, 3, a[3])
+                    if (nUnknowns == 5) gMatrix.set(row, 4, a[4])
                 }
 
                 // H = inv(G'*W*G)
@@ -80,15 +75,10 @@ fun leastSquares(
 
                 val ecefLocation = EcefLocation(position.x, position.y, position.z)
                 val llaLocation = ecef2lla(ecefLocation)
-                val pvtLatLng = PvtLatLng(
-                    llaLocation.latitude,
-                    llaLocation.longitude,
-                    llaLocation.altitude,
-                    position.clockBias
-                )
+                val clockBias = position.clockBias
 
-                response = PvtAlgorithmComputationOutputData(
-                    pvtFix = PvtFix(Location(llaLocation, ecefLocation), position.clockBias),
+                response = PvtAlgorithmOutputData(
+                    pvtFix = PvtFix(Location(llaLocation, ecefLocation), clockBias),
                     dop = dop,
                     residue = residue,
                     corrections = Corrections(),
@@ -124,16 +114,4 @@ fun computeCNoWeightMatrix(cnos: List<Double>, isWeight: Boolean): SimpleMatrix 
         wMat = SimpleMatrix.diag(*diagonal.toDoubleArray())
     }
     return wMat
-}
-
-fun pvtEcef2PvtLla(pvtEcef: PvtEcef): PvtLatLng {
-    val posEcef = EcefLocation(pvtEcef.x, pvtEcef.y, pvtEcef.z)
-    val posLla = ecef2lla(posEcef)
-    return PvtLatLng(posLla.latitude, posLla.longitude, posLla.altitude, pvtEcef.clockBias)
-}
-
-fun pvtLla2PvtEcef(pvtLatLng: PvtLatLng): PvtEcef {
-    val posLatLng = LlaLocation(pvtLatLng.lat, pvtLatLng.lng, pvtLatLng.altitude)
-    val posEcef = lla2ecef(posLatLng)
-    return PvtEcef(posEcef.x, posEcef.y, posEcef.z, pvtLatLng.clockBias)
 }

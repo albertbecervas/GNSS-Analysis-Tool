@@ -5,6 +5,6 @@ import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
 
 interface PvtComputationAlgorithm {
 
-    fun executePvtAlgorithm(algorithmInputData: PvtAlgorithmInputData): PvtAlgorithmOutputData
+    fun executePvtAlgorithm(algorithmInputData: PvtAlgorithmInputData): PvtAlgorithmOutputData?
 
 }
