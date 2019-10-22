@@ -23,19 +23,11 @@ object PvtComputation {
         with(pvtAlgorithmComputationInputData) {
             satellites.addAll(epoch.getConstellationSatellites(constellation))
 
-            satellites.forEach {
-                pR.add(it.pR)
-                svn.add(it.svid)
-                cn0.add(it.cn0)
-            }
-
-            if (satellites.isNotEmpty()) {
-                val ctrlCorr =
-                    getCtrlCorr(
-                        satellites[INITIAL_INDEX],
-                        epoch.tow,
-                        pR[INITIAL_INDEX]
-                    )
+            satellites.forEachIndexed { index, sat ->
+                pR.add(sat.pR)
+                svn.add(sat.svid)
+                cn0.add(sat.cn0)
+                val ctrlCorr = getCtrlCorr(sat, epoch.tow, sat.pR)
                 x.add(ctrlCorr.ecefLocation)
                 tCorr.add(ctrlCorr.tCorr)
             }
@@ -55,6 +47,8 @@ object PvtComputation {
             refPosition = referencePosition
             isMultiC = pvtAlgorithmInputData.isMultiConstellationSelected()
             isWeight = pvtAlgorithmInputData.isWeightedLeastSquaresSelected()
+            a.clear()
+            p.clear()
 
             satellites.forEachIndexed { j, Sat ->
 

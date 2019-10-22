@@ -15,8 +15,8 @@ import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.output.PvtOutputData
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractorImpl
-import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithm
-import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithmImpl
+import com.abecerra.pvt_computation.domain.computation.algorithm.PvtAlgorithm
+import com.abecerra.pvt_computation.domain.computation.algorithm.PvtAlgorithmImpl
 import com.abecerra.pvt_ephemeris_client.suplclient.EphemerisClient
 import io.reactivex.disposables.CompositeDisposable
 
@@ -41,9 +41,9 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
 
     private fun setPvtComputationInteractor() {
         val ephemerisClient = EphemerisClient()
-        val pvtComputationAlgorithm: PvtComputationAlgorithm = PvtComputationAlgorithmImpl()
+        val pvtAlgorithm: PvtAlgorithm = PvtAlgorithmImpl()
         val pvtComputationInteractor: PvtComputationInteractor =
-            PvtComputationInteractorImpl(pvtComputationAlgorithm)
+            PvtComputationInteractorImpl(pvtAlgorithm)
 
         mInteractor = GnssServiceInteractorImpl(ephemerisClient, pvtComputationInteractor)
         mInteractor?.bindOutput(this)

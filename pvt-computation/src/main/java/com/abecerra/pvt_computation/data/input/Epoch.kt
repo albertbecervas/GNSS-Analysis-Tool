@@ -9,19 +9,19 @@ data class Epoch(
     var ionoProto: ArrayList<Double> = arrayListOf(),
     var satellitesMeasurements: ArrayList<SatelliteMeasurements> = arrayListOf()
 ) {
-    fun getGpsSatelliteMeasurements(): List<SatelliteMeasurements> {
-        return satellitesMeasurements.filter { it.constellation == Constants.GPS }
-    }
-
-    fun getGalSatelliteMeasurements(): List<SatelliteMeasurements> {
-        return satellitesMeasurements.filter { it.constellation == Constants.GALILEO }
-    }
-
     fun getConstellationSatellites(constellation: Int): List<SatelliteMeasurements> {
         return when (constellation) {
             Constants.GPS -> getGpsSatelliteMeasurements()
             Constants.GALILEO -> getGalSatelliteMeasurements()
             else -> arrayListOf()
         }
+    }
+
+    private fun getGpsSatelliteMeasurements(): List<SatelliteMeasurements> {
+        return satellitesMeasurements.filter { it.constellation == Constants.GPS }
+    }
+
+    private fun getGalSatelliteMeasurements(): List<SatelliteMeasurements> {
+        return satellitesMeasurements.filter { it.constellation == Constants.GALILEO }
     }
 }

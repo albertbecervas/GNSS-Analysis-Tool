@@ -1,8 +1,7 @@
 package com.abecerra.pvt_computation.data.output
 
-import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.LlaLocation
-import com.abecerra.pvt_computation.data.PvtFix
+import com.abecerra.pvt_computation.data.input.ComputationSettings
 import java.io.Serializable
 
 data class PvtOutputData(
@@ -12,7 +11,8 @@ data class PvtOutputData(
     var corrections: Corrections = Corrections(),
     var dop: Dop = Dop(),
     var residue: Double = 0.0,
-    var nSats: Float = 0f
+    var nSats: Float = 0f,
+    var gpsTime: GpsTime = GpsTime(0)
 ) : Serializable
 
 data class Corrections(

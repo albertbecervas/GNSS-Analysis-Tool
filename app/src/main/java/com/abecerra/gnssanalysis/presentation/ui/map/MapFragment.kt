@@ -56,7 +56,11 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     }
 
     fun addMarkerFromPvtResponse(resp: PvtOutputData) {
-        addMarker(LatLngMapper.map(resp.pvtFix.location), resp.computationSettings.name, resp.computationSettings.color)
+        addMarker(
+            LatLngMapper.map(resp.pvtFix.pvtLatLng),
+            resp.computationSettings.name,
+            resp.computationSettings.color
+        )
     }
 
     private fun addMarker(latLng: LatLng, title: String, color: Int) {
@@ -69,10 +73,10 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     fun updateCamera(resp: PvtOutputData, isCameraIntercepted: Boolean) {
         if (isFirstMarker) {
-            moveCameraWithZoom(LatLngMapper.map(resp.pvtFix.location), isCameraIntercepted)
+            moveCameraWithZoom(LatLngMapper.map(resp.pvtFix.pvtLatLng), isCameraIntercepted)
             isFirstMarker = false
         } else {
-            moveCamera(LatLngMapper.map(resp.pvtFix.location), isCameraIntercepted)
+            moveCamera(LatLngMapper.map(resp.pvtFix.pvtLatLng), isCameraIntercepted)
         }
     }
 

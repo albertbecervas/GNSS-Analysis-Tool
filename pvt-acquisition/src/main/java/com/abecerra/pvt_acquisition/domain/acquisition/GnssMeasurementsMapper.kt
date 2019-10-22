@@ -26,10 +26,12 @@ private fun GnssMeasurement.getSatellite(timeNanosGnss: Double): SatelliteMeasur
 }
 
 private fun hasMultiPathOrUncertainty(gnssMeasurement: GnssMeasurement): Boolean {
-    return with(gnssMeasurement) {
-        multipathIndicator == GnssMeasurement.MULTIPATH_INDICATOR_DETECTED
-                && receivedSvTimeUncertaintyNanos == PvtConstants.UNCERTAINTY_THR
-    }
+//    return with(gnssMeasurement) {
+//        multipathIndicator == GnssMeasurement.MULTIPATH_INDICATOR_DETECTED
+//                && receivedSvTimeUncertaintyNanos == PvtConstants.UNCERTAINTY_THR
+//    }
+    //TODO remove and check problem
+    return false
 }
 
 private fun buildSatellite(

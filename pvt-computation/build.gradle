@@ -14,6 +14,7 @@ dependencies {
     implementation 'org.ejml:ejml-all:0.38'
     implementation 'org.nield:kotlin-statistics:1.2.1'
 
+    implementation group: 'joda-time', name: 'joda-time', version: '2.10.3'
 }
 
 repositories {

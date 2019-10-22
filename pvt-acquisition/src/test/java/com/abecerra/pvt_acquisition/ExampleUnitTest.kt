@@ -1,5 +1,7 @@
 package com.abecerra.pvt_acquisition
 
+import com.abecerra.pvt_acquisition.app.utils.Logger
+import com.abecerra.pvt_computation.data.input.PvtInputData
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +14,8 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
+        Logger.savePvtInputData("test.txt", PvtInputData())
+
         assertEquals(4, 2 + 2)
     }
 }
