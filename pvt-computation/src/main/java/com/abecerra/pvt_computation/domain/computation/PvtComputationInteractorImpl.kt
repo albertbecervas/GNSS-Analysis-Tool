@@ -4,10 +4,10 @@ import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.input.PvtInputData
 import com.abecerra.pvt_computation.data.input.mapper.PvtAlgorithmInputDataMapper.mapFromPvtInputData
 import com.abecerra.pvt_computation.data.output.PvtOutputData
-import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputationAlgorithm
+import com.abecerra.pvt_computation.domain.computation.algorithm.PvtAlgorithm
 import com.abecerra.pvt_computation.domain.computation.filter.MaskFiltering
 
-class PvtComputationInteractorImpl(private val pvtComputationAlgorithm: PvtComputationAlgorithm) :
+class PvtComputationInteractorImpl(private val pvtAlgorithm: PvtAlgorithm) :
     PvtComputationInteractor {
 
     override fun computePosition(pvtInputData: PvtInputData): List<PvtOutputData> {
@@ -16,9 +16,8 @@ class PvtComputationInteractorImpl(private val pvtComputationAlgorithm: PvtCompu
 
         val filteredPvtInputData = MaskFiltering.filter(pvtInputData)
 
-        pvtInputData.computationSettings.forEachIndexed { index, settings ->
-
-            getPvtOutputDataFromPvtAlgorithm(filteredPvtInputData, index, settings)?.let {
+        pvtInputData.computationSettings.forEach { settings ->
+            executePvtAlgorithm(filteredPvtInputData, settings)?.let {
                 computedPvtDataList.add(it)
             }
         }
@@ -26,15 +25,18 @@ class PvtComputationInteractorImpl(private val pvtComputationAlgorithm: PvtCompu
         return computedPvtDataList
     }
 
-    private fun getPvtOutputDataFromPvtAlgorithm(
-        filteredPvtInputData: PvtInputData, index: Int, computationSettings: ComputationSettings
+    private fun executePvtAlgorithm(
+        filteredPvtInputData: PvtInputData, computationSettings: ComputationSettings
     ): PvtOutputData? {
-        val pvtAlgorithmInputData = mapFromPvtInputData(filteredPvtInputData, index)
+        val pvtAlgorithmInputData = mapFromPvtInputData(filteredPvtInputData, computationSettings)
 
-        val pvtOutput = pvtComputationAlgorithm.executePvtAlgorithm(pvtAlgorithmInputData)
-
-        return pvtOutput?.pvtFix?.let { pvtFix ->
-            PvtOutputData(pvtFix, filteredPvtInputData.refLocation.llaLocation, computationSettings)
+        return pvtAlgorithm.executePvtAlgorithm(pvtAlgorithmInputData)?.let {
+            with(it) {
+                PvtOutputData(
+                    pvtFix, filteredPvtInputData.refLocation.llaLocation, computationSettings,
+                    corrections, dop, residue, nSatellites, gpsTime
+                )
+            }
         }
     }
 }

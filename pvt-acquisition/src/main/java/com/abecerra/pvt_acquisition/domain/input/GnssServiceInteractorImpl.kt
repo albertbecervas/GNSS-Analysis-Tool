@@ -12,6 +12,7 @@ import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.lla2ecef
+import com.abecerra.pvt_acquisition.app.utils.Logger
 import com.abecerra.pvt_ephemeris_client.suplclient.EphemerisClient
 import com.abecerra.pvt_ephemeris_client.suplclient.data.EphLocation
 import io.reactivex.Single
@@ -75,11 +76,12 @@ class GnssServiceInteractorImpl(
         gnssComputationData.epochs.add(epoch)
 
         if (isMeanTimePassed()) {
-            val gnssData = PvtInputDataMapper.mapToPvtInputData(gnssComputationData)
-            pvtComputationInteractor.computePosition(gnssData)
+            val pvtInputData = PvtInputDataMapper.mapToPvtInputData(gnssComputationData)
+            Logger.savePvtInputData("${Date()}.txt", pvtInputData)
+            pvtComputationInteractor.computePosition(pvtInputData)
         }
     }
 
     private fun isMeanTimePassed() =
-        Date().time - gnssComputationData.startedComputingDate.time > 1L
+        Date().time - gnssComputationData.startedComputingDate.time > 5000L
 }

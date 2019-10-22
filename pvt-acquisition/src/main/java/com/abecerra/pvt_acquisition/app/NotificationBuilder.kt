@@ -33,7 +33,7 @@ object NotificationBuilder {
                     NOTIFICATION_CHANNEL_ID
                 )
                 .setOngoing(true)
-                .setContentTitle(getString(R.string.app_name))
+                .setContentTitle("GNSS Tool")
                 .setContentText("Computing PVT...")
 //                .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationManagerCompat.IMPORTANCE_HIGH)

@@ -1,13 +1,9 @@
 package com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares
 
 import com.abecerra.pvt_computation.data.EcefLocation
-import com.abecerra.pvt_computation.data.Location
-import com.abecerra.pvt_computation.data.PvtEcef
-import com.abecerra.pvt_computation.data.PvtFix
 import com.abecerra.pvt_computation.data.algorithm.LeastSquaresInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
-import com.abecerra.pvt_computation.data.output.Corrections
-import com.abecerra.pvt_computation.data.output.Dop
+import com.abecerra.pvt_computation.data.output.*
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.ecef2lla
 import org.ejml.simple.SimpleMatrix
 import kotlin.math.pow
@@ -76,9 +72,12 @@ fun leastSquares(leastSquaresData: LeastSquaresInputData):
                 val ecefLocation = EcefLocation(position.x, position.y, position.z)
                 val llaLocation = ecef2lla(ecefLocation)
                 val clockBias = position.clockBias
+                val pvtLatLng = PvtLatLng(
+                    llaLocation.latitude, llaLocation.longitude, llaLocation.altitude, clockBias
+                )
 
                 response = PvtAlgorithmOutputData(
-                    pvtFix = PvtFix(Location(llaLocation, ecefLocation), clockBias),
+                    pvtFix = PvtFix(pvtLatLng),
                     dop = dop,
                     residue = residue,
                     corrections = Corrections(),
