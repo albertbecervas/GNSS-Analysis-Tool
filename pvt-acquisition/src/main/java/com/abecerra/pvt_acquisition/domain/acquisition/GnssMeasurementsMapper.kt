@@ -4,8 +4,7 @@ import android.location.GnssMeasurement
 import android.os.Build
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
-import com.abecerra.pvt_computation.data.Constants
-import com.abecerra.pvt_computation.utils.PvtConstants
+import com.abecerra.pvt_computation.data.PvtConstants
 
 
 fun Epoch.mapGnssMeasurements(measurements: Collection<GnssMeasurement>) {
@@ -48,7 +47,7 @@ private fun buildSatellite(
                 svid = svid,
                 state = state,
                 multiPath = multipathIndicator,
-                carrierFreq = if (meas.hasCarrierFrequencyHz()) carrierFrequencyHz.toDouble() else Constants.L1_FREQ,
+                carrierFreq = if (meas.hasCarrierFrequencyHz()) carrierFrequencyHz.toDouble() else PvtConstants.L1_FREQ,
                 tTx = tTx,
                 tRx = tRx,
                 cn0 = cn0DbHz,
@@ -94,4 +93,4 @@ private fun checkGalState(state: Int): Boolean {
     return (state and GnssMeasurement.STATE_GAL_E1C_2ND_CODE_LOCK) == GnssMeasurement.STATE_GAL_E1C_2ND_CODE_LOCK
 }
 
-private fun getPseudoRange(tTx: Double, tRx: Double): Double = ((tRx - tTx) / 1e9) * Constants.C
+private fun getPseudoRange(tTx: Double, tRx: Double): Double = ((tRx - tTx) / 1e9) * PvtConstants.C

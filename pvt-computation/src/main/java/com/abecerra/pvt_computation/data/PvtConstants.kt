@@ -1,6 +1,6 @@
 package com.abecerra.pvt_computation.data
 
-object Constants {
+object PvtConstants {
 
     const val C = 299792458L
     const val OMEGA_EARTH_DOT = 7.2921151467e-5
@@ -39,9 +39,13 @@ object Constants {
     const val GALILEO_E1_KEY = "galileo_E1"
     const val GALILEO_E5A_KEY = "galileo_E5a"
 
-    const val L1 = 1
-    const val L5 = 2
-    const val E1 = 3
-    const val E5A = 4
+    const val UNCERTAINTY_THR = 1000000000L
+    const val WEEK_NANOS = 604800000000000
+    const val GAL_E1C = 100000000L
+    const val FREQ_THR = 1400000000
 
+    const val BAND_L1: Int = 1
+    const val BAND_L5: Int = 2
+    const val BAND_E1: Int = 3
+    const val BAND_E5A: Int = 4
 }

@@ -1,6 +1,6 @@
 package com.abecerra.pvt_computation.domain.computation.algorithm
 
-import com.abecerra.pvt_computation.data.Constants
+import com.abecerra.pvt_computation.data.PvtConstants
 import com.abecerra.pvt_computation.data.EcefLocation
 import com.abecerra.pvt_computation.data.algorithm.LeastSquaresInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
@@ -94,7 +94,7 @@ object PvtComputation {
         epoch: Epoch,
         pvtAlgorithmInputData: PvtAlgorithmInputData
     ): Double {
-        corr = Constants.C * tCorr[j]
+        corr = PvtConstants.C * tCorr[j]
         val propCorr = getPropCorr(
             x[j], referencePosition, epoch.ionoProto, epoch.tow,
             pvtAlgorithmInputData.computationSettings.corrections

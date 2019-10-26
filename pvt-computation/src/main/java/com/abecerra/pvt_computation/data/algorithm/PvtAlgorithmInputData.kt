@@ -1,6 +1,6 @@
 package com.abecerra.pvt_computation.data.algorithm
 
-import com.abecerra.pvt_computation.data.Constants
+import com.abecerra.pvt_computation.data.PvtConstants
 import com.abecerra.pvt_computation.data.Location
 import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.abecerra.pvt_computation.data.input.Epoch
@@ -13,21 +13,21 @@ class PvtAlgorithmInputData(
 
     fun isGpsSelected(): Boolean {
         return computationSettings.constellations.size == 1
-                && computationSettings.constellations.contains(Constants.GPS)
+                && computationSettings.constellations.contains(PvtConstants.GPS)
     }
 
     fun isGalileoOnlySelected(): Boolean {
         return computationSettings.constellations.size == 1
-                && computationSettings.constellations.contains(Constants.GALILEO)
+                && computationSettings.constellations.contains(PvtConstants.GALILEO)
     }
 
     fun isMultiConstellationSelected(): Boolean {
         return computationSettings.constellations.containsAll(
-            listOf(Constants.GPS, Constants.GALILEO)
+            listOf(PvtConstants.GPS, PvtConstants.GALILEO)
         )
     }
 
     fun isWeightedLeastSquaresSelected(): Boolean {
-        return computationSettings.algorithm == Constants.ALG_LS
+        return computationSettings.algorithm == PvtConstants.ALG_LS
     }
 }

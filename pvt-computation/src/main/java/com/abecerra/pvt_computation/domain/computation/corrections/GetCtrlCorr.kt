@@ -3,7 +3,7 @@ package com.abecerra.pvt_computation.domain.computation.corrections
 import com.abecerra.pvt_computation.data.EcefLocation
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
 import com.abecerra.pvt_computation.domain.computation.utils.satPos
-import com.abecerra.pvt_computation.data.Constants.C
+import com.abecerra.pvt_computation.data.PvtConstants.C
 import com.abecerra.pvt_computation.domain.computation.utils.checkTime
 import com.abecerra.pvt_computation.domain.computation.utils.earthRotCorr
 import org.ejml.data.DMatrixRMaj

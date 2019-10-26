@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import com.abecerra.gnssanalysis.app.utils.AppSharedPreferences
 import com.abecerra.pvt_computation.data.input.ComputationSettings
-import com.abecerra.pvt_computation.utils.PvtConstants
+import com.abecerra.pvt_computation.data.PvtConstants
 import kotlinx.android.synthetic.main.dialog_new_mode.view.*
 import org.jetbrains.anko.toast
 
@@ -13,7 +13,7 @@ fun addDefaultComputationSettings(): List<ComputationSettings> {
 
     val mode = ComputationSettings(
         "GPS LS",
-        arrayListOf(PvtConstants.CONST_GPS),
+        arrayListOf(PvtConstants.GPS),
         arrayListOf(PvtConstants.BAND_L1),
         arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
         PvtConstants.ALG_LS,
@@ -21,7 +21,7 @@ fun addDefaultComputationSettings(): List<ComputationSettings> {
     )
     val mode2 = ComputationSettings(
         "Galileo E1",
-        arrayListOf(PvtConstants.CONST_GAL),
+        arrayListOf(PvtConstants.GALILEO),
         arrayListOf(PvtConstants.BAND_E1),
         arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
         PvtConstants.ALG_LS,
@@ -29,7 +29,7 @@ fun addDefaultComputationSettings(): List<ComputationSettings> {
     )
     val mode3 = ComputationSettings(
         "GPS WLS",
-        arrayListOf(PvtConstants.CONST_GPS),
+        arrayListOf(PvtConstants.GPS),
         arrayListOf(PvtConstants.BAND_L1),
         arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
         PvtConstants.ALG_WLS,
@@ -38,7 +38,7 @@ fun addDefaultComputationSettings(): List<ComputationSettings> {
 
     val mode4 = ComputationSettings(
         "Galileo WLS",
-        arrayListOf(PvtConstants.CONST_GAL),
+        arrayListOf(PvtConstants.GALILEO),
         arrayListOf(PvtConstants.BAND_E1),
         arrayListOf(PvtConstants.CORR_IONOSPHERE, PvtConstants.CORR_TROPOSPHERE),
         PvtConstants.ALG_WLS,
@@ -47,7 +47,7 @@ fun addDefaultComputationSettings(): List<ComputationSettings> {
 
     val mode5 = ComputationSettings(
         "Multiconst Iono-Free",
-        arrayListOf(PvtConstants.CONST_GPS, PvtConstants.CONST_GAL),
+        arrayListOf(PvtConstants.GPS, PvtConstants.GALILEO),
         arrayListOf(PvtConstants.BAND_L1, PvtConstants.BAND_E1),
         arrayListOf(PvtConstants.CORR_TROPOSPHERE, PvtConstants.CORR_IONOFREE),
         PvtConstants.ALG_LS,
@@ -67,8 +67,8 @@ fun setComputationSettingsSelectedParams(layout: View?, dialog: AlertDialog, con
 
     layout?.let {
         name = it.modeNameTextEdit.text.toString() // set the name
-        if (it.constOption1.isChecked) constellations.add(PvtConstants.CONST_GPS) // set selected constellations
-        if (it.constOption2.isChecked) constellations.add(PvtConstants.CONST_GAL)
+        if (it.constOption1.isChecked) constellations.add(PvtConstants.GPS) // set selected constellations
+        if (it.constOption2.isChecked) constellations.add(PvtConstants.GALILEO)
         if (it.isEnabled && it.rbL1.isChecked) bands.add(PvtConstants.BAND_L1) // set selected bands
         if (it.isEnabled && it.rbL5.isChecked) bands.add(PvtConstants.BAND_L5)
         if (it.isEnabled && it.rbE1.isChecked) bands.add(PvtConstants.BAND_E1)

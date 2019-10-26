@@ -1,8 +1,8 @@
 package com.abecerra.pvt_computation.domain.computation.algorithm
 
-import com.abecerra.pvt_computation.data.Constants
-import com.abecerra.pvt_computation.data.Constants.GALILEO
-import com.abecerra.pvt_computation.data.Constants.GPS
+import com.abecerra.pvt_computation.data.PvtConstants
+import com.abecerra.pvt_computation.data.PvtConstants.GALILEO
+import com.abecerra.pvt_computation.data.PvtConstants.GPS
 import com.abecerra.pvt_computation.data.algorithm.LeastSquaresInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
@@ -26,6 +26,10 @@ class PvtAlgorithmImpl : PvtAlgorithm {
             computeEpoch(it, algorithmInputData)?.let { pvtAlgorithmOutputData ->
                 computedPvtOutputs.add(pvtAlgorithmOutputData)
             }
+        }
+
+        computedPvtOutputs.forEach {
+            println("${it.pvtFix.pvtLatLng}")
         }
 
         return getPvtAlgorithmOutputsMean(computedPvtOutputs)
@@ -110,7 +114,7 @@ class PvtAlgorithmImpl : PvtAlgorithm {
 
         var leastSquaresInputData = initLeastSquaresInputDataForConstellation(epoch, const)
 
-        repeat(Constants.PVT_ITER) {
+        repeat(PvtConstants.PVT_ITER) {
 
             leastSquaresInputData = prepareLeastSquaresInputData(
                 algorithmInputData.referenceLocation.ecefLocation,
@@ -133,7 +137,7 @@ class PvtAlgorithmImpl : PvtAlgorithm {
         var gpsLeastSquaresInputData = initLeastSquaresInputDataForConstellation(epoch, GPS)
         var galLeastSquaresInputData = initLeastSquaresInputDataForConstellation(epoch, GALILEO)
 
-        repeat(Constants.PVT_ITER) {
+        repeat(PvtConstants.PVT_ITER) {
 
             gpsLeastSquaresInputData = prepareLeastSquaresInputData(
                 algorithmInputData.referenceLocation.ecefLocation, epoch, algorithmInputData,

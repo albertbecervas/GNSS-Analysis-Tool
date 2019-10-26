@@ -1,5 +1,7 @@
 package com.abecerra.pvt_acquisition.app.utils
 
+import com.abecerra.pvt_acquisition.data.inari.GnssData
+import com.abecerra.pvt_acquisition.data.inari.getAcqInfo
 import com.abecerra.pvt_computation.data.input.PvtInputData
 import com.google.gson.Gson
 import java.io.*
@@ -7,18 +9,35 @@ import java.io.*
 object Logger {
 
     fun savePvtInputData(name: String, pvtInputData: PvtInputData) {
+        val pvtInputDataJson = Gson().toJson(pvtInputData)
+
+        val directoryName = "GNSSTool/input/"
+
+        val fileDir =
+            "/storage/emulated/0/Android/data/com.abecerra.gnssanalysis/files/$directoryName"
+
+        writeToFile(fileDir, name, pvtInputDataJson)
+    }
+
+    fun saveGnssDataForInariComparison(name: String, gnssData: GnssData) {
+        val acqInformation = getAcqInfo(gnssData)
+        val pvtInputDataJson = Gson().toJson(acqInformation)
+
+        val directoryName = "GNSSTool/inari/"
+
+        val fileDir =
+            "/storage/emulated/0/Android/data/com.abecerra.gnssanalysis/files/$directoryName"
+
+        writeToFile(fileDir, name, pvtInputDataJson)
+    }
+
+    private fun writeToFile(fileDir: String, fileName: String, fileContent: String) {
         Thread(Runnable {
             try {
-                val pvtInputDataJson = Gson().toJson(pvtInputData)
-
-
-                val directoryName = "GNSSTool/input/"
-
-                val dir =
-                    File("/storage/emulated/0/Android/data/com.abecerra.gnssanalysis/files/$directoryName")
+                val dir = File(fileDir)
                 dir.mkdirs()
 
-                val file = File(dir, name)
+                val file = File(dir, fileName)
                 file.setReadable(true, false)
 
                 var inputStream: InputStream? = null
@@ -27,7 +46,7 @@ object Logger {
                 try {
                     val fileReader = ByteArray(4096)
 
-                    inputStream = pvtInputDataJson.byteInputStream()
+                    inputStream = fileContent.byteInputStream()
                     outputStream = FileOutputStream(file)
 
                     while (true) {
@@ -46,6 +65,7 @@ object Logger {
                     outputStream?.close()
                 }
             } catch (e: Exception) {
+
             }
         }).start()
     }

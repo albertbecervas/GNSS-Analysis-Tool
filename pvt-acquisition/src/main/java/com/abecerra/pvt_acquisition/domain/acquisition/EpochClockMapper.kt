@@ -2,7 +2,7 @@ package com.abecerra.pvt_acquisition.domain.acquisition
 
 import android.location.GnssClock
 import com.abecerra.pvt_computation.data.input.Epoch
-import com.abecerra.pvt_computation.utils.PvtConstants
+import com.abecerra.pvt_computation.data.PvtConstants
 import kotlin.math.floor
 
 

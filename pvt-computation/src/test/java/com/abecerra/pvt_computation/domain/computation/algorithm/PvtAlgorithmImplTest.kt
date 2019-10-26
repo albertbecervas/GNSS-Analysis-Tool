@@ -2,6 +2,7 @@ package com.abecerra.pvt_computation.domain.computation.algorithm
 
 import com.abecerra.pvt_computation.data.input.PvtInputData
 import com.abecerra.pvt_computation.data.input.mapper.PvtAlgorithmInputDataMapper
+import com.abecerra.pvt_computation.data.output.PvtLatLng
 import com.abecerra.pvt_computation.data.output.PvtOutputData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -26,8 +27,16 @@ class PvtAlgorithmImplTest {
             val outputData = pvtAlgorithm.executePvtAlgorithm(
                 PvtAlgorithmInputDataMapper.mapFromPvtInputData(pvtInputData, it)
             )
+            val location = outputData?.pvtFix?.pvtLatLng
+            printOutput(location)
             assert(outputData != null)
         }
+    }
+
+    private fun printOutput(location: PvtLatLng?) {
+        print("\n\n")
+        println("Location: latitude,longitude --> ${location?.lat ?: "-,"},${location?.lng ?: "-,"}")
+        print("\n\n")
     }
 
     private fun getPvtInputDataFromFile(fileName: String): PvtInputData {

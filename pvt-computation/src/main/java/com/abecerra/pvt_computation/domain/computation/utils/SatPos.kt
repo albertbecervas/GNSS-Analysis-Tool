@@ -2,8 +2,8 @@ package com.abecerra.pvt_computation.domain.computation.utils
 
 
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
-import com.abecerra.pvt_computation.data.Constants.GM
-import com.abecerra.pvt_computation.data.Constants.OMEGA_EARTH_DOT
+import com.abecerra.pvt_computation.data.PvtConstants.GM
+import com.abecerra.pvt_computation.data.PvtConstants.OMEGA_EARTH_DOT
 import kotlin.math.*
 
 fun satPos(tRx: Double, satellite: SatelliteMeasurements): SatPos {
