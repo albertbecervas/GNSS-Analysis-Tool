@@ -4,7 +4,10 @@ import android.location.GnssMeasurement
 import com.abecerra.pvt_acquisition.data.GnssStatus
 import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.lla2ecef
+
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.EphemerisResponse
 import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.GalEphemeris
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.GnssEphemeris
 import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.GpsEphemeris
 import kotlin.math.floor
 import kotlin.math.roundToInt

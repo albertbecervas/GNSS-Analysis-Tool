@@ -3,7 +3,10 @@ package com.abecerra.pvt_acquisition.domain.acquisition
 import com.abecerra.pvt_acquisition.data.mapper.KeplerianModelMapper
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.data.input.SatelliteEphemeris
-import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.*
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.EphemerisResponse
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.GalEphemeris
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.GnssEphemeris
+import com.abecerra.pvt_ephemeris_client.suplclient.ephemeris.GpsEphemeris
 
 fun Epoch.mapEphemerisResponse(ephemerisResponse: EphemerisResponse){
     with(ephemerisResponse) {

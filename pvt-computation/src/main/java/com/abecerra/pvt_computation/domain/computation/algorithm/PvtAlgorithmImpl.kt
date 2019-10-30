@@ -7,10 +7,7 @@ import com.abecerra.pvt_computation.data.algorithm.LeastSquaresInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
 import com.abecerra.pvt_computation.data.input.Epoch
-import com.abecerra.pvt_computation.data.output.Corrections
-import com.abecerra.pvt_computation.data.output.Dop
-import com.abecerra.pvt_computation.data.output.PvtFix
-import com.abecerra.pvt_computation.data.output.PvtLatLng
+import com.abecerra.pvt_computation.data.output.*
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputation.initLeastSquaresInputDataForConstellation
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputation.prepareLeastSquaresInputData
 import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.leastSquares
@@ -76,7 +73,9 @@ class PvtAlgorithmImpl : PvtAlgorithm {
 
         nSats /= computedPvtOutputsSize
 
-        val gpsTime = computedPvtOutputs.last().gpsTime
+        val gpsTime = if (computedPvtOutputs.isNotEmpty()) {
+            computedPvtOutputs.last().gpsTime
+        } else GpsTime(0)
 
         return PvtAlgorithmOutputData(
             pvtFix = PvtFix(pvtLatLng),

@@ -85,7 +85,7 @@ fun leastSquares(leastSquaresData: LeastSquaresInputData):
                 )
 
             } else {
-                print("LS ERROR:::not enough satellites\n")
+//                print("LS ERROR:::not enough satellites\n")
             }
         } catch (e: Exception) {
             print("LS ERROR::: ${e.localizedMessage}")

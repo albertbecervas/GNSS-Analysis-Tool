@@ -136,7 +136,7 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
 
     override fun onLocationChanged(location: Location?) {
         location?.let { loc ->
-            referenceLocation = LlaLocation(loc.latitude, loc.altitude, loc.altitude)
+            referenceLocation = LlaLocation(loc.latitude, loc.longitude, loc.altitude)
             gnssEventsListeners.forEach {
                 it.onLocationReceived(loc)
             }
