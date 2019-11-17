@@ -30,33 +30,4 @@ class PvtAlgorithmInputData(
     fun isWeightedLeastSquaresSelected(): Boolean {
         return computationSettings.algorithm == PvtConstants.ALG_WLS
     }
-
-    fun getSelectedBandForGps(): Int {
-        return if (computationSettings.bands.contains(PvtConstants.BAND_L1)){
-            PvtConstants.BAND_L1
-        } else PvtConstants.BAND_L5
-    }
-
-    fun getSelectedBandForGal(): Int {
-        return if (computationSettings.bands.contains(PvtConstants.BAND_E1)){
-            PvtConstants.BAND_E1
-        } else PvtConstants.BAND_E5A
-    }
-
-    fun isL1BandSelected(): Boolean{
-        return computationSettings.bands.contains(PvtConstants.BAND_L1)
-    }
-
-    fun isL5BandSelected(): Boolean{
-        return computationSettings.bands.contains(PvtConstants.BAND_E5A)
-    }
-
-    fun isE1BandSelected(): Boolean{
-        return computationSettings.bands.contains(PvtConstants.BAND_E1)
-    }
-
-    fun isE5BandSelected(): Boolean{
-        return computationSettings.bands.contains(PvtConstants.BAND_E5A)
-    }
-
 }

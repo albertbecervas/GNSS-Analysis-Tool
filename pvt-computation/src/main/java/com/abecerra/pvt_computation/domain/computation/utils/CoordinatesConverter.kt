@@ -226,10 +226,10 @@ object CoordinatesConverter {
         return PvtLatLng(posLla.latitude, posLla.longitude, posLla.altitude, pvtEcef.clockBias)
     }
 
-    fun pvtLla2PvtEcef(pvtLatLng: PvtLatLng): PvtEcef {
+    fun pvtLla2PvtEcef(pvtLatLng: PvtLatLng): EcefLocation {
         val posLatLng = LlaLocation(pvtLatLng.lat, pvtLatLng.lng, pvtLatLng.altitude)
         val posEcef = lla2ecef(posLatLng)
-        return PvtEcef(posEcef.x, posEcef.y, posEcef.z, pvtLatLng.clockBias)
+        return EcefLocation(posEcef.x, posEcef.y, posEcef.z)
     }
 }
 

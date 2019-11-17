@@ -9,6 +9,7 @@ import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.data.output.*
 import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.LeastSquaresAlgorithm
+import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.pvtLla2PvtEcef
 
 class PvtAlgorithmImpl(private val lsAlgorithm: LeastSquaresAlgorithm) : PvtAlgorithm {
 
@@ -47,6 +48,8 @@ class PvtAlgorithmImpl(private val lsAlgorithm: LeastSquaresAlgorithm) : PvtAlgo
         epoch: Epoch, algorithmInputData: PvtAlgorithmInputData, const: Int
     ): PvtAlgorithmOutputData? {
 
+        var pvtPosition = algorithmInputData.referenceLocation.ecefLocation
+
         var pvtAlgorithmOutputData: PvtAlgorithmOutputData? = null
 
         var leastSquaresInputData = lsAlgorithm.initLsInputDataForConstellation(epoch, const,
@@ -55,11 +58,13 @@ class PvtAlgorithmImpl(private val lsAlgorithm: LeastSquaresAlgorithm) : PvtAlgo
         repeat(PvtConstants.PVT_ITER) {
 
             leastSquaresInputData = lsAlgorithm.prepareLsInputData(
-                algorithmInputData.referenceLocation.ecefLocation,
-                epoch, algorithmInputData, leastSquaresInputData
+                pvtPosition, epoch, algorithmInputData, leastSquaresInputData
             )
 
-            pvtAlgorithmOutputData = lsAlgorithm.computeLeastSquares(leastSquaresInputData)
+            lsAlgorithm.computeLeastSquares(leastSquaresInputData)?.let {
+                pvtAlgorithmOutputData = it
+                pvtPosition = pvtLla2PvtEcef(it.pvtFix.pvtLatLng)
+            }
         }
 
         return pvtAlgorithmOutputData
