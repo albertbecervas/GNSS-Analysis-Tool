@@ -1,13 +1,15 @@
 package com.abecerra.pvt_computation.domain.computation.corrections
 
 import com.abecerra.pvt_computation.data.EcefLocation
+import com.abecerra.pvt_computation.data.PvtConstants
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
 import com.abecerra.pvt_computation.domain.computation.utils.satPos
-import com.abecerra.pvt_computation.data.Constants.C
+import com.abecerra.pvt_computation.data.PvtConstants.C
 import com.abecerra.pvt_computation.domain.computation.utils.checkTime
 import com.abecerra.pvt_computation.domain.computation.utils.earthRotCorr
 import org.ejml.data.DMatrixRMaj
 import org.ejml.dense.row.CommonOps_DDRM
+import kotlin.math.pow
 
 fun getCtrlCorr(
     satellite: SatelliteMeasurements,
@@ -19,18 +21,18 @@ fun getCtrlCorr(
     val txRaw = tow - pR / C
 
     // Get clock corrections
-    var tCorr =
-        satClockErrorCorrection(txRaw, satellite)
-    tCorr -= satellite.satelliteEphemeris.tgdS
+    var tCorr = satClockErrorCorrection(txRaw, satellite)
+
+    tCorr -= getTgds(satellite)
+
     var txGPS = txRaw - tCorr
 
     // Compute again the clock bias
-    tCorr =
-        satClockErrorCorrection(txGPS, satellite)
+    tCorr = satClockErrorCorrection(txGPS, satellite)
     tCorr -= satellite.satelliteEphemeris.tgdS
 
     // Get the satellite coordinates (corrected) and velocity
-    val satPos = satPos(txRaw, satellite)
+    val satPos = satPos(txGPS, satellite)
     var x = satPos.x
     val vel = satPos.vel
 
@@ -53,6 +55,13 @@ fun getCtrlCorr(
         EcefLocation(x[0], x[1], x[2]),
         tCorr
     )
+}
+
+private fun getTgds(satellite: SatelliteMeasurements): Double {
+    return if (satellite.constellation == PvtConstants.GALILEO
+        && satellite.carrierFreq == PvtConstants.L5_FREQ
+    ) satellite.satelliteEphemeris.tgdS * (PvtConstants.L1_FREQ / PvtConstants.L5_FREQ).pow(2)
+    else satellite.satelliteEphemeris.tgdS
 }
 
 fun satClockErrorCorrection(time: Double, satellite: SatelliteMeasurements): Double {

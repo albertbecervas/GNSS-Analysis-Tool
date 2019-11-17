@@ -9,10 +9,8 @@ import com.abecerra.pvt_acquisition.domain.acquisition.EpochAcquisitionDataBuild
 import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.data.Location
 import com.abecerra.pvt_computation.data.input.ComputationSettings
-import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.lla2ecef
-import com.abecerra.pvt_acquisition.app.utils.Logger
 import com.abecerra.pvt_ephemeris_client.suplclient.EphemerisClient
 import com.abecerra.pvt_ephemeris_client.suplclient.data.EphLocation
 import io.reactivex.Single
@@ -66,18 +64,15 @@ class GnssServiceInteractorImpl(
             gnssComputationData.gnssStatus?.let { status ->
                 val epoch =
                     EpochAcquisitionDataBuilder.mapToEpoch(measurementsEvent, status, ephemeris)
-                computePvt(epoch)
+                gnssComputationData.epochs.add(epoch)
+                computePvt()
             }
         }
     }
 
-    private fun computePvt(epoch: Epoch) {
-
-        gnssComputationData.epochs.add(epoch)
-
+    private fun computePvt() {
         if (isMeanTimePassed()) {
             val pvtInputData = PvtInputDataMapper.mapToPvtInputData(gnssComputationData)
-            Logger.savePvtInputData("${Date()}.txt", pvtInputData)
             pvtComputationInteractor.computePosition(pvtInputData)
         }
     }

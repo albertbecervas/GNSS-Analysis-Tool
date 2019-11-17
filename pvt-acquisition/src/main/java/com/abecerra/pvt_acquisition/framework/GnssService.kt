@@ -17,6 +17,7 @@ import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractorImpl
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtAlgorithm
 import com.abecerra.pvt_computation.domain.computation.algorithm.PvtAlgorithmImpl
+import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.LeastSquaresAlgorithmImpl
 import com.abecerra.pvt_ephemeris_client.suplclient.EphemerisClient
 import io.reactivex.disposables.CompositeDisposable
 
@@ -41,7 +42,8 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
 
     private fun setPvtComputationInteractor() {
         val ephemerisClient = EphemerisClient()
-        val pvtAlgorithm: PvtAlgorithm = PvtAlgorithmImpl()
+        val leastSquaresAlgorithm = LeastSquaresAlgorithmImpl()
+        val pvtAlgorithm: PvtAlgorithm = PvtAlgorithmImpl(leastSquaresAlgorithm)
         val pvtComputationInteractor: PvtComputationInteractor =
             PvtComputationInteractorImpl(pvtAlgorithm)
 
@@ -136,7 +138,7 @@ class GnssService : BaseGnssService(), GnssServiceContract.GnssInteractorOutput,
 
     override fun onLocationChanged(location: Location?) {
         location?.let { loc ->
-            referenceLocation = LlaLocation(loc.latitude, loc.altitude, loc.altitude)
+            referenceLocation = LlaLocation(loc.latitude, loc.longitude, loc.altitude)
             gnssEventsListeners.forEach {
                 it.onLocationReceived(loc)
             }

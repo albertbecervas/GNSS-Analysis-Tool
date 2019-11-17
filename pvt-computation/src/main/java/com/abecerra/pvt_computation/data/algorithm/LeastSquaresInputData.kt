@@ -9,7 +9,7 @@ data class LeastSquaresInputData(
     val tCorr: ArrayList<Double> = arrayListOf(),
     var pCorr: ArrayList<Double> = arrayListOf(),
     val x: ArrayList<EcefLocation> = arrayListOf(),
-    val pR: ArrayList<Double> = arrayListOf<Double>(),
+    var pR: ArrayList<Double> = arrayListOf<Double>(),
     val svn: ArrayList<Int> = arrayListOf<Int>(),
     val cn0: ArrayList<Double> = arrayListOf<Double>(),
     val satellites: ArrayList<SatelliteMeasurements> = arrayListOf<SatelliteMeasurements>(),

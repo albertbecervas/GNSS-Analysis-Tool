@@ -1,9 +1,9 @@
 package com.abecerra.pvt_computation.domain.computation.corrections
 
 import com.abecerra.pvt_computation.data.EcefLocation
-import com.abecerra.pvt_computation.data.Constants.CORR_IONOSPHERE
-import com.abecerra.pvt_computation.data.Constants.CORR_TROPOSPHERE
-import com.abecerra.pvt_computation.data.Constants.KLOBUCHAR
+import com.abecerra.pvt_computation.data.PvtConstants.CORR_IONOSPHERE
+import com.abecerra.pvt_computation.data.PvtConstants.CORR_TROPOSPHERE
+import com.abecerra.pvt_computation.data.PvtConstants.KLOBUCHAR
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.ecef2lla
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.toTopocent
 

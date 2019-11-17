@@ -2,8 +2,8 @@ package com.abecerra.pvt_computation.domain.computation.corrections
 
 
 import com.abecerra.pvt_computation.data.LlaLocation
-import com.abecerra.pvt_computation.data.Constants.C
-import com.abecerra.pvt_computation.data.Constants.KLOBUCHAR
+import com.abecerra.pvt_computation.data.PvtConstants.C
+import com.abecerra.pvt_computation.data.PvtConstants.KLOBUCHAR
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter
 import java.lang.Math.*
 import kotlin.math.pow

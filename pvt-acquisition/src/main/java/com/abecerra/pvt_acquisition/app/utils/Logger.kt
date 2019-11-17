@@ -7,18 +7,23 @@ import java.io.*
 object Logger {
 
     fun savePvtInputData(name: String, pvtInputData: PvtInputData) {
+        val pvtInputDataJson = Gson().toJson(pvtInputData)
+
+        val directoryName = "GNSSTool/input/"
+
+        val fileDir =
+            "/storage/emulated/0/Android/data/com.abecerra.gnssanalysis/files/$directoryName"
+
+        writeToFile(fileDir, name, pvtInputDataJson)
+    }
+
+    private fun writeToFile(fileDir: String, fileName: String, fileContent: String) {
         Thread(Runnable {
             try {
-                val pvtInputDataJson = Gson().toJson(pvtInputData)
-
-
-                val directoryName = "GNSSTool/input/"
-
-                val dir =
-                    File("/storage/emulated/0/Android/data/com.abecerra.gnssanalysis/files/$directoryName")
+                val dir = File(fileDir)
                 dir.mkdirs()
 
-                val file = File(dir, name)
+                val file = File(dir, fileName)
                 file.setReadable(true, false)
 
                 var inputStream: InputStream? = null
@@ -27,7 +32,7 @@ object Logger {
                 try {
                     val fileReader = ByteArray(4096)
 
-                    inputStream = pvtInputDataJson.byteInputStream()
+                    inputStream = fileContent.byteInputStream()
                     outputStream = FileOutputStream(file)
 
                     while (true) {
@@ -46,6 +51,7 @@ object Logger {
                     outputStream?.close()
                 }
             } catch (e: Exception) {
+
             }
         }).start()
     }

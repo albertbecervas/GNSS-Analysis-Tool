@@ -4,16 +4,13 @@ import android.location.GnssMeasurement
 import android.os.Build
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
-import com.abecerra.pvt_computation.data.Constants
-import com.abecerra.pvt_computation.utils.PvtConstants
+import com.abecerra.pvt_computation.data.PvtConstants
 
 
 fun Epoch.mapGnssMeasurements(measurements: Collection<GnssMeasurement>) {
-    with(measurements) {
-        this.forEach {
-            it.getSatellite(timeNanosGnss)?.let { sat ->
-                satellitesMeasurements.add(sat)
-            }
+    measurements.forEach {
+        it.getSatellite(timeNanosGnss)?.let { sat ->
+            satellitesMeasurements.add(sat)
         }
     }
 }
@@ -46,9 +43,10 @@ private fun buildSatellite(
         tRx?.let {
             satelliteMeasurements = SatelliteMeasurements(
                 svid = svid,
+                constellation = constellationType,
                 state = state,
                 multiPath = multipathIndicator,
-                carrierFreq = if (meas.hasCarrierFrequencyHz()) carrierFrequencyHz.toDouble() else Constants.L1_FREQ,
+                carrierFreq = if (meas.hasCarrierFrequencyHz()) carrierFrequencyHz.toDouble() else PvtConstants.L1_FREQ,
                 tTx = tTx,
                 tRx = tRx,
                 cn0 = cn0DbHz,
@@ -68,9 +66,10 @@ private fun getRxTime(state: Int, timeNanosGnss: Double): Double? {
             timeNanosGnss.rem(PvtConstants.WEEK_NANOS)
         }
         checkGalState(state) -> {
-            timeNanosGnss.rem(PvtConstants.GAL_E1C)
+//            timeNanosGnss.rem(PvtConstants.GAL_E1C)
+            timeNanosGnss
         }
-        else -> null
+        else -> timeNanosGnss
     }
 }
 
@@ -94,4 +93,5 @@ private fun checkGalState(state: Int): Boolean {
     return (state and GnssMeasurement.STATE_GAL_E1C_2ND_CODE_LOCK) == GnssMeasurement.STATE_GAL_E1C_2ND_CODE_LOCK
 }
 
-private fun getPseudoRange(tTx: Double, tRx: Double): Double = ((tRx - tTx) / 1e9) * Constants.C
+private fun getPseudoRange(tTx: Double, tRx: Double): Double =
+    ((tRx - tTx) / 1000000000L) * PvtConstants.C
