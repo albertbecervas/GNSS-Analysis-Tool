@@ -23,6 +23,10 @@ object EpochAcquisitionDataBuilder {
             mapGnssStatus(gnssStatus)
 
             mapEphemerisResponse(ephemerisResponse)
+
+            val filtered = satellitesMeasurements.filter { it.satelliteEphemeris.tow != -1.0 }
+            satellitesMeasurements.clear()
+            satellitesMeasurements.addAll(filtered)
         }
 
         return epoch

@@ -10,7 +10,6 @@ fun Epoch.mapGnssStatus(gnssStatus: GnssStatus) {
     with(gnssStatus) {
         repeat(satelliteCount) { i ->
             satellitesMeasurements.find { it.svid == getSvid(i) }?.let {
-                it.constellation = getConstellationType(i)
                 it.azimuth = getAzimuthDegrees(i).roundToInt()
                 it.elevation = getElevationDegrees(i).roundToInt()
             }

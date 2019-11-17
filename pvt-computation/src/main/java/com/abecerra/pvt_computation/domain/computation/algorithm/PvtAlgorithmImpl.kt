@@ -8,11 +8,9 @@ import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmInputData
 import com.abecerra.pvt_computation.data.algorithm.PvtAlgorithmOutputData
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.data.output.*
-import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputation.initLeastSquaresInputDataForConstellation
-import com.abecerra.pvt_computation.domain.computation.algorithm.PvtComputation.prepareLeastSquaresInputData
-import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.leastSquares
+import com.abecerra.pvt_computation.domain.computation.algorithm.leastsquares.LeastSquaresAlgorithm
 
-class PvtAlgorithmImpl : PvtAlgorithm {
+class PvtAlgorithmImpl(private val lsAlgorithm: LeastSquaresAlgorithm) : PvtAlgorithm {
 
     override fun executePvtAlgorithm(algorithmInputData: PvtAlgorithmInputData):
             PvtAlgorithmOutputData? {
@@ -25,11 +23,90 @@ class PvtAlgorithmImpl : PvtAlgorithm {
             }
         }
 
-        computedPvtOutputs.forEach {
-            println("${it.pvtFix.pvtLatLng}")
+        return getPvtAlgorithmOutputsMean(computedPvtOutputs)
+    }
+
+    private fun computeEpoch(
+        epoch: Epoch, algorithmInputData: PvtAlgorithmInputData
+    ): PvtAlgorithmOutputData? {
+        return when {
+            algorithmInputData.isGpsSelected() -> {
+                computeEpochForSingleConstellation(epoch, algorithmInputData, GPS)
+            }
+            algorithmInputData.isGalileoOnlySelected() -> {
+                computeEpochForSingleConstellation(epoch, algorithmInputData, GALILEO)
+            }
+            algorithmInputData.isMultiConstellationSelected() -> {
+                computeEpochForMultiConstellation(epoch, algorithmInputData)
+            }
+            else -> null
+        }
+    }
+
+    private fun computeEpochForSingleConstellation(
+        epoch: Epoch, algorithmInputData: PvtAlgorithmInputData, const: Int
+    ): PvtAlgorithmOutputData? {
+
+        var pvtAlgorithmOutputData: PvtAlgorithmOutputData? = null
+
+        var leastSquaresInputData = lsAlgorithm.initLsInputDataForConstellation(epoch, const,
+            algorithmInputData.computationSettings.bands)
+
+        repeat(PvtConstants.PVT_ITER) {
+
+            leastSquaresInputData = lsAlgorithm.prepareLsInputData(
+                algorithmInputData.referenceLocation.ecefLocation,
+                epoch, algorithmInputData, leastSquaresInputData
+            )
+
+            pvtAlgorithmOutputData = lsAlgorithm.computeLeastSquares(leastSquaresInputData)
         }
 
-        return getPvtAlgorithmOutputsMean(computedPvtOutputs)
+        return pvtAlgorithmOutputData
+    }
+
+
+    private fun computeEpochForMultiConstellation(
+        epoch: Epoch, algorithmInputData: PvtAlgorithmInputData
+    ): PvtAlgorithmOutputData? {
+
+        var pvtAlgorithmOutputData: PvtAlgorithmOutputData? = null
+
+        val bands = algorithmInputData.computationSettings.bands
+
+        var gpsLeastSquaresInputData = lsAlgorithm.initLsInputDataForConstellation(epoch, GPS,
+            bands)
+        var galLeastSquaresInputData = lsAlgorithm.initLsInputDataForConstellation(epoch, GALILEO, bands)
+
+        repeat(PvtConstants.PVT_ITER) {
+
+            gpsLeastSquaresInputData = lsAlgorithm.prepareLsInputData(
+                algorithmInputData.referenceLocation.ecefLocation, epoch, algorithmInputData,
+                gpsLeastSquaresInputData
+            )
+
+            galLeastSquaresInputData = lsAlgorithm.prepareLsInputData(
+                algorithmInputData.referenceLocation.ecefLocation, epoch, algorithmInputData,
+                galLeastSquaresInputData
+            )
+
+            val leastSquaresInputData = LeastSquaresInputData()
+
+            leastSquaresInputData.refPosition = algorithmInputData.referenceLocation.ecefLocation
+
+            leastSquaresInputData.p.addAll(gpsLeastSquaresInputData.p)
+            leastSquaresInputData.p.addAll(galLeastSquaresInputData.p)
+
+            leastSquaresInputData.a.addAll(gpsLeastSquaresInputData.a)
+            leastSquaresInputData.a.addAll(galLeastSquaresInputData.a)
+
+            leastSquaresInputData.cn0.addAll(gpsLeastSquaresInputData.cn0)
+            leastSquaresInputData.cn0.addAll(galLeastSquaresInputData.cn0)
+
+            pvtAlgorithmOutputData = lsAlgorithm.computeLeastSquares(leastSquaresInputData)
+        }
+
+        return pvtAlgorithmOutputData
     }
 
     private fun getPvtAlgorithmOutputsMean(
@@ -87,74 +164,4 @@ class PvtAlgorithmImpl : PvtAlgorithm {
         )
     }
 
-
-    private fun computeEpoch(
-        epoch: Epoch, algorithmInputData: PvtAlgorithmInputData
-    ): PvtAlgorithmOutputData? {
-        return when {
-            algorithmInputData.isGpsSelected() -> {
-                computeForSingleConstellation(epoch, algorithmInputData, GPS)
-            }
-            algorithmInputData.isGalileoOnlySelected() -> {
-                computeForSingleConstellation(epoch, algorithmInputData, GALILEO)
-            }
-            algorithmInputData.isMultiConstellationSelected() -> {
-                computeForMultiConstellation(epoch, algorithmInputData)
-            }
-            else -> null
-        }
-    }
-
-    private fun computeForSingleConstellation(
-        epoch: Epoch, algorithmInputData: PvtAlgorithmInputData, const: Int
-    ): PvtAlgorithmOutputData? {
-
-        var pvtAlgorithmOutputData: PvtAlgorithmOutputData? = null
-
-        var leastSquaresInputData = initLeastSquaresInputDataForConstellation(epoch, const)
-
-        repeat(PvtConstants.PVT_ITER) {
-
-            leastSquaresInputData = prepareLeastSquaresInputData(
-                algorithmInputData.referenceLocation.ecefLocation,
-                epoch, algorithmInputData, leastSquaresInputData
-            )
-
-            pvtAlgorithmOutputData = leastSquares(leastSquaresInputData)
-        }
-
-        return pvtAlgorithmOutputData
-    }
-
-
-    private fun computeForMultiConstellation(
-        epoch: Epoch, algorithmInputData: PvtAlgorithmInputData
-    ): PvtAlgorithmOutputData? {
-
-        var pvtAlgorithmOutputData: PvtAlgorithmOutputData? = null
-
-        var gpsLeastSquaresInputData = initLeastSquaresInputDataForConstellation(epoch, GPS)
-        var galLeastSquaresInputData = initLeastSquaresInputDataForConstellation(epoch, GALILEO)
-
-        repeat(PvtConstants.PVT_ITER) {
-
-            gpsLeastSquaresInputData = prepareLeastSquaresInputData(
-                algorithmInputData.referenceLocation.ecefLocation, epoch, algorithmInputData,
-                gpsLeastSquaresInputData
-            )
-
-            galLeastSquaresInputData = prepareLeastSquaresInputData(
-                algorithmInputData.referenceLocation.ecefLocation, epoch, algorithmInputData,
-                galLeastSquaresInputData
-            )
-
-            val leastSquaresInputData = LeastSquaresInputData()
-            leastSquaresInputData.p.addAll(gpsLeastSquaresInputData.p + galLeastSquaresInputData.p)
-            leastSquaresInputData.a.addAll(galLeastSquaresInputData.a + galLeastSquaresInputData.a)
-
-            pvtAlgorithmOutputData = leastSquares(leastSquaresInputData)
-        }
-
-        return pvtAlgorithmOutputData
-    }
 }

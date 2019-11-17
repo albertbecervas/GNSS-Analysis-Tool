@@ -5,10 +5,10 @@ data class PvtFix(
 )
 
 data class PvtLatLng(
-    var lat: Double = 360.0,
-    var lng: Double = 360.0,
-    var altitude: Double = 360.0,
-    var clockBias: Double = -10.0
+    var lat: Double = 0.0,
+    var lng: Double = 0.0,
+    var altitude: Double = 0.0,
+    var clockBias: Double = 0.0
 )
 
 data class PvtEcef(

@@ -12,8 +12,8 @@ object PvtConstants {
     const val PRESSURE = 1013.25 //Pressure [mbar]
     const val TEMPERATURE = 291.15 //Temperature [K]
 
-    const val L1_FREQ = 157542000000.0
-    const val L5_FREQ = 117645000000.0
+    const val L1_FREQ = 1.575420032E9
+    const val L5_FREQ = 1.176450048E9
 
     const val ALG_LS: Int = 1
     const val ALG_WLS: Int = 2
@@ -34,6 +34,9 @@ object PvtConstants {
 
     const val GPS = 1
     const val GALILEO = 2
+
+    const val CONST_GPS = 1
+    const val CONST_GAL = 6
 
     const val GPS_KEY = "gps"
     const val GALILEO_E1_KEY = "galileo_E1"

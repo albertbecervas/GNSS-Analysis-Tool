@@ -1,8 +1,12 @@
 package com.abecerra.pvt_computation.domain.computation.utils
 
 
+import com.abecerra.pvt_computation.data.PvtConstants
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
 import com.abecerra.pvt_computation.data.PvtConstants.GM
+import com.abecerra.pvt_computation.data.PvtConstants.GM_GAL
+import com.abecerra.pvt_computation.data.PvtConstants.GM_GPS
+import com.abecerra.pvt_computation.data.PvtConstants.GPS
 import com.abecerra.pvt_computation.data.PvtConstants.OMEGA_EARTH_DOT
 import kotlin.math.*
 
@@ -10,13 +14,15 @@ fun satPos(tRx: Double, satellite: SatelliteMeasurements): SatPos {
     val satPos = doubleArrayOf(0.0, 0.0, 0.0)
     val satV = doubleArrayOf(0.0, 0.0, 0.0)
 
+    val constellation = satellite.constellation
+
     with(satellite.satelliteEphemeris) {
 
         keplerModel?.let {
 
             val a = it.sqrtA.pow(2)
             val tk = checkTime(tRx - it.toeS)
-            val n0 = sqrt(GM / a.pow(3))
+            val n0 = if (constellation == GPS) sqrt(GM_GPS / a.pow(3)) else sqrt(GM_GAL / a.pow(3))
             val n = n0 + it.deltaN
             var m = it.m0 + n * tk
             m = (m + 2 * PI).rem(2 * PI)
@@ -37,9 +43,9 @@ fun satPos(tRx: Double, satellite: SatelliteMeasurements): SatPos {
             val v = atan2(sqrt(1 - it.eccentricity.pow(2)) * sin(e), cos(e) - it.eccentricity)
             var phi = v + it.omega
             phi = phi.rem(2 * PI)
-            val u = phi + it.cuc * cos(2 * phi) + it.cus * sin(2 * PI)
-            val r = a * (1 - it.eccentricity * cos(e)) + it.cuc * cos(2 * phi) + it.cus * sin(2 * PI)
-            val i = it.i0 + it.iDot * tk + it.cuc * cos(2 * phi) + it.cus * sin(2 * PI)
+            val u = phi + it.cuc * cos(2 * phi) + it.cus * sin(2 * phi)
+            val r = a * (1 - it.eccentricity * cos(e)) + it.crc * cos(2 * phi) + it.crs * sin(2 * phi)
+            val i = it.i0 + it.iDot * tk + it.cic * cos(2 * phi) + it.cis * sin(2 * phi)
             var omega = it.omega0 + (it.omegaDot - OMEGA_EARTH_DOT) * tk - OMEGA_EARTH_DOT * it.toeS
             omega = (omega + 2 * PI).rem(2 * PI)
             val x1 = cos(u) * r
