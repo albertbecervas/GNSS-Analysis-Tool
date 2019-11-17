@@ -30,27 +30,22 @@ class PvtAlgorithmImplTest {
     fun executePvtComputationAlgorithm() {
         pvtInputDataList.forEach { pvtInputData ->
             pvtInputData.computationSettings.forEach {
-                val pvtAlgorithmInputData = PvtAlgorithmInputDataMapper.mapFromPvtInputData(pvtInputData, it)
+                val pvtAlgorithmInputData =
+                    PvtAlgorithmInputDataMapper.mapFromPvtInputData(pvtInputData, it)
                 val outputData = pvtAlgorithm.executePvtAlgorithm(pvtAlgorithmInputData)
                 val location = outputData?.pvtFix?.pvtLatLng
-                print(
-                    "\n====================================================\n" +
-                            "Reference Position: ${pvtInputData.refLocation.llaLocation.latitude}," +
-                            " ${pvtInputData.refLocation.llaLocation.longitude}\n"
-                )
-                printOutput(location)
+                printOutput(pvtInputData, location)
                 assert(outputData != null)
             }
         }
     }
 
-    fun Double.round(decimals: Int): Double {
-        var multiplier = 1.0
-        repeat(decimals) { multiplier *= 10 }
-        return kotlin.math.round(this * multiplier) / multiplier
-    }
-
-    private fun printOutput(location: PvtLatLng?) {
+    private fun printOutput(pvtInputData: PvtInputData, location: PvtLatLng?) {
+        print(
+            "\n====================================================\n" +
+                    "Reference Position: ${pvtInputData.refLocation.llaLocation.latitude}," +
+                    " ${pvtInputData.refLocation.llaLocation.longitude}\n"
+        )
         print("Computed Position:${location?.lat},${location?.lng}")
     }
 
