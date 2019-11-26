@@ -9,8 +9,14 @@ import com.abecerra.pvt_acquisition.domain.acquisition.EpochAcquisitionDataBuild
 import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.data.Location
 import com.abecerra.pvt_computation.data.input.ComputationSettings
+import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.domain.computation.PvtComputationInteractor
 import com.abecerra.pvt_computation.domain.computation.utils.CoordinatesConverter.lla2ecef
+import com.abecerra.pvt_acquisition.app.utils.Logger
+import com.abecerra.pvt_acquisition.data.inari.GnssData
+import com.abecerra.pvt_acquisition.data.inari.MeasurementData
+import com.abecerra.pvt_acquisition.data.inari.ModeParser
+import com.abecerra.pvt_acquisition.data.inari.RefLocation
 import com.abecerra.pvt_ephemeris_client.suplclient.EphemerisClient
 import com.abecerra.pvt_ephemeris_client.suplclient.data.EphLocation
 import io.reactivex.Single
@@ -26,6 +32,9 @@ class GnssServiceInteractorImpl(
 
     private var gnssComputationData = GnssComputationData()
 
+    //Todo remove after pvt algorithm matches Inari algorithm.
+    private var gnssData = GnssData()
+
     override fun bindOutput(output: GnssServiceContract.GnssInteractorOutput) {
         this.mListener = output
     }
@@ -36,6 +45,11 @@ class GnssServiceInteractorImpl(
 
         gnssComputationData.refLocation = Location(referenceLocation, lla2ecef(referenceLocation))
 
+        gnssData.location = RefLocation(
+            referenceLocation.latitude,
+            referenceLocation.longitude, referenceLocation.altitude
+        )
+
         return Single.create { emitter ->
             ephemerisClient.getEphemerisData(
                 EphLocation(referenceLocation.latitude, referenceLocation.longitude)
@@ -44,6 +58,11 @@ class GnssServiceInteractorImpl(
                 gnssComputationData.ephemerisResponse = it
                 gnssComputationData.startedComputingDate = Date()
                 gnssComputationData.computationSettings = computationSettings
+
+                gnssData.ephemerisResponse = it
+                gnssData.lastEphemerisDate = Date()
+                gnssData.modes = ModeParser.parseSettingsListToModeList(computationSettings)
+
                 emitter.onSuccess("")
             }, {
                 emitter.onError(Throwable())
@@ -53,26 +72,43 @@ class GnssServiceInteractorImpl(
 
     override fun stopComputing() {
         gnssComputationData = GnssComputationData()
+        gnssData = GnssData()
     }
 
     override fun setStatus(gnssStatus: GnssStatus) {
         gnssComputationData.gnssStatus = gnssStatus
+        gnssData.lastGnssStatus = gnssStatus
     }
 
     override fun setMeasurement(measurementsEvent: GnssMeasurementsEvent) {
+        val clock = measurementsEvent.clock
+        measurementsEvent.measurements.let {
+            if (it.isNotEmpty() && gnssData.lastGnssStatus != null) {
+                val measurementData = MeasurementData(
+                    gnssData.lastGnssStatus,
+                    it,
+                    clock
+                )
+                gnssData.measurements.add(measurementData)
+            }
+        }
         gnssComputationData.ephemerisResponse?.let { ephemeris ->
             gnssComputationData.gnssStatus?.let { status ->
                 val epoch =
                     EpochAcquisitionDataBuilder.mapToEpoch(measurementsEvent, status, ephemeris)
-                gnssComputationData.epochs.add(epoch)
-                computePvt()
+                computePvt(epoch)
             }
         }
     }
 
-    private fun computePvt() {
+    private fun computePvt(epoch: Epoch) {
+        gnssComputationData.epochs.add(epoch)
+
         if (isMeanTimePassed()) {
             val pvtInputData = PvtInputDataMapper.mapToPvtInputData(gnssComputationData)
+            val name = "${Date()}.txt"
+            Logger.savePvtInputData(name, pvtInputData)
+            Logger.saveGnssDataForInariComparison(name, gnssData)
             pvtComputationInteractor.computePosition(pvtInputData)
         }
     }

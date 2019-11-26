@@ -1,5 +1,7 @@
 package com.abecerra.pvt_acquisition.app.utils
 
+import com.abecerra.pvt_acquisition.data.inari.GnssData
+import com.abecerra.pvt_acquisition.data.inari.getAcqInfo
 import com.abecerra.pvt_computation.data.input.PvtInputData
 import com.google.gson.Gson
 import java.io.*
@@ -10,6 +12,18 @@ object Logger {
         val pvtInputDataJson = Gson().toJson(pvtInputData)
 
         val directoryName = "GNSSTool/input/"
+
+        val fileDir =
+            "/storage/emulated/0/Android/data/com.abecerra.gnssanalysis/files/$directoryName"
+
+        writeToFile(fileDir, name, pvtInputDataJson)
+    }
+
+    fun saveGnssDataForInariComparison(name: String, gnssData: GnssData) {
+        val acqInformation = getAcqInfo(gnssData)
+        val pvtInputDataJson = Gson().toJson(acqInformation)
+
+        val directoryName = "GNSSTool/inari/"
 
         val fileDir =
             "/storage/emulated/0/Android/data/com.abecerra.gnssanalysis/files/$directoryName"
@@ -56,3 +70,4 @@ object Logger {
         }).start()
     }
 }
+
