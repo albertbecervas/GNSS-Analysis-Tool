@@ -5,7 +5,7 @@ import android.location.GnssStatus
 import com.abecerra.pvt_acquisition.app.extensions.subscribe
 import com.abecerra.pvt_acquisition.data.GnssComputationData
 import com.abecerra.pvt_acquisition.data.mapper.PvtInputDataMapper
-import com.abecerra.pvt_acquisition.domain.acquisition.EpochAcquisitionDataBuilder
+import com.abecerra.pvt_acquisition.domain.acquisition.EpochAcquisitionDataBuilder.mapToEpoch
 import com.abecerra.pvt_computation.data.LlaLocation
 import com.abecerra.pvt_computation.data.Location
 import com.abecerra.pvt_computation.data.input.ComputationSettings
@@ -44,6 +44,7 @@ class GnssServiceInteractorImpl(
                 gnssComputationData.ephemerisResponse = it
                 gnssComputationData.startedComputingDate = Date()
                 gnssComputationData.computationSettings = computationSettings
+
                 emitter.onSuccess("")
             }, {
                 emitter.onError(Throwable())
@@ -62,9 +63,10 @@ class GnssServiceInteractorImpl(
     override fun setMeasurement(measurementsEvent: GnssMeasurementsEvent) {
         gnssComputationData.ephemerisResponse?.let { ephemeris ->
             gnssComputationData.gnssStatus?.let { status ->
-                val epoch =
-                    EpochAcquisitionDataBuilder.mapToEpoch(measurementsEvent, status, ephemeris)
+
+                val epoch = mapToEpoch(measurementsEvent, status, ephemeris)
                 gnssComputationData.epochs.add(epoch)
+
                 computePvt()
             }
         }
@@ -73,10 +75,19 @@ class GnssServiceInteractorImpl(
     private fun computePvt() {
         if (isMeanTimePassed()) {
             val pvtInputData = PvtInputDataMapper.mapToPvtInputData(gnssComputationData)
-            pvtComputationInteractor.computePosition(pvtInputData)
+
+            val response = pvtComputationInteractor.computePosition(pvtInputData)
+            mListener?.onPvtResponse(response)
+
+            resetGnssComputationData()
         }
     }
 
+    private fun resetGnssComputationData() {
+        gnssComputationData.epochs.clear()
+        gnssComputationData.startedComputingDate = Date()
+    }
+
     private fun isMeanTimePassed() =
-        Date().time - gnssComputationData.startedComputingDate.time > 5000L
+        Date().time - gnssComputationData.startedComputingDate.time > 0L
 }
