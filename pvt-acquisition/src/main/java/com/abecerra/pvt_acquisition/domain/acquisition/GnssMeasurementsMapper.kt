@@ -2,9 +2,9 @@ package com.abecerra.pvt_acquisition.domain.acquisition
 
 import android.location.GnssMeasurement
 import android.os.Build
+import com.abecerra.pvt_computation.data.PvtConstants
 import com.abecerra.pvt_computation.data.input.Epoch
 import com.abecerra.pvt_computation.data.input.SatelliteMeasurements
-import com.abecerra.pvt_computation.data.PvtConstants
 
 
 fun Epoch.mapGnssMeasurements(measurements: Collection<GnssMeasurement>) {
@@ -69,7 +69,7 @@ private fun getRxTime(state: Int, timeNanosGnss: Double): Double? {
 //            timeNanosGnss.rem(PvtConstants.GAL_E1C)
             timeNanosGnss
         }
-        else -> timeNanosGnss
+        else -> null
     }
 }
 
