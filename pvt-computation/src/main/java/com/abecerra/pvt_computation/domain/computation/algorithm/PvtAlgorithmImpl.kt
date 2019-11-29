@@ -118,6 +118,8 @@ class PvtAlgorithmImpl(private val lsAlgorithm: LeastSquaresAlgorithm) : PvtAlgo
         computedPvtOutputs: ArrayList<PvtAlgorithmOutputData>
     ): PvtAlgorithmOutputData? {
 
+        if (computedPvtOutputs.isEmpty()) return null
+
         val pvtLatLng = PvtLatLng()
         val dop = Dop()
         var residue = 0.0
