@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#578ff7</color>
+    <color name="colorPrimaryLight">#90bfff</color>
+    <color name="colorPrimaryDark">#0062c4</color>
+    <color name="colorAccent">#ff940f</color>
+    <color name="colorAccentLight">#ffc54c</color>
+    <color name="colorAccentDark">#c66500</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="colorLegend1">#FF5052</color>
+    <color name="colorLegend2">#f18d00</color>
+    <color name="colorLegend3">#4A89F3</color>
+    <color name="colorLegend4">#9bbff4</color>
+    <color name="colorLegend5">#FFE047</color>
+
+    <color name="colorLightGrayBackground">#DFDFDF</color>
+    <color name="colorDarkGrayBackground">#777777</color>
+    <color name="green">#8BC34A</color>
+
+    <color name="black">#000000</color>
+
+    <color name="transparentWhite">#B2FFFFFF</color>
+    <color name="legendWhite">#B7FFFFFF</color>
+
+    <color name="stopButton">#ffff4444</color>
+
+    <color name="galColor">#3F51B5</color>
+    <color name="gpsColor">#F44336</color>
+    <color name="agcCnoNominal">#43A047</color>
+    <color name="agcCnoInterf">#C62828</color>
+    <color name="agcCnoThreshold">#8E24AA</color>
+
+    <color name="linkColor">#1282FF</color>
+
+
+    <!-- GPSTest Theme -->
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#C5CAE9</color>-->
+
+    <!-- Navigation Drawer (Shared for Light and Dark Themes) -->
+    <color name="navdrawer_text_color_selected">@color/colorPrimary</color>
+    <color name="navdrawer_icon_tint_selected">@color/colorPrimary</color>
+
+    <!-- Navigation Drawer (Light Theme) -->
+    <color name="navdrawer_background_light">@android:color/white</color>
+    <color name="navdrawer_text_color_light">@color/body_text_1_light</color>
+    <color name="navdrawer_icon_tint_light">#888</color>
+    <color name="navdrawer_background_color_selected_light">#11000000</color>
+
+    <!-- Navigation Drawer (Dark Theme) -->
+    <!--<color name="navdrawer_background_dark">@color/cardview_dark_background</color>-->
+    <color name="navdrawer_text_color_dark">@color/body_text_1_dark</color>
+    <color name="navdrawer_icon_tint_dark">#888</color>
+    <color name="navdrawer_background_color_selected_dark">#99000000</color>
+
+    <!-- Text colors -->
+    <color name="body_text_1_light">#de000000</color>
+    <color name="body_text_2_light">#8a000000</color>
+    <color name="body_text_1_dark">#deffffff</color>
+
+    <!-- GNSS Sky View -->
+    <color name="not_in_view_sat">#11000000</color>
+    <color name="gray">#ff888888</color>
+    <color name="red">#d50000</color>
+    <color name="yellow">#ffb300</color>
+
+    <color name="cn0_meter_border">@color/body_text_2_light</color>
 </resources>

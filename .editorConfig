@@ -1,0 +1,5 @@
+root=true
+[*.{kt,kts}]
+insert_final_newline = true
+no-wildcard-imports = true
+rule-empty-line-before = false

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_position"
+        android:enabled="true"
+        android:icon="@drawable/ic_position"
+        android:title="@string/position_bottom"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_status"
+        android:enabled="true"
+        android:icon="@drawable/ic_satellite"
+        android:title="@string/gnss_state_bottom"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_statistics"
+        android:enabled="true"
+        android:icon="@drawable/ic_statistics"
+        android:title="@string/statistics_bottom"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_about"
+        android:enabled="true"
+        android:icon="@drawable/ic_info"
+        android:title="@string/statistics_bottom"
+        app:showAsAction="always" />
+</menu>

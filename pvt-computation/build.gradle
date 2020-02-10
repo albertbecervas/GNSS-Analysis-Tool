@@ -1,0 +1,29 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.23.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // Math
+    implementation 'org.ejml:ejml-all:0.38'
+    implementation 'org.nield:kotlin-statistics:1.2.1'
+
+    implementation group: 'joda-time', name: 'joda-time', version: '2.10.3'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+
+

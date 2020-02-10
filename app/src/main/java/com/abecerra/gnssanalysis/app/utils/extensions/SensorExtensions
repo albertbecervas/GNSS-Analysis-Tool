@@ -1,0 +1,103 @@
+package com.abecerra.gnssanalysis.core.utils.extensions
+
+import android.app.Activity
+import android.hardware.GeomagneticField
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorManager
+import android.view.Surface
+import com.abecerra.gnssanalysis.core.utils.skyplot.MathUtils
+import com.abecerra.gnssanalysis.presentation.data.SensorData
+
+
+fun Activity.getSensorData(event: SensorEvent): SensorData? {
+
+    val mRotationMatrix = FloatArray(16)
+    val mRemappedMatrix = FloatArray(16)
+    val mValues = FloatArray(3)
+    val mTruncatedRotationVector = FloatArray(4)
+    var mTruncateVector = false
+    var mFaceTrueNorth: Boolean = true
+    var mGeomagneticField: GeomagneticField? = null
+    var mSensorManager: SensorManager? = null
+
+    var orientation: Double
+    var tilt = java.lang.Double.NaN
+
+    when (event.sensor.type) {
+        Sensor.TYPE_ROTATION_VECTOR -> {
+            // Modern rotation vector sensors
+            if (!mTruncateVector) {
+                try {
+                    SensorManager.getRotationMatrixFromVector(mRotationMatrix, event.values)
+                } catch (e: IllegalArgumentException) {
+                    // On some Samsung devices, an exception is thrown if this vector > 4 (see #39)
+                    // Truncate the array, since we can deal with only the first four values
+                    mTruncateVector = true
+                    // Do the truncation here the first time the exception occurs
+                    System.arraycopy(event.values, 0, mTruncatedRotationVector, 0, 4)
+                    SensorManager.getRotationMatrixFromVector(mRotationMatrix, mTruncatedRotationVector)
+                }
+
+            } else {
+                // Truncate the array to avoid the exception on some devices (see #39)
+                System.arraycopy(event.values, 0, mTruncatedRotationVector, 0, 4)
+                SensorManager.getRotationMatrixFromVector(mRotationMatrix, mTruncatedRotationVector)
+            }
+
+            val rot = windowManager.defaultDisplay.rotation
+            when (rot) {
+                Surface.ROTATION_0 ->
+                    // No orientation change, use default coordinate system
+                    SensorManager.getOrientation(mRotationMatrix, mValues)
+                Surface.ROTATION_90 -> {
+                    // Log.d(TAG, "Rotation-90");
+                    SensorManager.remapCoordinateSystem(
+                        mRotationMatrix, SensorManager.AXIS_Y,
+                        SensorManager.AXIS_MINUS_X, mRemappedMatrix
+                    )
+                    SensorManager.getOrientation(mRemappedMatrix, mValues)
+                }
+                Surface.ROTATION_180 -> {
+                    // Log.d(TAG, "Rotation-180");
+                    SensorManager
+                        .remapCoordinateSystem(
+                            mRotationMatrix, SensorManager.AXIS_MINUS_X,
+                            SensorManager.AXIS_MINUS_Y, mRemappedMatrix
+                        )
+                    SensorManager.getOrientation(mRemappedMatrix, mValues)
+                }
+                Surface.ROTATION_270 -> {
+                    // Log.d(TAG, "Rotation-270");
+                    SensorManager
+                        .remapCoordinateSystem(
+                            mRotationMatrix, SensorManager.AXIS_MINUS_Y,
+                            SensorManager.AXIS_X, mRemappedMatrix
+                        )
+                    SensorManager.getOrientation(mRemappedMatrix, mValues)
+                }
+                else ->
+                    // This shouldn't happen - assume default orientation
+                    SensorManager.getOrientation(mRotationMatrix, mValues)
+            }// Log.d(TAG, "Rotation-0");
+            // Log.d(TAG, "Rotation-Unknown");
+            orientation = Math.toDegrees(mValues[0].toDouble())  // azimuth
+            tilt = Math.toDegrees(mValues[1].toDouble())
+        }
+        Sensor.TYPE_ORIENTATION ->
+            // Legacy orientation sensors
+            orientation = event.values[0].toDouble()
+        else ->
+            // A sensor we're not using, so return
+            return null
+    }
+
+    // Correct for true north, if preference is set
+    if (mFaceTrueNorth && mGeomagneticField != null) {
+        orientation += mGeomagneticField?.declination?.toDouble() ?: 0.0
+        // Make sure value is between 0-360
+        orientation = MathUtils.mod(orientation.toFloat(), 360.0f).toDouble()
+    }
+
+    return SensorData(orientation, tilt)
+}
