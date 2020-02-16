@@ -2,6 +2,7 @@ package com.abecerra.gnssanalysis.app.utils
 
 import android.content.SharedPreferences
 import com.abecerra.gnssanalysis.app.App
+import com.abecerra.gnssanalysis.presentation.ui.statistics.StatisticsFragment
 import com.abecerra.pvt_computation.data.input.ComputationSettings
 import com.google.android.gms.maps.GoogleMap
 import com.google.gson.Gson
@@ -39,16 +40,19 @@ class AppSharedPreferences {
             .apply()
     }
 
-    fun getSelectedMapType(): Int = mPrefs.getInt(SELECTED_MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL)
-    fun setSelectedMapType(type: Int) {
-        mPrefs.edit()
-            .putInt(SELECTED_MAP_TYPE, type)
-            .apply()
-    }
+    fun getSelectedGraphType(): String =
+        mPrefs.getString(SELECTED_GRAPH_TYPE, StatisticsFragment.GRAPH_AGC_CNO) ?: StatisticsFragment.GRAPH_CNO_ELEV
 
     fun setSelectedGraphType(graphType: String) {
         mPrefs.edit()
             .putString(SELECTED_GRAPH_TYPE, graphType)
+            .apply()
+    }
+
+    fun getSelectedMapType(): Int = mPrefs.getInt(SELECTED_MAP_TYPE, GoogleMap.MAP_TYPE_SATELLITE)
+    fun setSelectedMapType(type: Int) {
+        mPrefs.edit()
+            .putInt(SELECTED_MAP_TYPE, type)
             .apply()
     }
 

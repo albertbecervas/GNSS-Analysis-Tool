@@ -11,31 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.abecerra.gnssanalysis.R
 import com.abecerra.gnssanalysis.app.base.BaseFragment
 import com.abecerra.gnssanalysis.app.utils.extensions.Data
-import com.abecerra.gnssanalysis.app.utils.extensions.DataState.ERROR
-import com.abecerra.gnssanalysis.app.utils.extensions.DataState.LOADING
-import com.abecerra.gnssanalysis.app.utils.extensions.DataState.SUCCESS
+import com.abecerra.gnssanalysis.app.utils.extensions.DataState.*
 import com.abecerra.gnssanalysis.app.utils.extensions.observe
 import com.abecerra.gnssanalysis.app.utils.extensions.showSelectedComputationSettingsAlert
 import com.abecerra.gnssanalysis.app.utils.extensions.showStopAlert
 import com.abecerra.gnssanalysis.presentation.ui.main.MainActivityInput
 import com.abecerra.gnssanalysis.presentation.ui.map.MapFragment
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.ERROR_COMPUTING
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.ERROR_EPH
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.HIDE_LOADING
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.NONE_PARAM_SELECTED
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.SHOW_LOADING
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.STARTED_COMPUTING
-import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.STOPPED_COMPUTING
+import com.abecerra.gnssanalysis.presentation.ui.position.PvtComputationViewModel.Status.*
 import com.abecerra.pvt_computation.data.output.PvtOutputData
-import kotlinx.android.synthetic.main.fragment_position.btComputeAction
-import kotlinx.android.synthetic.main.fragment_position.btRecenter
-import kotlinx.android.synthetic.main.fragment_position.clLegend
-import kotlinx.android.synthetic.main.fragment_position.cvLegend
-import kotlinx.android.synthetic.main.fragment_position.cvLegendArrow
-import kotlinx.android.synthetic.main.fragment_position.fabOptions
-import kotlinx.android.synthetic.main.fragment_position.ivLegendArrow
-import kotlinx.android.synthetic.main.fragment_position.pbMap
-import kotlinx.android.synthetic.main.fragment_position.rvLegend
+import kotlinx.android.synthetic.main.fragment_position.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
@@ -57,7 +41,11 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_position, container, false)
     }
 
@@ -92,6 +80,11 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
             cvLegend.visibility = if (cvLegend.visibility == View.GONE) View.VISIBLE else View.GONE
             ivLegendArrow.rotation = ivLegendArrow.rotation + 180
         }
+
+        fabMapTerrain.setOnClickListener {
+            mapFragment.showMapTypeDialog()
+        }
+
 
         rvLegend.layoutManager = LinearLayoutManager(context)
         rvLegend.adapter = legendAdapter
@@ -188,6 +181,8 @@ class PvtComputationFragment : BaseFragment(), MapFragment.MapListener {
     private fun hideMapLoading() {
         pbMap?.visibility = View.GONE
     }
+
+    fun getPvtResults(): ArrayList<PvtOutputData> = viewModel.getPvtResults()
 
     override fun onMapGesture() {
         if (btComputeAction.text == getString(R.string.stop_computing)) {

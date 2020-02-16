@@ -20,7 +20,9 @@ data class Corrections(
     var gpsTropo: Double = 0.0,
     var galIono: Double = 0.0,
     var galTropo: Double = 0.0,
-    var freq2: Double = 0.0
+    var freq2: Double = 0.0,
+    var gpsElevIono: ArrayList<Pair<Int, Double>> = arrayListOf(),
+    var galElevIono: ArrayList<Pair<Int, Double>> = arrayListOf()
 )
 
 data class Dop(

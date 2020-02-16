@@ -35,6 +35,14 @@ class PvtComputationViewModel : BaseViewModel(), GnssServiceOutput.PvtListener {
 
     fun isComputing(): Boolean = computeButtonText.value?.data == context.getString(R.string.stop_computing)
 
+    fun getPvtResults(): ArrayList<PvtOutputData> {
+        val results = arrayListOf<PvtOutputData>()
+        pvt.value?.data?.let {
+            results.addAll(it)
+        }
+        return results
+    }
+
     private fun startComputing() {
         notifyStatusChanged(Status.STARTED_COMPUTING)
         computeButtonText.updateData(context.getString(R.string.stop_computing))

@@ -14,6 +14,7 @@ import com.abecerra.gnssanalysis.presentation.view.CustomAHBottomNavigationItem
 import com.abecerra.pvt_acquisition.app.base.BaseGnssActivity
 import com.abecerra.pvt_acquisition.framework.GnssService
 import com.abecerra.pvt_acquisition.framework.GnssServiceOutput
+import com.abecerra.pvt_computation.data.output.PvtOutputData
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -75,6 +76,9 @@ class MainActivity : BaseGnssActivity(), MainActivityInput {
     }
 
     override fun getGnssService(): GnssService? = mService
+
+    override fun getComputedPositions(): ArrayList<PvtOutputData> =
+        pvtComputationFragment.getPvtResults()
 
     override fun getNotificationPendingIntent(): PendingIntent {
         val notifIntent = Intent(this, MainActivity::class.java)
