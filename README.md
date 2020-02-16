@@ -6,5 +6,5 @@ The application helps the user to know the integrity & robustness with which the
 
 
 TO DOWNLOAD THE APPLICATION:
- 1. DOWNLOAD THE FILE "app-debug.apk" on the folder "apk-download" ON AN ANDROID DEVICE
+ 1. DOWNLOAD THE FILE "app-debug.apk" on folder "apk-download" ON AN ANDROID DEVICE
  2. CLICK ON THE FILE AND INSTALL IT.
