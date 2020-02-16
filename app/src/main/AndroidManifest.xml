@@ -11,7 +11,7 @@
         android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="GNSS Test"
+        android:label="GNSS Tool"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
@@ -27,7 +27,8 @@
 
         <activity
             android:name=".presentation.ui.splash.SplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
