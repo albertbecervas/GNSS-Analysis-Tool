@@ -1,6 +1,7 @@
 package com.abecerra.gnssanalysis.presentation.ui.main
 
 import com.abecerra.pvt_acquisition.framework.GnssService
+import com.abecerra.pvt_computation.data.output.PvtOutputData
 
 /**
  * This MainActivityInput interface is the protocol to communicate with MainActivity
@@ -14,4 +15,6 @@ interface MainActivityInput {
      * @return GnssService nullable instance
      */
     fun getGnssService(): GnssService?
+
+    fun getComputedPositions(): ArrayList<PvtOutputData>
 }
